@@ -1,0 +1,71 @@
+% !TEX root=../root.tex
+
+\subsection{UAV State Dynamics}
+The state variables of the multirotor UAV are expressed as
+\begin{equation}
+  \x =
+    \begin{bmatrix}
+      \vect{p}_{b/I}^{I} & 
+      \phi & \theta & \psi &
+      \vect{v}_{b/I}^{b} 
+    \end{bmatrix}^{\transpose}
+\end{equation}
+where $\phi$, $\theta$, and $\psi$ represent the Z-Y-X Euler angles known as
+roll, pitch, and yaw. With these angles, we note that the rotation matrix
+$R_I^b$ can be expressed as
+\begin{equation*}
+  R_I^b \left( \phi, \theta, \psi \right) =
+  \begin{bmatrix}
+    \ctheta \cpsi & \ctheta \spsi & -\stheta \\
+    \sphi \stheta \cpsi - \cphi \spsi & \sphi \stheta \spsi + \cphi
+    \cpsi & \sphi \ctheta \\
+    \cphi \stheta \cpsi + \sphi \spsi & \cphi \stheta \spsi - \sphi
+    \cpsi & \cphi \ctheta
+  \end{bmatrix}.
+\end{equation*}
+We recognize that Euler angles do not form a proper vector space~\cite{??},
+however, since we operate the UAV close to level flight, the approximation of
+Euler angles as a vector space is satisfactory.
+
+We use common UAV dynamics with the addition of a linear drag term as explained
+in~\cite{leishman2014accel}. For this system, the inputs are given by
+\begin{equation}
+  \vect{u} =
+    \begin{bmatrix}
+      a_z & \vect{\omega}_{b/I}^b 
+    \end{bmatrix}^\transpose
+\end{equation}
+and the dynamics given by
+\begin{align}
+  \dot{\vect{p}}_{b/I}^I
+  &=
+  \left( R_I^b \right)^\transpose \vect{v}_{b/I}^b 
+  \\
+  \begin{bmatrix}
+    \dot{\phi} \\
+    \dot{\theta} \\
+    \dot{\psi}
+  \end{bmatrix}
+  &=
+  \begin{bmatrix}
+    1 & \sin\phi\tan\theta & \cos\phi\tan\theta \\
+    0 & \cos\phi & -\sin\phi \\
+    0 & \frac{\sin\phi}{\cos\theta} & \frac{\cos\phi}{\cos\theta}
+  \end{bmatrix}
+  \vect{\omega}_{b/I}^b
+  \\
+  \dot{\vect{v}}_{b/I}^b 
+  &=
+  R_I^b \vect{g}
+  +
+  \skewmat{\vect{v}_{b/I}^b} \vect{\omega}_{b/I}^b
+  -
+  a_z \e_3 \\
+  &\qquad -
+  \begin{bmatrix}
+    \mu u \\
+    \mu v \\
+    0 \nonumber
+  \end{bmatrix}.
+\end{align}
+

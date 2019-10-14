@@ -1,0 +1,41 @@
+% !TEX root=./root.tex
+
+\subsection{Landing Vehicle Dynamics}
+Without loss of generality, we assume that the motion of the landing vehicle can be modeled with a constant
+velocity unicycle motion model. In our experiments we show that this very simple
+model produces satisfactory results in a variety of scenarios. We point out,
+however, that the motion model can easily be substituted for a more accurate
+model for different use cases. Some specific motion models that may be of
+particular use include a car model and a 3d ???.
+
+For our use case, the state variables of the landing vehicle are expressed as
+\begin{equation}
+  \x =
+    \begin{bmatrix}
+      \vect{p}_{g/I}^{I} & \vect{v}_{g/I}^{g} & \theta_{I}^{g} &
+      \omega_{g/I}^{g}
+    \end{bmatrix}^{\transpose}
+\end{equation}
+where $\vect{p}_{g/I}^{I}$ represents the two-dimensional position of the
+landing vehicle w.r.t. the inertial frame, $\vect{v}_{g/I}^{g}$ the
+two-dimensional velocity, $\theta_{I}^{g}$ the rotation angle about the
+inertial $z$ axis, and $\omega_{g/I}^{g}$ the rotational velocity about the
+inertial $z$ axis.
+
+
+The constant velocity unicyle motion model used in this paper can be written as
+
+\begin{align}
+  \dot{\vect{p}}_{g/I}^I
+  &=
+  \left( R_I^g \right)^\transpose \vect{v}_{g/I}^g  \\
+  \dot{\vect{v}}_{g/I}^g
+  &=
+  \vect{0} \\
+  \dot{\theta}_{I}^g
+  &=
+  \omega_{g/I}^g \\
+  \dot{\omega}_{g/I}^g
+  &=
+  0.
+\end{align}
