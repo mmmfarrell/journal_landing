@@ -27,13 +27,31 @@ additive walk defied by the parameters in~\tabref{tab:BLAH}.
 
 Somewhere in here that the $q_b2c = blah$ and $p_b2c = [0.25, -0.2, 0.4]$.
 
-The results for a simulation where the estimator uses ten visual landmarks and
+The results for simulations where the estimator uses ten visual landmarks and
 zero visual landmarks are seen in~\ref{fig:BLAH} and~\ref{fig:BLAH}
 respectively. We do not include the plots of the UAV states,
 $\vect{x}_{\text{UAV}}$ as it is well known that these states are easily
-estimated with the given measurements.
+estimated with the given measurements. In the experiments shown in the plots,
+the measurements from the fiducial landing marker are not used after $t = 5 s$
+in the simulation to demonstrate the performance of the proposed estimation
+algorithm. The figures clearly show that when ten visual landmarks are used by
+the estimator, the estimates of the goal states remain accurate and consistent
+throughout the duration of the simulation. However, when no visual landmarks are
+used by the estimator, the estimate of the goal states quickly become incorrect.
+We note that the $z$ direction of the goal position is the exception to this
+because the landing vehicle is constrained to move only in the $xy$ plane.
 
+To further demonstrate this performance, 100 simulation runs were performed
+both using ten visual landmarks and using zero visual landmarks. The L2 norm of
+the errors in the $x$ and $y$ direction of the goal position state are plotted
+with respect to time in~\ref{fig:BLAH}. While the error when using ten landmarks
+almost entirely remains under 1 m for all 100 simulations, the error when using
+no landmarks quickly grows larger that 1 m. The error for several of the
+simulations reaches over 10 m after 30s.
 
+These simulation results clearly demonstrate the ability to maintain accurate
+and consistent estimates of the goal states when the fiducial landing marker is
+not detected for significant periods of time.
 
 
 \begin{table}[h!]
@@ -77,3 +95,79 @@ estimated with the given measurements.
     \end{tabular}
   \end{center}
 \end{table}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{plots/with_lms_gp.png}
+  \caption{Simulation results with estimator using a maximum of ten visual
+  landmarks. Measurements from the fiducial marker are not used after $t$ = 5
+$s$ to demonstrate the performance of the estimator.}
+  \label{fig:with_lms_gp}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{plots/with_lms_gv.png}
+  \caption{Simulation results with estimator using a maximum of ten visual
+  landmarks. Measurements from the fiducial marker are not used after $t$ = 5
+$s$ to demonstrate the performance of the estimator.}
+  \label{fig:with_lms_gv}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{plots/with_lms_gatt.png}
+  \caption{Simulation results with estimator using a maximum of ten visual
+  landmarks. Measurements from the fiducial marker are not used after $t$ = 5
+$s$ to demonstrate the performance of the estimator.}
+  \label{fig:with_lms_gatt}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{plots/no_lms_gp.png}
+  \caption{Simulation results with estimator using no visual
+  landmarks. Measurements from the fiducial marker are not used after $t$ = 5
+$s$ to demonstrate the performance of the estimator.}
+  \label{fig:no_lms_gp}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{plots/no_lms_gv.png}
+  \caption{Simulation results with estimator using no visual
+  landmarks. Measurements from the fiducial marker are not used after $t$ = 5
+$s$ to demonstrate the performance of the estimator.}
+  \label{fig:no_lms_gv}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{plots/no_lms_gatt.png}
+  \caption{Simulation results with estimator using no visual
+  landmarks. Measurements from the fiducial marker are not used after $t$ = 5
+$s$ to demonstrate the performance of the estimator.}
+  \label{fig:no_lms_gatt}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{plots/mc_with_lms_xy_err.png}
+  \caption{Simulation results with estimator using a maximum of ten visual
+  landmarks. Measurements from the fiducial marker are not used after $t$ = 5
+$s$ to demonstrate the performance of the estimator. The L2 norm of the error in
+the x and y directions of the goal position is seen for 100 different simulation
+runs.}
+  \label{fig:mc_with_lms_xy_err}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{plots/mc_no_lms_xy_err.png}
+  \caption{Simulation results with estimator using no visual
+  landmarks. Measurements from the fiducial marker are not used after $t$ = 5
+$s$ to demonstrate the performance of the estimator. The L2 norm of the error in
+the x and y directions of the goal position is seen for 100 different simulation
+runs.}
+  \label{fig:mc_no_lms_xy_err}
+\end{figure}
