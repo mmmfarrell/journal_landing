@@ -16,6 +16,17 @@ position, velocity, attitude and angular rotation rate
     \in
     \mathbb{R}^2 \times \mathbb{R}^2 \times S^1 \times \mathbb{R}^1.
 \end{equation*}
+The value $\theta_{I}^g \in S^1$ represents the rotation from the inertial frame to the
+goal frame about the inertial frame's $z$ axis. We note that the rotation matrix
+derived from this rotation can be written as
+\begin{equation}
+  R \left( \theta \right) =
+  \begin{bmatrix}
+    \ctheta & -\stheta \\
+    \stheta & \ctheta
+  \end{bmatrix}.
+\end{equation}
+
 The constant velocity, unicyle motion model we use to describe the motion of the
 landing vehicle can be written as
 \begin{align}
