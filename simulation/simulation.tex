@@ -1,0 +1,79 @@
+% !TEX root=../root.tex
+
+In addition to the hardware results presented in the following section, we
+present simulation results to show the effectiveness of the proposed estimation
+algorithm.
+A multirotor UAV is simulated using the dynamics presented in~\secref{sec:BLAH}.
+Additionally, a landing vehicle is simulated using the dynamics presented
+in~\secref{sec:BLAH} using the parameters found
+in~\tabref{table:BLAH}. As the estimator depends on
+tracking and estimating the positions of visual landmarks that are rigidly
+attached to the landing vehicle, landmark positions on the landing vehicle
+are simulated as follows.
+Positions for each landmark in the goal frame are
+randomly sampled from the
+uniform distribution between $\vect{r}_{min}$ and $\vect{r}_{max}$. A specified probability determines
+whether the landmark is removed and a new landmark is generated or if the landmark
+remains at each time step.
+
+The necessary sensor measurements for the estimator are simulated using the true
+state of the simulation. These sensor measurements include accelerometer,
+gyroscope, global position of the UAV, global attitude 
+of the UAV, relative position and attitude from the fiducial landing marker, and
+landmark locations in the camera frame. All measurements are
+corrupted with white gaussian noise according to the noise parameters
+in~\tabref{tab:BLAH}. In addition, the IMU measurements contain a random
+additive walk defied by the parameters in~\tabref{tab:BLAH}.
+
+Somewhere in here that the $q_b2c = blah$ and $p_b2c = [0.25, -0.2, 0.4]$.
+
+The results for a simulation where the estimator uses ten visual landmarks and
+zero visual landmarks are seen in~\ref{fig:BLAH} and~\ref{fig:BLAH}
+respectively. We do not include the plots of the UAV states,
+$\vect{x}_{\text{UAV}}$ as it is well known that these states are easily
+estimated with the given measurements.
+
+
+
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Simulation Unicycle Motion Model Parameters.}
+    \label{tab:sim_unicycle}
+    \begin{tabular}{l|r}
+      \textbf{Parameter} & \textbf{Value} \\
+      \hline
+      $\omega$ & 5 rad/s \\
+      v & 5 m/s \\
+      landmark $x_{\text{min}}$ & -2 m \\
+      landmark $x_{\text{max}}$ & 2 m \\
+      landmark $y_{\text{min}}$ & -2 m \\
+      landmark $y_{\text{max}}$ & 2 m \\
+      landmark $z_{\text{min}}$ & -1 m \\
+      landmark $z_{\text{max}}$ & 1 m \\
+      landmark disappear prob. & 1\% \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Simulation Sensor Noise Characteristics.}
+    \label{tab:sim_noise}
+    \begin{tabular}{l|l|l}
+      \textbf{Measurement} & \textbf{Std Dev} & \textbf{Rate} \\
+      \hline
+      accelerometer & 0.2 $m/s^2$ & 250 Hz \\
+      walk & 0.05 $m/s^2$  \\
+      init & 0.01 $m/s^2$ \\
+      gyro & 0.1 $rad/s$ & 250 Hz \\
+      walk & 0.01 $rad/s$  \\
+      init & 0.01 $rad/s$ \\
+      UAV global position & 0.01 $m$ & 10 Hz \\
+      UAV global attitude & 0.001 $rad$ & 10 Hz \\
+      Fiducial marker position & 0.1 $m$ & 30 Hz \\
+      Fiducial marker attitude & 0.1 $rad$ & 30 Hz \\
+      Landmark image point & 2.0 pixels & 30 Hz \\
+    \end{tabular}
+  \end{center}
+\end{table}
