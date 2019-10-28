@@ -1,71 +1,40 @@
 % !TEX root=../root.tex
 
 \subsection{UAV State Dynamics}
-The state variables of the multirotor UAV are expressed as
-\begin{equation}
-  \x =
-    \begin{bmatrix}
-      \vect{p}_{b/I}^{I} & 
-      \phi & \theta & \psi &
-      \vect{v}_{b/I}^{b} 
-    \end{bmatrix}^{\transpose}
-\end{equation}
-where $\phi$, $\theta$, and $\psi$ represent the Z-Y-X Euler angles known as
-roll, pitch, and yaw. With these angles, we note that the rotation matrix
-$R_I^b$ can be expressed as
+We define the state of a multirotor UAV as the tuple of position, velocity, and
+attitude
 \begin{equation*}
-  R_I^b \left( \phi, \theta, \psi \right) =
-  \begin{bmatrix}
-    \ctheta \cpsi & \ctheta \spsi & -\stheta \\
-    \sphi \stheta \cpsi - \cphi \spsi & \sphi \stheta \spsi + \cphi
-    \cpsi & \sphi \ctheta \\
-    \cphi \stheta \cpsi + \sphi \spsi & \cphi \stheta \spsi - \sphi
-    \cpsi & \cphi \ctheta
-  \end{bmatrix}.
+	%\vect{x} = \begin{pmatrix}\vect{p}_{b/i}^{i}, R_{i}^{b},
+        %\vect{v}_{b/i}^{b} \end{pmatrix} \in \mathbb{R}^3 \times \mathbb{R}^3
+        %\times S^3
+  \vect{x} = \begin{pmatrix}\vect{p}_{b/I}^{I}, \vect{v}_{b/I}^b, \vect{q}_I^{b}
+        \end{pmatrix} \in \mathbb{R}^3 \times \mathbb{R}^3
+        \times S^3,
 \end{equation*}
-We recognize that Euler angles do not form a proper vector space~\cite{??},
-however, since we operate the UAV close to level flight, the approximation of
-Euler angles as a vector space is satisfactory.
-
-We use common UAV dynamics with the addition of a linear drag term as explained
-in~\cite{leishman2014accel}. For this system, the inputs are given by
-\begin{equation}
-  \vect{u} =
-    \begin{bmatrix}
-      a_z & \vect{\omega}_{b/I}^b 
-    \end{bmatrix}^\transpose
-\end{equation}
-and the dynamics given by
+and the input as the tuple of the throttle signal, $s$, and angular
+velocity, $\vect{\omega}_{b/I}^b$,
+\begin{equation*}
+	\vect{u} = \begin{pmatrix}s, \vect{\omega}_{b/i}^b \end{pmatrix} \in
+        \mathbb{R}^1 \times \mathbb{R}^3.
+\end{equation*}
+Given this state and input, the rigid body dynamics of a multirotor UAV can be
+expressed as~\cite{leishman2014accel}:
+% \small
 \begin{align}
-  \dot{\vect{p}}_{b/I}^I
-  &=
-  \left( R_I^b \right)^\transpose \vect{v}_{b/I}^b 
-  \\
-  \begin{bmatrix}
-    \dot{\phi} \\
-    \dot{\theta} \\
-    \dot{\psi}
-  \end{bmatrix}
-  &=
-  \begin{bmatrix}
-    1 & \sin\phi\tan\theta & \cos\phi\tan\theta \\
-    0 & \cos\phi & -\sin\phi \\
-    0 & \frac{\sin\phi}{\cos\theta} & \frac{\cos\phi}{\cos\theta}
-  \end{bmatrix}
-  \vect{\omega}_{b/I}^b
-  \\
-  \dot{\vect{v}}_{b/I}^b 
-  &=
-  R_I^b \vect{g}
-  +
-  \skewmat{\vect{v}_{b/I}^b} \vect{\omega}_{b/I}^b
-  -
-  a_z \e_3 \\
-  &\qquad -
-  \begin{bmatrix}
-    \mu u \\
-    \mu v \\
-    0 \nonumber
-  \end{bmatrix}.
+		\dot{\vect{p}}_{b/I}^{I} &= \left(R_{I}^{b}\right)^\transpose \vect{v}_{b/I}^{b} \nonumber \\
+		\dot{\vect{v}}_{b/I}^{b} &= gR_I^b \vect{e}_3 - g\frac{s}{s_e}\vect{e}_3 -
+                \drag \left( I - \vect{e}_3 \vect{e}_3^\top \right)
+                \vect{v}_{b/I}^b - \nonumber \\
+                \label{eq:dynamics}
+                & \qquad \skewmat{\vect{\omega}_{b/I}^b}\vect{v}_{b/I}^b \\
+                \dot{\vect{q}}_{I}^{b} 
+	&= 	
+                \q_I^b \otimes \begin{pmatrix} 0 \\ \frac{1}{2}
+                \omega_{b/I}^b\end{pmatrix} \nonumber,
 \end{align}
+% \normalsize
+where $\drag$ is a linear drag constant, $s_e$ is the throttle command required
+to hover, and $g$ is the magnitude of gravity.  This model assumes a linear
+relationship between throttle signal and thrust, which is not always a good
+assumption.
 
