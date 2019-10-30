@@ -1,0 +1,13 @@
+% !TEX root=../root.tex
+
+\subsection{Platform}
+The proposed estimation and control schemes were implemented and flown in
+hardware to further demonstrate the performance observed in the simulation
+results. The multirotor used for experiments was built on a DJI 450 Flamewheel
+frame. All computation was done onboard the UAV on an NVIDIA Jetson TX2 using
+ROS. An ELP
+USB Camera with a 2.1mm Lens was mounted to the bottom of the UAV such that the
+camera faced downward in the UAV's bodyframe. Controller commands were sent from
+the onboard computer to the CC3D Revolution 32bit F4 flight controller running
+the ROSflight firmware using the ROSflight ROS node~\cite{jackson2016rosflight}.
+

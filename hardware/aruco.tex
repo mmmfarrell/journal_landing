@@ -1,0 +1,13 @@
+% !TEX root=../root.tex
+
+\subsection{Fiducial Marker}
+We use an ArUco marker~\cite{romero2018speeded} as a fiducial landing marker
+in our experiements. As pictured in~\figref{fig:tracked_features}, an ArUco
+marker is a square fiducial marker. When detected, a relative translation and
+rotation from the camera to the marker can be estimated using the positions of
+the corners of the marker in the camera image and the known size of the marker. 
+The ArUco library only detects the marker when the entire marker is contained
+in the camera image and no part of the marker is occluded. Due to these
+conditions, it is not uncommon that the marker may be undetected for significant
+periods of time during a landing maneuver.
+
