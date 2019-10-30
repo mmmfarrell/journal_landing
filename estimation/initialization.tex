@@ -1,0 +1,103 @@
+% !TEX root=./root.tex
+
+\subsection{Goal and Landmark Initialization}
+The goal states are initialized upon receiving the first measurement from
+the detection fiducial landing marker. We assume that we can measure the
+relative translation and rotation from the camera image to the fiducial marker
+at each detection. This measurement,
+\begin{equation}
+  \bar{\vect{z}} =
+  \begin{bmatrix}
+    \bar{\vect{p}}_{g/c}^c & \bar{\vect{q}}_c^g
+  \end{bmatrix}
+\end{equation}
+is used to initialize the goal states with
+\begin{align}
+  \hat{\vect{p}}_{g/b}^v &= \left( \hat{R}_I^b \right)^\transpose \left( \left ( R_b^c
+  \right)^\transpose \bar{\vect{p}}_{g/c}^c + \vect{p}_{c/b}^b
+\right)   \\
+      \hat{\theta_I^g} &= yaw \left( \bar{R}_c^g R_b^c \hat{R}_I^b \right)
+  % quat::Quatd q_I2g_meas = x().q * q_b2c_ * z.q_c2a * q_a2g;
+  % const double yaw_meas = q_I2g_meas.euler()(2);
+\end{align}
+where $R_b^c$ and $\vect{p}_{c/b}^b$ are assumed to be known constants and
+$yaw()$ is a function that extracts the yaw Euler angle from a rotation matrix.
+The linear and angular velocity of the landing vehicle are initialized to values
+of zero with large enough covariances for the specific use case.
+
+Similar to the manner in which the goal states are intialized, each time a new
+landmark is added to the estimated vector, we initialize its state based on the
+first measurement received. 
+Each time a new landmark is acquired and added to the estimated vector, we
+should initialize its location to something intelligent. Theoretically, we could
+just initialize the landmark's location to zero with a large enough associated
+covariance. However, by initializing the landmark to the location based on its
+initial pixel measurement, we can initialize the landmark with a smaller
+covariance.
+
+When we first acquire a landmark, the only information we have about it is a
+measurement of its pixel location in the image frame. This measurement, denoted
+by
+\begin{equation}
+  h \left( \x \right) = 
+  \begin{bmatrix}
+    p_x & p_y
+  \end{bmatrix}^\transpose
+\end{equation}
+can be used to deduce the landmark's relative position vector that is estimated.
+The easiest way to see this is by first creating a virtual image plane. This
+virtual image plane projects the landmark pixel location into the image plane as
+if the camera were perfectly aligned with the inertial, vehicle frame. We can
+derive this using the pin hole camera model where
+\begin{align}
+  \begin{bmatrix}
+    p_x \\ p_y \\ 1
+  \end{bmatrix} &= K
+  \begin{bmatrix}
+    X^c / Z^c \\
+    Y^c / Z^c \\
+    1
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    X^c / Z^c \\
+    Y^c / Z^c \\
+    1
+  \end{bmatrix}
+   &= K^{-1}
+  \begin{bmatrix}
+    p_x \\ p_y \\ 1
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    X^c / Z^c \\
+    Y^c / Z^c \\
+    1
+  \end{bmatrix}^v
+   &= R_b^v R_c^b K^{-1}
+  \begin{bmatrix}
+    p_x \\ p_y \\ 1
+  \end{bmatrix} \\
+\end{align}
+The resulting vector, $
+  \begin{bmatrix}
+    X^c / Z^c \\
+    Y^c / Z^c \\
+    1
+  \end{bmatrix}^v$
+  is the vector $\vect{p}_{i/c}^v$ up to a scale factor. The vector can be scaled by assuming that the altitude of the landmark is equal to the
+altitude of the goal. To get the expected altitude, we solve for
+\begin{align}
+  \e_3^\transpose \vect{p}_{g/c}^v &= \e_3^\transpose \vect{p}_{g/b}^v - \e_3^\transpose \vect{p}_{c/b}^v \\
+  \e_3^\transpose \vect{p}_{g/c}^v &= \e_3^\transpose \vect{p}_{g/b}^v -
+  \e_3^\transpose R_b^I \vect{p}_{c/b}^b \\
+  \e_3^\transpose \vect{p}_{g/c}^v &= \frac{1}{\rho_g} -
+  \e_3^\transpose R_b^I \vect{p}_{c/b}^b \\
+\end{align}
+
+This gives us the vector, $\vect{p}_{i/c}^v$.
+With this vector, we can then reach the estimated state vector,
+$\vect{p}_{i/g}^g$ with the following
+\begin{align}
+  \vect{p}_{i/v}^v &= \vect{p}_{i/c}^v + R_b^I \vect{p}_{c/b}^b \\
+  \vect{p}_{i/g}^g &= R_v^g \left( \vect{p}_{i/v}^v - \vect{p}_{g/v}^v \right).
+\end{align}
+
