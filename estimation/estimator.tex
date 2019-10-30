@@ -72,8 +72,14 @@ The inputs to the system are given by
 which are directly measured from the inertial measurement unit (IMU) on the UAV.
 
 As the estimated state is not a vector, but rather a tuple of Lie groups, we
-employ the Error-State Kalman Filter (ESKF) as described in~\cite{BLAH}. We note
-that the estimated state, however, is of dynamic size. As visual landmarks are
+employ the Error-State Kalman Filter (ESKF) as described in~\cite{BLAH}. When
+updating the filter with measurements, we make use of the Partial Kalman update
+as first introduced by~\cite{brink2017partial} to improve the estimation of the
+bias states as well as the constant values $\hat{\vect{r}}_{1/g}^{g} \dots
+\hat{\vect{r}}_{n/g}^{g}$.
+
+We note
+that the estimated state is of dynamic size. As visual landmarks are
 detected they are added to the state vector until a maximum size of the state
 vector is reached. As the visual landmarks leave the field of view of the camera
 or are otherwise no longer tracked, they are removed from the estimated state

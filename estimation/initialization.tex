@@ -2,14 +2,15 @@
 
 \subsection{Goal and Landmark Initialization}
 The goal states are initialized upon receiving the first measurement from
-the detection fiducial landing marker. We assume that we can measure the
-relative translation and rotation from the camera image to the fiducial marker
+the detection of the fiducial landing marker. We assume that we can measure the
+relative translation and rotation from the camera to the fiducial marker
 at each detection. This measurement,
 \begin{equation}
   \bar{\vect{z}} =
   \begin{bmatrix}
-    \bar{\vect{p}}_{g/c}^c & \bar{\vect{q}}_c^g
+    \bar{\vect{p}}_{g/c}^c & \bar{\vect{q}}_c^g,
   \end{bmatrix}
+  \label{eq:fiducial_meas}
 \end{equation}
 is used to initialize the goal states with
 \begin{align}
@@ -27,77 +28,110 @@ of zero with large enough covariances for the specific use case.
 
 Similar to the manner in which the goal states are intialized, each time a new
 landmark is added to the estimated vector, we initialize its state based on the
-first measurement received. 
-Each time a new landmark is acquired and added to the estimated vector, we
-should initialize its location to something intelligent. Theoretically, we could
-just initialize the landmark's location to zero with a large enough associated
-covariance. However, by initializing the landmark to the location based on its
-initial pixel measurement, we can initialize the landmark with a smaller
-covariance.
-
-When we first acquire a landmark, the only information we have about it is a
-measurement of its pixel location in the image frame. This measurement, denoted
-by
+first measurement received. As we only receive measurements of the pixel
+location of the visual landmark,
 \begin{equation}
-  h \left( \x \right) = 
-  \begin{bmatrix}
-    p_x & p_y
-  \end{bmatrix}^\transpose
+  \vect{z} = \begin{bmatrix} \bar{p}_x & \bar{p}_y \end{bmatrix}
+  \label{eq:pixel_meas}
 \end{equation}
-can be used to deduce the landmark's relative position vector that is estimated.
-The easiest way to see this is by first creating a virtual image plane. This
-virtual image plane projects the landmark pixel location into the image plane as
-if the camera were perfectly aligned with the inertial, vehicle frame. We can
-derive this using the pin hole camera model where
-\begin{align}
+depth is not measured. Therefore, to initialize
+the landmark states, we assume that the landmark lies in the $xy$ plane of the
+goal frame. The $z$ component of $\vect{r}_{i/g}^g$ is initialized to zero and a
+large enough covariance is selected for the specific use case. To compute the
+$x$ and $y$ components of $\vect{r}_{i/g}^g$, we start with the pinhole camera
+model. We assume that the pixel measurements in~\eqref{eq:pixel_meas} have been
+rectified to compensate for lens distortion such that
+\begin{equation}
   \begin{bmatrix}
     p_x \\ p_y \\ 1
-  \end{bmatrix} &= K
-  \begin{bmatrix}
-    X^c / Z^c \\
-    Y^c / Z^c \\
-    1
-  \end{bmatrix} \\
-  \begin{bmatrix}
-    X^c / Z^c \\
-    Y^c / Z^c \\
-    1
+  \end{bmatrix} = \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} K \vect{p}_{i/c}^c \\
+\end{equation}
+where $K$ is the camera intrisic matrix. If we invert $K$ and multiply by both
+sides, we get
+\begin{equation}
+ \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} \vect{p}_{i/c}^c
+  =
+  K^{-1} \begin{bmatrix}
+    p_x \\ p_y \\ 1
   \end{bmatrix}
-   &= K^{-1}
-  \begin{bmatrix}
+\end{equation}
+which is equivalent to
+\begin{equation}
+ \vect{p}_{i/c}^v
+  =
+  \left( \e_3^\transpose \vect{p}_{i/c}^c \right) \left( R_I^b
+  \right)^\transpose \left( R_b^c \right)^\transpose K^{-1} \begin{bmatrix}
     p_x \\ p_y \\ 1
-  \end{bmatrix} \\
-  \begin{bmatrix}
-    X^c / Z^c \\
-    Y^c / Z^c \\
-    1
-  \end{bmatrix}^v
-   &= R_b^v R_c^b K^{-1}
-  \begin{bmatrix}
+  \end{bmatrix}.
+\end{equation}
+As $\e_3^\transpose \vect{p}_{i/c}^c$ is unknown, we define 
+\begin{equation}
+  \scaled{\vect{p}}_{i/c}^v
+  =
+   \left( R_I^b
+  \right)^\transpose \left( R_b^c \right)^\transpose K^{-1} \begin{bmatrix}
     p_x \\ p_y \\ 1
-  \end{bmatrix} \\
-\end{align}
-The resulting vector, $
-  \begin{bmatrix}
-    X^c / Z^c \\
-    Y^c / Z^c \\
-    1
-  \end{bmatrix}^v$
-  is the vector $\vect{p}_{i/c}^v$ up to a scale factor. The vector can be scaled by assuming that the altitude of the landmark is equal to the
-altitude of the goal. To get the expected altitude, we solve for
+  \end{bmatrix},
+\end{equation}
+which is equivalent to $\vect{p}_{i/c}^v$ up to a scale factor. As previously
+mentioned, we estimate this scale factor by assuming that $\e_3^\transpose
+\vect{r}_{i/g}^g = 0$. This means that
 \begin{align}
-  \e_3^\transpose \vect{p}_{g/c}^v &= \e_3^\transpose \vect{p}_{g/b}^v - \e_3^\transpose \vect{p}_{c/b}^v \\
-  \e_3^\transpose \vect{p}_{g/c}^v &= \e_3^\transpose \vect{p}_{g/b}^v -
-  \e_3^\transpose R_b^I \vect{p}_{c/b}^b \\
-  \e_3^\transpose \vect{p}_{g/c}^v &= \frac{1}{\rho_g} -
-  \e_3^\transpose R_b^I \vect{p}_{c/b}^b \\
+  \e_3^\transpose \hat{\vect{p}}_{i/c}^v &= \e_3^\transpose \hat{\vect{p}}_{g/b}^v -
+  \e_3^\transpose \left( \hat{R}_I^b \right)^\transpose \hat{\vect{p}}_{c/b}^b
+  \\
+  \hat{\vect{p}}_{i/c}^v &= \frac{\e_3^\transpose
+  \hat{\vect{p}}_{i/c}^v}{\e_3^\transpose \scaled{\vect{p}}_{i/c}^v} \scaled{\vect{p}}_{i/c}^v
+  \\
+    \hat{\vect{p}}_{i/b}^v &= \hat{\vect{p}}_{i/c}^v + \left( R_I^b \right)^\transpose \vect{p}_{c/b}^b \\
+    \hat{\vect{r}}_{i/g}^g &= \hat{R}_I^g \left( \hat{\vect{p}}_{i/b}^v -
+    \hat{\vect{p}}_{g/b}^v \right).
 \end{align}
 
-This gives us the vector, $\vect{p}_{i/c}^v$.
-With this vector, we can then reach the estimated state vector,
-$\vect{p}_{i/g}^g$ with the following
-\begin{align}
-  \vect{p}_{i/v}^v &= \vect{p}_{i/c}^v + R_b^I \vect{p}_{c/b}^b \\
-  \vect{p}_{i/g}^g &= R_v^g \left( \vect{p}_{i/v}^v - \vect{p}_{g/v}^v \right).
-\end{align}
+% \begin{align}
+  % \begin{bmatrix}
+    % p_x \\ p_y \\ 1
+  % \end{bmatrix} &= \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} K \vect{p}_{i/c}^c \\
+  % \begin{bmatrix}
+    % X^c / Z^c \\
+    % Y^c / Z^c \\
+    % 1
+  % \end{bmatrix}
+   % &= K^{-1}
+  % \begin{bmatrix}
+    % p_x \\ p_y \\ 1
+  % \end{bmatrix} \\
+  % \begin{bmatrix}
+    % X^c / Z^c \\
+    % Y^c / Z^c \\
+    % 1
+  % \end{bmatrix}^v
+   % &= R_b^v R_c^b K^{-1}
+  % \begin{bmatrix}
+    % p_x \\ p_y \\ 1
+  % \end{bmatrix} \\
+% \end{align}
+% The resulting vector, $
+  % \begin{bmatrix}
+    % X^c / Z^c \\
+    % Y^c / Z^c \\
+    % 1
+  % \end{bmatrix}^v$
+  % is the vector $\vect{p}_{i/c}^v$ up to a scale factor. The vector can be scaled by assuming that the altitude of the landmark is equal to the
+% altitude of the goal. To get the expected altitude, we solve for
+% \begin{align}
+  % \e_3^\transpose \vect{p}_{g/c}^v &= \e_3^\transpose \vect{p}_{g/b}^v - \e_3^\transpose \vect{p}_{c/b}^v \\
+  % \e_3^\transpose \vect{p}_{g/c}^v &= \e_3^\transpose \vect{p}_{g/b}^v -
+  % \e_3^\transpose R_b^I \vect{p}_{c/b}^b \\
+  % \e_3^\transpose \vect{p}_{g/c}^v &= \frac{1}{\rho_g} -
+  % \e_3^\transpose R_b^I \vect{p}_{c/b}^b \\
+% \end{align}
+
+% This gives us the vector, $\vect{p}_{i/c}^v$.
+% With this vector, we can then reach the estimated state vector,
+% $\vect{p}_{i/g}^g$ with the following
+% \begin{align}
+  % \vect{p}_{i/v}^v &= \vect{p}_{i/c}^v + R_b^I \vect{p}_{c/b}^b \\
+  % \vect{p}_{i/g}^g &= R_v^g \left( \vect{p}_{i/v}^v - \vect{p}_{g/v}^v \right).
+% \end{align}
 
