@@ -16,4 +16,47 @@ from a truck, and package delivery, where the UAV operates from a large truck
 carrying the packages to be delivered. The ability to operate reliably from a
 moving vehicle is still a very active field of research.
 
+A variety of approaches to the operation of multirotor UAVs with respect to
+moving vehicles have been proposed. Nearly all of these approaches rely on the
+detection of a visual fiducial marker on the moving vehicle
+
+\cite{wenzel2011automatic} relys on infrared (IR) LED markers.
+\cite{ling2014precision} AprilTag, kalman filter to predict
+\cite{araar2017vision} relies on a known map of many AprilTags fiducials.
+\cite{borowczyk2017autonomous} uses a single AprilTag
+\cite{baca2019autonomous} main MBZIRC 2017 paper (tag = square with x)
+\cite{falanga2017vision} MBZIRC, SVO + IMU
+\cite{beul2017fast} MBZIRC
+\cite{cantelli2017autonomous} MBZIRC
+\cite{marantos2018vision} helicopter, tag (Aruco/April)
+
+\cite{lee2012autonomous} IBVS
+\cite{wynn2019visual} IBVS - nested tag
+
+All of the previous approaches break if the fiducial marker is not detected for
+significant periods of time. Ling notes that it is important to model the
+dynamics of the landing vehicle so that they can be propagated forward for short
+periods of time when the fiducial marker is not
+detected~\cite{ling2014precision}, however, this method is only as good as the
+motion model of the vehicle is. We propose an estimation algorithm that detects,
+tracks, and estimates unknown visual features on the landing vehicle to improve
+estimation accuracy in these cases.
+
+The proposed method of detecting, tracking, and estimating visual features is
+similar to that commonly used in the field of visual odometry. Many methods such
+as VINS-MONO, OKVIS, MSCK, and ORB SLAM use an indirect approach
+\cite{qin2018vins} VINS-MONO, feature extraction, optical flow frame to frame
+\cite{leutenegger2013keyframe} OKVIS, BRISK features
+\cite{mourikis2007multi} MSCKF, uses SIFT features
+\cite{mur2015orb} ORB SLAM
+
+In these methods, the tracked visual features are assumed to belong to the
+static world. A method using visual odometry has been implemented and used for landing on
+moving platforms~\cite{falanga2017vision}, however, only static features are
+still tracked. During the landing phase, it is common for the landing vehicle
+to occupy almost the entire field of view of the UAV's camera. This makes
+tracking static features impossible. The estimator we propose, instead, tracks
+visual features that are rigidly attached to the landing vehicle. By fitting a
+motion model to these features, their measurements provide information about
+the movement of the landing vehicle. 
 
