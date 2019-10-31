@@ -31,7 +31,7 @@ Engineering, Brigham Young University, Provo, UT, 84602, USA.}% <-this % stops a
 The abstract goes here.
 \end{abstract}
 
-\section{Introduction}
+\section{Introduction} \label{sec:intro}
 % Big Picture
 % Why important, what, why hard?
 % Thecnical gaps
@@ -46,8 +46,8 @@ The abstract goes here.
 \section{Model} \label{sec:model}
 \input{model/notation}
 \input{model/quaternions}
-\input{model/quadrotor_dynamics}
-\input{model/landing_vehicle_dynamics}
+% \input{model/quadrotor_dynamics}
+% \input{model/landing_vehicle_dynamics}
 
 \section{Estimation} \label{sec:estimation}
 \input{estimation/estimator}
@@ -56,13 +56,14 @@ The abstract goes here.
 \input{estimation/measurements}
 % \input{estimation/normal_depth_estimator}
 
-\section{Control} \label{sec:control}
+% \section{Control} \label{sec:control}
 
 \section{Simulation} \label{sec:simulation}
 \input{simulation/simulation}
 
 \section{Hardware} \label{sec:hardware}
 \input{hardware/platform}
+\input{hardware/control}
 \input{hardware/aruco}
 \input{hardware/feature_tracking}
 \input{hardware/mocap}

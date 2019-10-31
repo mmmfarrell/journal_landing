@@ -5,32 +5,68 @@
 \subsubsection{Global UAV Position Measurement}
 We assume to have some measurement of the position of the UAV in the inertial
 frame. This measurement may come from GPS or from a motion capture system.
-The measurement model derived from the estimated states and known constants can
+The measurement model can
 be written as
 \begin{equation}
-  \hat{h} \left( \hat{\x} \right) = \hat{\vect{p}}_{b/I}^I,
+  h_{\text{pos}} \left( \hat{\x} \right) = \hat{\vect{p}}_{b/I}^I.
 \end{equation}
-and the non-zero jacobians of the measurement model as
-\begin{equation}
-  \frac{\partial \hat{\vect{p}}_{b/I}^I}{\partial \vect{p}_{b/I}^I} = I_{3
-  \times 3}.
-\end{equation}
+For a given measurement of position, $\vect{z}_{\text{pos}}$, the residual is
+\begin{equation*}
+  \vect{r}_{\text{pos}} = \vect{z}_{\text{pos}} - h_{\text{pos}} \left( \hat{\x}
+  \right),
+\end{equation*}
+which is modeled as
+\begin{align*}
+  \vect{r}_{\text{pos}} &=  h_{\text{pos}} \left( \x \right) - h_{\text{pos}} \left( \hat{\x}
+  \right), \\
+                        &= \vect{p}_{b/I}^I + \eta_{\text{pos}} -
+                        \hat{\vect{p}}_{b/I}^I \\
+                        &= \tilde{\vect{p}}_{b/I}^I + \eta_{\text{pos}}.
+\end{align*}
+This results in the measurement jacobian
+\begin{equation*}
+  H_{\text{pos}} =
+  \begin{bmatrix}
+    I_{3 \times 3} & \vect{0} & \vect{0} & \dots & \vect{0}
+  \end{bmatrix}.
+\end{equation*}
+
+% and the non-zero component of the jacobian of the measurement model as
+% \begin{equation}
+  % \frac{\partial \hat{\vect{p}}_{b/I}^I}{\partial \vect{p}_{b/I}^I} = I_{3
+  % \times 3}.
+% \end{equation}
 
 \subsubsection{Global UAV Attitude Measurement}
 Similar to the position measurement above, we assume to have some measurement of
-the attitude of the UAV expressed in the inertial frame. This measurement may
+the attitude of the UAV with respect to the inertial frame. This measurement may
 come from an attitude and heading reference system (AHRS) or from a motion
-capture system. \MF{Box minus operator for residual?}
-The measurement model derived from the estimated states and known constants can
+capture system. 
+The measurement model can
 be written as
 \begin{equation}
-  \hat{h} \left( \hat{\x} \right) = \hat{\vect{q}}_{I}^b,
+  h_{\text{att}} \left( \hat{\x} \right) = \hat{\vect{q}}_{I}^b.
 \end{equation}
+For a given measurement of attitude, $\vect{z}_{\text{att}}$, the residual is
+given by
+\begin{equation*}
+  \vect{r}_{\text{att}} = \vect{z}_{\text{att}} - h_{\text{att}} \left( \hat{\x}
+    \right),
+\end{equation*}
+which is modeled as
+\begin{align*}
+  \vect{r}_{\text{att}} &=  h_{\text{att}} \left( \x \right) - h_{\text{att}} \left( \hat{\x}
+  \right), \\
+                        &= \vect{p}_{b/I}^I + \eta_{\text{pos}} -
+                        \hat{\vect{p}}_{b/I}^I \\
+                        &= \tilde{\vect{p}}_{b/I}^I + \eta_{\text{pos}}.
+\end{align*}
 and the non-zero jacobians of the measurement model as
 \begin{equation}
   \frac{\partial \hat{\vect{q}}_{I}^b}{\partial \vect{q}_{I}^b} = I_{3
   \times 3}.
 \end{equation}
+\MF{TODO}.
 
 \subsubsection{Fiducial Translation Measurement}
 We assume that a known fiducial marker serves as the desired landing position
@@ -41,12 +77,34 @@ camera frame to the goal frame as noted in~\eqref{eq:fiducial_meas}.
 The measurement model derived from estimated states and known constants can
 therefore be written as
 \begin{align}
-  \hat{h} \left( \hat{\x} \right) &=
+  h_{\text{rt}} \left( \hat{\x} \right) &=
     \hat{\vect{p}}_{g/c}^c \\
   \hat{\vect{p}}_{g/c}^c  &= R_b^c \left( \hat{R}_I^b \hat{\vect{p}}_{g/b}^v -
     \vect{p}_{c/b}^b \right). 
   % \hat{\vect{q}}_{c}^a  &= R_g^a \hat{R}_I^g \hat{R}_b^I R_c^b
 \end{align}
+For a given measurement of the relative translation,
+$\vect{z}_{\text{rt}}$, the residual is given by
+\begin{equation*}
+  \vect{r}_{\text{rt}} = \vect{z}_{\text{rt}} - h_{\text{rt}} \left( \hat{\x}
+  \right),
+\end{equation*}
+which is modeled as
+\begin{align*}
+  \vect{r}_{\text{rt}} &=  h_{\text{rt}} \left( \x \right) - h_{\text{rt}} \left( \hat{\x}
+  \right), \\
+                       &= R_b^c \left( R_I^b \vect{p}_{g/b}^v -
+                         \vect{p}_{c/b}^b \right)  +\eta_{\text{rt}} - R_b^c \left( \hat{R}_I^b \hat{\vect{p}}_{g/b}^v -
+    \vect{p}_{c/b}^b \right)  \\
+                       &= R_b^c R_I^b \vect{p}_{g/b}^v 
+                          - R_b^c \hat{R}_I^b \hat{\vect{p}}_{g/b}^v + \eta_{\text{rt}}
+                          TODO finish
+                        % &= \vect{p}_{b/I}^I + \eta_{\text{pos}} -
+                        % \hat{\vect{p}}_{b/I}^I \\
+                        % &= \tilde{\vect{p}}_{b/I}^I + \eta_{\text{pos}}.
+\end{align*}
+
+
 The non-zero components of the jacobian of the measurement model used for the
 Kalman filter update are
 

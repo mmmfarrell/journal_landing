@@ -1,19 +1,19 @@
 % !TEX root=./root.tex
 
-As mentioned in~\secref{sec:BLAH}, the propsed estimator estimates both the state of
+The propsed estimator estimates both the state of
 the UAV and the state of the landing vehicle as well as the positions of visual
 landmarks on the landing vehicle.
 % in the same Error-State Kalman
 % filter~\cite{sola2017quaternion}.
 We express the state of the combined estimated system as the tuple
-\begin{equation}
+\begin{equation*}
   \hat{\x} =
   \begin{pmatrix}
     \hat{\x}_{\text{UAV}}, \hat{\x}_{\text{Goal}}, \hat{\x}_{\text{Landmarks}}
   \end{pmatrix}
-\end{equation}
+\end{equation*}
 with the components defined as
-\begin{align}
+\begin{align*}
   \hat{\vect{x}}_{\text{UAV}} &=
   \begin{pmatrix}
     \hat{\vect{p}}_{b/I}^{I}, \hat{\vect{q}}_I^{b}, \hat{\vect{v}}_{b/I}^b,
@@ -41,42 +41,52 @@ with the components defined as
       \hat{\vect{r}}_{1/g}^{g}, \dots \hat{\vect{r}}_{n/g}^{g}
     \end{pmatrix}
     \in \mathbb{R}^3 \dots \mathbb{R}^3.
-\end{align}
-Note that $\hat{\vect{x}}_{\text{UAV}}$ contains the same states mentioned previously
-in~\secref{sec:UAV_dynamics} with the addition of $\hat{\vect{\beta}}_a$ and
-$\hat{\vect{\beta}}_\omega$, the estimated bias vectors for the acclerometer and
-gyroscope sensors. On the
-other hand, $\hat{\vect{x}}_{\text{Goal}}$ varies 
-from the landing vehicle states mentioned in~\secref{sec:landing_veh_dynamics}
-by containing $\hat{\vect{p}}_{g/b}^v$ instead of $\hat{\vect{p}}_{b/I}^I$.
-% as well as $\hat{\vect{r}}_{1/g}^{g} \dots \hat{\vect{r}}_{n/g}^{g}$.
-We estimate the relative state, $\hat{\vect{p}}_{g/b}^v$, instead
-of the global state, $\hat{\vect{p}}_{g/I}^I$, as the relative state is observable
-even with poor estimates of the UAV's global position, $\hat{\vect{p}}_{b/I}^I$.
+\end{align*}
+The inputs to the estimated system are given by
+\begin{equation*}
+  \vect{u} = \begin{pmatrix} \bar{\vect{a}}_{b/I}^I, \bar{\vect{\omega}}_{b/I}^b \end{pmatrix} \in
+        \mathbb{R}^3 \times \mathbb{R}^3,
+\end{equation*}
+which are directly measured from an inertial measurement unit (IMU) on the UAV.
+
+The estimated states associated with the UAV, $\hat{\vect{x}}_{\text{UAV}}$,
+contain the traditionally estimated states of position, attitude, and velocity
+in addition to bias states for the accelerometer and gyroscope sensors. The
+estimated states associated with the landing vehicle,
+$\hat{\vect{x}}_{\text{Goal}}$, also contain the position, attitude and velocity
+of the landing vehicle in addition to the angular velocity. We note that the
+estimated position of the landing vehicle is relative to the position of the UAV
+as the relative state is observable even with poor estimates of the UAV's global
+position, $\hat{\vect{p}}_{g/I}^I$.
+% Note that $\hat{\vect{x}}_{\text{UAV}}$ contains the same states mentioned previously
+% in~\secref{sec:UAV_dynamics} with the addition of $\hat{\vect{\beta}}_a$ and
+% $\hat{\vect{\beta}}_\omega$, the estimated bias vectors for the acclerometer and
+% gyroscope sensors. On the
+% other hand, $\hat{\vect{x}}_{\text{Goal}}$ varies 
+% from the landing vehicle states mentioned in~\secref{sec:landing_veh_dynamics}
+% by containing $\hat{\vect{p}}_{g/b}^v$ instead of $\hat{\vect{p}}_{b/I}^I$.
+% % as well as $\hat{\vect{r}}_{1/g}^{g} \dots \hat{\vect{r}}_{n/g}^{g}$.
+% We estimate the relative state, $\hat{\vect{p}}_{g/b}^v$, instead
+% of the global state, $\hat{\vect{p}}_{g/I}^I$, as the relative state is observable
+% even with poor estimates of the UAV's global position, $\hat{\vect{p}}_{b/I}^I$.
 The estimated vectors $\hat{\vect{r}}_{1/g}^{g} \dots \hat{\vect{r}}_{n/g}^{g}$ represent the
 locations of visual landmarks $1 \dots n$ which are rigidly attached to the
 landing vehicle. We show in our simulation and hardware experiments, that the
 addition of these visual landmarks to the estimated state allows the estimator
 to maintain accurate and consistent estimates of $\hat{\x}_{\text{Goal}}$ even
 while the fiducial landing marker is not detected for long periods of time. 
+
 % As mentioned in~\secref{sec:intro??} the estimation of these
 % visual landmarks allows the estimator to maintain accurate and consistent
 % estimates of the landing vehicle even while the fiducial landing marker is not
 % detected for long periods of time.
 
-The inputs to the system are given by
-\begin{equation*}
-  \vect{u} = \begin{pmatrix} \bar{\vect{a}}_{b/I}^I, \bar{\vect{\omega}}_{b/I}^b \end{pmatrix} \in
-        \mathbb{R}^3 \times \mathbb{R}^3,
-\end{equation*}
-which are directly measured from the inertial measurement unit (IMU) on the UAV.
-
 As the estimated state is not a vector, but rather a tuple of Lie groups, we
-employ the Error-State Kalman Filter (ESKF) as described in~\cite{BLAH}. When
-updating the filter with measurements, we make use of the Partial Kalman update
+employ the Error-State Kalman Filter (ESKF) as described in~\cite{koch2017relative}. When
+updating the filter with measurements, we make use of the partial Kalman update
 as first introduced by~\cite{brink2017partial} to improve the estimation of the
-bias states as well as the constant values $\hat{\vect{r}}_{1/g}^{g} \dots
-\hat{\vect{r}}_{n/g}^{g}$.
+bias states as well as the constant values $\vect{r}_{1/g}^{g} \dots
+\vect{r}_{n/g}^{g}$.
 
 We note
 that the estimated state is of dynamic size. As visual landmarks are
@@ -84,6 +94,6 @@ detected they are added to the state vector until a maximum size of the state
 vector is reached. As the visual landmarks leave the field of view of the camera
 or are otherwise no longer tracked, they are removed from the estimated state
 vector, making room for new visual landmarks to be added. In the following
-subsections, we describe the dynamic equations of the estimated state, the
-initialization of certain states, and the
+subsections, we describe the dynamic equations used to propagate the estimated state, the
+initialization of certain states, and the specific
 measurement models used to update the filter.
