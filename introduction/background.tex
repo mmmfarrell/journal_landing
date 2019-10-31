@@ -2,61 +2,82 @@
 
 Small multirotor unmanned air vehicles (UAVs) have rapidly become popular platforms for
 surveillance, delivery, search and rescue, and a variety of other applications.
-The abilities of small, multirotor UAVs to agily operate in confined spaces and to
+The ability of small, multirotor UAVs to agily operate in confined spaces and to
 take off and land vertically give them a unique advantage over other robotic
 platforms. For the majority of commercial use cases, these UAVs are required to operate
 completely autonomously, as skilled pilots are often not feasible due to
-limitations in sight of or communication with the UAV. Though many aspects of
-multirotor UAV autonomy continue to be researched and developed, operation in
-static environments has largely been solved. A variety of emerging use cases,
-however, require the multirotor UAV to operate from a moving vehicle. These use
+limitations in sight of or communication with the UAV. 
+A variety of emerging use cases
+require the multirotor UAV to operate from a moving vehicle. These use
 cases include martitime surveillance, where the UAV must take off and land from
-a martitime vessel at sea, governmental surveillance, where the UAV must operate
-from a truck, and package delivery, where the UAV operates from a large truck
+a martitime vessel at sea
+and package delivery, where the UAV operates from a large truck
 carrying the packages to be delivered. The ability to operate reliably from a
-moving vehicle is still a very active field of research.
+moving vehicle is still a very active field of research, posing many unsolved
+problems.
+
+% \cite{ling2014precision} AprilTag, kalman filter to predict
+% \cite{araar2017vision} relies on a known map of many AprilTags fiducials.
+% \cite{borowczyk2017autonomous} uses a single AprilTag, fast car
+% \cite{baca2019autonomous} main MBZIRC 2017 paper (tag = square with x)
+% \cite{falanga2017vision} MBZIRC, SVO + IMU
+% \cite{beul2017fast} MBZIRC
+% \cite{cantelli2017autonomous} MBZIRC
+% \cite{marantos2018vision} helicopter, tag (Aruco/April)
+
+% \cite{lee2012autonomous} IBVS
+% \cite{wynn2019visual} IBVS - nested tag
 
 A variety of approaches to the operation of multirotor UAVs with respect to
-moving vehicles have been proposed. Nearly all of these approaches rely on the
-detection of a visual fiducial marker on the moving vehicle
-
-\cite{wenzel2011automatic} relys on infrared (IR) LED markers.
-\cite{ling2014precision} AprilTag, kalman filter to predict
-\cite{araar2017vision} relies on a known map of many AprilTags fiducials.
-\cite{borowczyk2017autonomous} uses a single AprilTag
-\cite{baca2019autonomous} main MBZIRC 2017 paper (tag = square with x)
-\cite{falanga2017vision} MBZIRC, SVO + IMU
-\cite{beul2017fast} MBZIRC
-\cite{cantelli2017autonomous} MBZIRC
-\cite{marantos2018vision} helicopter, tag (Aruco/April)
-
-\cite{lee2012autonomous} IBVS
-\cite{wynn2019visual} IBVS - nested tag
-
-All of the previous approaches break if the fiducial marker is not detected for
-significant periods of time. Ling notes that it is important to model the
+moving vehicles have been proposed in literature. Nearly all of these approaches rely on the
+detection of a fiducial marker on the moving vehicle for relative pose
+estimation. One of the earliest of
+these works relied on the detection of infrared LED markers that were
+illuminated in a known configuration on the landing
+vehicle~\cite{wenzel2011automatic}. Since then, visual fiducial markers such as
+AprilTags~\cite{olson2011tags} or ArUco markers~\cite{garrido2016generation}
+have become more widely
+used~\cite{ling2014precision,borowczyk2017autonomous,marantos2018vision,
+araar2017vision}.
+In 2017, the Mohamed Bin Zayed International Robotics Challenge (MBZIRC)
+featured a stage that included landing a multirotor UAV on a visual fiducial
+marker atop a moving golf
+cart~\cite{baca2019autonomous,falanga2017vision,beul2017fast,cantelli2017autonomous}.
+While some methods employ image based visual servoing for
+landing~\cite{lee2012autonomous,wynn2019visual}, most of the other methods
+require estimation of the state of the landing vehicle. Ling notes in~\cite{ling2014precision} that it is important to model the
 dynamics of the landing vehicle so that they can be propagated forward for short
 periods of time when the fiducial marker is not
-detected~\cite{ling2014precision}, however, this method is only as good as the
-motion model of the vehicle is. We propose an estimation algorithm that detects,
+detected. All of the mentioned
+approaches, however, break if the fiducial marker is not detected for
+significant periods of time.
+Even if the state of the landing vehicle is estimated, the estimates are only as
+good as the
+motion model of the vehicle is when the fiducial marker is not detected. We propose an estimation algorithm that detects,
 tracks, and estimates unknown visual features on the landing vehicle to improve
-estimation accuracy in these cases.
+estimation accuracy when the fiducial marker is not detected for significant
+periods of time.
 
 The proposed method of detecting, tracking, and estimating visual features is
 similar to that commonly used in the field of visual odometry. Many methods such
-as VINS-MONO, OKVIS, MSCK, and ORB SLAM use an indirect approach
-\cite{qin2018vins} VINS-MONO, feature extraction, optical flow frame to frame
-\cite{leutenegger2013keyframe} OKVIS, BRISK features
-\cite{mourikis2007multi} MSCKF, uses SIFT features
-\cite{mur2015orb} ORB SLAM
-
+as~\cite{qin2018vins,leutenegger2013keyframe,mourikis2007multi,mur2015orb} use
+detected and tracked feature to help estimate camera motion.
+% as VINS-MONO, OKVIS, MSCKF, and ORB SLAM use an indirect approach
+% \cite{qin2018vins} VINS-MONO, feature extraction, optical flow frame to frame
+% \cite{leutenegger2013keyframe} OKVIS, BRISK features
+% \cite{mourikis2007multi} MSCKF, uses SIFT features
+% \cite{mur2015orb} ORB SLAM
 In these methods, the tracked visual features are assumed to belong to the
-static world. A method using visual odometry has been implemented and used for landing on
-moving platforms~\cite{falanga2017vision}, however, only static features are
-still tracked. During the landing phase, it is common for the landing vehicle
-to occupy almost the entire field of view of the UAV's camera. This makes
-tracking static features impossible. The estimator we propose, instead, tracks
-visual features that are rigidly attached to the landing vehicle. By fitting a
-motion model to these features, their measurements provide information about
-the movement of the landing vehicle. 
+static world. While a method using visual odometry techniques has been used for landing on
+moving platforms~\cite{falanga2017vision}, only static features are
+still tracked. During the landing phase, it is common, however, for the landing vehicle
+to occupy the entire field of view of the UAV's camera, making it not possible
+to track static features throughout the duration of the flight.
+The estimator we propose, instead, tracks
+visual features that are rigidly attached to the landing vehicle. These tracked
+visual features provide information about the movement of the UAV as well as
+information about the movement of the landing vehicle. We show in both
+simulation and hardware results, that the addition of tracked features allows
+for accurate and consistent estimates of the state of the landing vehicle even
+when the fiducial marker is not detected for significant periods of time.
 
