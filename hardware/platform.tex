@@ -1,13 +1,20 @@
 % !TEX root=../root.tex
 
 \subsection{Platform}
-The proposed estimation and control schemes were implemented and flown in
+The proposed estimation algorithm was implemented and flown in
 hardware to further demonstrate the performance observed in the simulation
 results. The multirotor used for experiments was built on a DJI 450 Flamewheel
 frame. All computation was done onboard the UAV on an NVIDIA Jetson TX2 using
 ROS. An ELP
 USB Camera with a 2.1mm Lens was mounted to the bottom of the UAV such that the
-camera faced downward in the UAV's bodyframe. Controller commands were sent from
+camera faced downward in the UAV's bodyframe.
+
+A successive loop PID control scheme was used to close the loop around the
+estimated states. Throughout the flight, the UAV was commanded to maintain a
+constant altitude relative to the goal frame of 0.5 $m$ while attempting to
+drive the $x$ and $y$ components of $\vect{p}_{g/b}^v$ to zero. The relative yaw
+angle between the UAV and the goal frame was also controlled to zero.
+Controller commands were sent from
 the onboard computer to the CC3D Revolution 32bit F4 flight controller running
-the ROSflight firmware using the ROSflight ROS node~\cite{jackson2016rosflight}.
+the ROSflight firmware~\cite{jackson2016rosflight}.
 

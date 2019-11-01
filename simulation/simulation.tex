@@ -36,12 +36,16 @@ corrupted with white Gaussian noise. The sensor noise parameters along with the
 rate at which each sensor is sampled are found
 in~\tabref{tab:sim_meas_noise}.
 
-Somewhere in here that the $q_b2c = blah$ and $p_b2c = [0.25, -0.2, 0.4]$.
+The landing vehicle was initialized with initial conditions of $v_x = 0.5
+m/s$, $v_y = 0 m/s$, $\theta_I^g = 1.5 rad$ and $\omega = 0.5 rad/s$. The
+simulated camera was oriented at a yaw angle of $\pi/2$ with respect to the body
+frame and $p_{c/b}^b = \begin{bmatrix}0.25 & -0.2 &
+0.4\end{bmatrix}^\transpose$.
 
 The results for simulations where the estimator uses ten visual landmarks and
 zero visual landmarks are seen in~\ref{fig:BLAH} and~\ref{fig:BLAH}
 respectively. We do not include the plots of the UAV states,
-$\vect{x}_{\text{UAV}}$ as it is well known that these states are easily
+$\vect{x}_{\text{UAV}}$, as it is well known that these states are easily
 estimated with the given measurements. In the experiments shown in the plots,
 the measurements from the fiducial landing marker are not used after $t = 5 s$
 in the simulation to demonstrate the performance of the proposed estimation
