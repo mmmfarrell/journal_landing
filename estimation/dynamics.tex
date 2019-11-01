@@ -1,48 +1,87 @@
 % !TEX root=./root.tex
 
 \subsection{State Dynamics}
-We use common rigid body kinematics for the the propagation of
-$\hat{\x}_{\text{UAV}}$
-given by
+We use common rigid body kinematics for the dynamics of
+$\x_{\text{UAV}}$ given by
+% \begin{align}
+  % \dot{\hat{\vect{p}}}_{b/I}^I
+  % &=
+  % \left( \hat{R}_I^b \right)^\transpose \hat{\vect{v}}_{b/I}^b
+  % \label{eq:uav_dynamics}
+  % \\
+  % \dot{\hat{\vect{q}}}_{I}^{b} 
+	% &= 	
+  % \hat{\q}_I^b \otimes \begin{pmatrix} 0 \\ \frac{1}{2}
+  % \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+% \end{pmatrix} \nonumber \\
+  % \dot{\hat{\vect{v}}}_{b/I}^b 
+  % &=
+  % \hat{R}_I^b \vect{g}
+  % +
+  % \skewmat{\hat{\vect{v}}_{b/I}^b}
+  % \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+  % +
+  % \left( \bar{\vect{a}} - \hat{\vect{\beta}}_a \right) + \vect{\eta}_v \nonumber
+  % \\
+  % \dot{\hat{\vect{\beta}}}_a &= \vect{\eta}_{\beta_a} \nonumber
+  % \\
+  % \dot{\hat{\vect{\beta}}}_\omega &= \vect{\eta}_{\beta_\omega}, \nonumber
+% \end{align}
 \begin{align}
-  \dot{\hat{\vect{p}}}_{b/I}^I
+  \dot{\vect{p}}_{b/I}^I
   &=
-  \left( \hat{R}_I^b \right)^\transpose \hat{\vect{v}}_{b/I}^b 
+  \left( R_I^b \right)^\transpose \vect{v}_{b/I}^b
+  \label{eq:uav_dynamics}
   \\
-  \dot{\hat{\vect{q}}}_{I}^{b} 
+  \dot{\vect{q}}_{I}^{b} 
 	&= 	
-  \hat{\q}_I^b \otimes \begin{pmatrix} 0 \\ \frac{1}{2}
-  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right) \end{pmatrix} \\
-  \dot{\hat{\vect{v}}}_{b/I}^b 
+  \q_I^b \otimes \begin{pmatrix} 0 \\ \frac{1}{2}
+  \left( \bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega \right)
+\end{pmatrix} \nonumber \\
+  \dot{\vect{v}}_{b/I}^b 
   &=
-  \hat{R}_I^b \vect{g}
+  R_I^b \vect{g}
   +
-  \skewmat{\hat{\vect{v}}_{b/I}^b}
-  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+  \skewmat{\vect{v}_{b/I}^b}
+  \left( \bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega \right)
   +
-  \left( \bar{\vect{a}} - \hat{\vect{\beta}}_a \right)
+  \left( \bar{\vect{a}} - \vect{\beta}_a \right) \nonumber
+  % \vect{\eta}_v 
   \\
-    \dot{\hat{\vect{\beta}}}_a &= \vect{0}
+  \dot{\vect{\beta}}_a &= \vect{\eta}_{\beta_a} \nonumber
   \\
-    \dot{\hat{\vect{\beta}}}_\omega &= \vect{0}
+  \dot{\vect{\beta}}_\omega &= \vect{\eta}_{\beta_\omega}, \nonumber
 \end{align}
+% $\vect{\eta}_v$, 
+where $\vect{\eta}_{\beta_a}$ and $\vect{\eta}_{\beta_\omega}$
+are zero-mean Gaussian noise processes for the corresponding states.
 We assume that the landing vehicle moves according to a unicycle motion model
 with a constant velocity and a constant
-angular velocity. The dynamics of the goal states are expressed as
+angular velocity. The dynamics of $\x_{\text{Goal}}$ are expressed as
+% \begin{align}
+  % \dot{\hat{\vect{p}}}_{g/b}^{v} &= \left( \hat{R}_{I}^{g} \right)^\transpose
+  % \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  % \hat{\vect{v}}_{b/I}^{b} \label{eq:goal_dynamics} \\
+  % \dot{\hat{\vect{v}}}_{g/I}^{g} &= \vect{0} \nonumber \\
+  % \dot{\hat{\theta}}_{I}^{g} &= \hat{\omega}_{g/I}^g \nonumber \\
+  % \dot{\hat{\omega}}_{g/I}^{g} &= 0. \nonumber
+% \end{align}
 \begin{align}
-  \dot{\hat{\vect{p}}}_{g/b}^{v} &= \left( \hat{R}_{I}^{g} \right)^\transpose
-  \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
-  \hat{\vect{v}}_{b/I}^{b} \\
-  \dot{\hat{\vect{v}}}_{g/I}^{g} &= \vect{0} \\
-  \dot{\hat{\theta}}_{I}^{g} &= \hat{\omega}_{g/I}^g \\
-  \dot{\hat{\omega}}_{g/I}^{g} &= 0.
-  % \dot{\vect r}_{i}^{b} &= \vect{0}.
+  \dot{\vect{p}}_{g/b}^{v} &= \left( R_{I}^{g} \right)^\transpose
+  \vect{v}_{g/I}^{g} - \left( R_{I}^{b} \right)^\transpose
+  \vect{v}_{b/I}^{b} \label{eq:goal_dynamics} \\
+  \dot{\vect{v}}_{g/I}^{g} &= \vect{\eta}_{gv} \nonumber \\
+  \dot{\theta}_{I}^{g} &= \omega_{g/I}^g \nonumber \\
+  \dot{\omega}_{g/I}^{g} &= \eta_{g\omega} \nonumber,
 \end{align}
+where $\vect{eta}_{gv}$ and $\eta_{g\omega}$ are zero-mean Gaussian noise
+processes for the corresponding goal states.
 As mentioned previously, we assume the visual landmarks are rigidly
 attached to the landing vehicle. This means that the dynamics of their
-associated estimated state is simply
+associated state is simply
 \begin{equation}
-  \hat{\vect{r}}_{i/g}^g = \vect{0}.
+  \dot{\vect{r}}_{i/g}^g = \vect{0}. \label{eq:landmark_dynamics}
+  % \dot{\hat{\vect{r}}}_{i/g}^g = \vect{0}. \label{eq:landmark_dynamics}
 \end{equation}
 
 % \subsubsection{UAV State Jacobians}
