@@ -11,9 +11,9 @@ $R_a^b$ & Rotation matrix from reference frame $a$ to $b$ \\
 $\vect{v}_{a/b}^c$ & Vector state $\vect{v}$ of frame $a$ w.r.t.~frame $b$, expressed in frame $c$ \\
 $\hat{a}$ & Estimate of true variable $a$ \\
 $\bar{a}$ & Measurement of $a$ \\
-$\des{a}$ & Desired value of $a$ \\
+% $\des{a}$ & Desired value of $a$ \\
 $\dot{a}$ & Time derivative of $a$ \\
-$\tilde{a}$ & Error of variable $a$, i.e., $\tilde{a} \triangleq a - \des{a}$
+$\tilde{a}$ & Error of variable $a$, i.e., $\tilde{a} \triangleq a - \hat{a}$
 \end{tabularx}
 \end{center}
 %
@@ -44,6 +44,6 @@ which is related to the cross-product between two vectors as
 We abbreviate the commonly used trigonometric functions $\sin$, $\cos$, and
 $\tan$ with their first letter and the angle they operate on as a subscript
 such that $\sphi = \sin\phi$.
-We use the standard basis vectors $\vect{e}_1, \vect{e}_2, \ldots, \vect{e}_N$,
+We also use the standard basis vectors $\vect{e}_1, \vect{e}_2, \ldots, \vect{e}_N$,
 where $\vect{e}_1 = \begin{bmatrix} 1 & 0 & \cdots & 0 \end{bmatrix}^\transpose$
 and so forth.

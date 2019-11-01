@@ -1,25 +1,25 @@
 % !TEX root=../root.tex
 
 \subsection{Quaternion Representation}
-\MF{TODO what of this is necessary}
-A quaternion $\q$ is a hyper-complex number of rank four.  It is well known that
-a unit quaternion $\in S^3$ can be used to efficiently represent attitude, as
-$S^3$ is a double cover of $\SO(3)$.  Quaternions have the advantage over
-$\SO(3)$ of being more efficient to implement on modern hardware~\cite{casey2013AttitudeRepresentation}, therefore in the software implementation of the described algorithm, we use quaternions, rather than rotation matrices.
+% \MF{TODO what of this is necessary}
+% A quaternion $\q$ is a hyper-complex number of rank four.  It is well known that
+% a unit quaternion $\in S^3$ can be used to efficiently represent attitude, as
+% $S^3$ is a double cover of $\SO(3)$.  Quaternions have the advantage over
+% $\SO(3)$ of being more efficient to implement on modern hardware~\cite{casey2013AttitudeRepresentation}, therefore in the software implementation of the described algorithm, we use quaternions, rather than rotation matrices.
 
-We use Hamiltonian notation for unit quaternions $\in S^3$
+We use the Hamiltonian notation for unit quaternions $\in S^3$
 \begin{equation}
-\q=\begin{pmatrix}q_{0} & q_{x}i & q_{y} j & q_{z}k \end{pmatrix}%=\begin{pmatrix}q_{0} & \bar{\q} \end{pmatrix},
+\q=\begin{pmatrix}q_{0} & q_{x}i & q_{y} j & q_{z}k \end{pmatrix}.%=\begin{pmatrix}q_{0} & \bar{\q} \end{pmatrix},
 \end{equation}
-and define the complex numbers $i$, $j$, and $k$, such that
-\begin{equation}
-\begin{array}{rrrcc}
-	& & ij &= -ji &= k, \\
-	& & jk &= -kj &= i, \\
-	& & ki &= -ik &= j, \\
-	i^2 &= j^2 &= k^2 & = ijk &= -1.
-\end{array}
-\end{equation}
+% and define the complex numbers $i$, $j$, and $k$, such that
+% \begin{equation}
+% \begin{array}{rrrcc}
+	% & & ij &= -ji &= k, \\
+	% & & jk &= -kj &= i, \\
+	% & & ki &= -ik &= j, \\
+	% i^2 &= j^2 &= k^2 & = ijk &= -1.
+% \end{array}
+% \end{equation}
 For convenience, we sometimes refer to the complex portion of the quaternion as
 \begin{equation}
 	\bar{\q} = \begin{bmatrix} q_x & q_y & q_z \end{bmatrix} ^\transpose

@@ -31,8 +31,8 @@ with the components defined as
   % \end{bmatrix}^\transpose \\
     \hat{\x}_{\text{Goal}} & =
     \begin{pmatrix}
-      \hat{\vect{p}}_{g/b}^{v}, \hat{\vect{v}}_{g/I}^{g}, \theta_{I}^{g},
-      \omega_{g/I}^{g}
+      \hat{\vect{p}}_{g/b}^{v}, \hat{\vect{v}}_{g/I}^{g}, \hat{\theta}_{I}^{g},
+      \hat{\omega}_{g/I}^{g}
     \end{pmatrix}
     \in \mathbb{R}^3 \times \mathbb{R}^2 \times S^1 \times \mathbb{R}^1
     \\
@@ -82,7 +82,31 @@ while the fiducial landing marker is not detected for long periods of time.
 % detected for long periods of time.
 
 As the estimated state is not a vector, but rather a tuple of Lie groups, we
-employ the error-state Kalman filter (ESKF) as described in~\cite{koch2017relative}. When
+employ the error-state Kalman filter (ESKF) as described in~\cite{koch2017relative}.
+The error-state of the estimated system is defined by
+\begin{equation*}
+  \tilde{\vect{x}} &=
+  \begin{bmatrix}
+    \tilde{\vect{p}}_{b/I}^{I}, \tilde{\vect{\theta}}_I^{b}, \tilde{\vect{v}}_{b/I}^b,
+    \tilde{\vect{\beta}}_a,
+    \tilde{\vect{\beta}}_{\omega},
+    \tilde{\vect{p}}_{g/b}^{v}, \tilde{\vect{v}}_{g/I}^{g}, \tilde{\theta}_{I}^{g},
+    \tilde{\omega}_{g/I}^{g}
+      \tilde{\vect{r}}_{1/g}^{g}, \dots \tilde{\vect{r}}_{n/g}^{g}
+  \end{bmatrix}
+  \in \mathbb{R}^{22 + 3n}.
+\end{equation*}
+Each vector component of $\hat{\x}$ has a corresponding error-state component
+defined with the vector subtraction operator as
+\begin{equation}
+  \tilde{\vect{p}} = \vect{p} - \hat{\vect{p}}.
+\end{equation}
+We follow~\cite{koch2017relative}, defining the error-state of the quaternion
+$\hat{\q}_I^b$ as the minimal representation
+\begin{equation}
+  \tilde{\vect{\theta}}_I^b = \log_{\q} \left( \left( \hat{\q}_I^b \right)^{-1} \otimes \q_I^b \right).
+\end{equation}
+When
 updating the filter with measurements, we make use of the partial Kalman update
 as first introduced by~\cite{brink2017partial} to improve the estimation of the
 bias states as well as the constant values $\vect{r}_{1/g}^{g} \dots
@@ -93,7 +117,8 @@ that the estimated state is of dynamic size. As visual landmarks are
 detected they are added to the state vector until a maximum size of the state
 vector is reached. As the visual landmarks leave the field of view of the camera
 or are otherwise no longer tracked, they are removed from the estimated state
-vector, making room for new visual landmarks to be added. In the following
-subsections, we describe the dynamic equations used to propagate the estimated state, the
+vector to make room for new visual landmarks to be added. In the following
+subsections, we describe the dynamic equations used to model the state of the
+estimated system, the
 initialization of certain states, and the specific
 measurement models used to update the filter.
