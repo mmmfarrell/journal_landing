@@ -189,18 +189,18 @@ This results in the measurement jacobian
 
 \subsubsection{Landmark Pixel Measurement}
 As described in~\eqref{eq:pixel_meas}, the estimator receives measurements of
-the location of each visual landmark in the camera image. The measurement model
-derived from the estimated states and known constants and using the pinhole
-camera model can be expressed as
+the location of each visual landmark in the camera image. We assume that the
+pixel measurements received have already been corrected for lens distortion.
+Using the pinhole camera model, we therefore express the pixel locations as
 \begin{align}
-  \hat{h} &=
+  % \hat{h} &=
+  % \begin{bmatrix}
+    % \hat{p}_x & \hat{p}_y
+  % \end{bmatrix}^\transpose \\
   \begin{bmatrix}
-    \hat{p}_x & \hat{p}_y
-  \end{bmatrix}^\transpose \\
-  \begin{bmatrix}
-    \hat{p}_x \\ \hat{p}_y \\ 1
-  \end{bmatrix} &= \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} K
-  \hat{\vect{p}}_{i/c}^c,
+    p_x \\ p_y \\ 1
+  \end{bmatrix} &= \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} K
+  \vect{p}_{i/c}^c,
   % \vect{z} &=
   % \begin{bmatrix}
     % f_x \frac{\e_1 \vect{p}_{i/c}^c}{\e_3 \vect{p}_{i/c}^c} + c_x \\
@@ -209,8 +209,45 @@ camera model can be expressed as
 \end{align}
 where K is the camera intrisic matrix and 
 \begin{align}
+  \vect{p}_{i/c}^c = R_b^c \left( R_I^b \left( R_I^g \right)^\transpose
+  \vect{r}_{i/g}^g + R_I^b \vect{p}_{g/b}^v - \vect{p}_{c/b}^b \right).
+  \label{eq:p_i_c_c}
+\end{align}
+The measurement model and its estimate can be written as
+\begin{align}
+  h_{\text{pix}} \left( \x \right)
+  &= \begin{bmatrix} p_x & p_y \end{bmatrix}^\transpose \\
+  &= \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} I_{2 \times 3} K
+  \vect{p}_{i/c}^c + \vect{\eta}_{\text{pix}} \\
+  h_{\text{pix}} \left( \hat{\x} \right)
+  &= \begin{bmatrix} \hat{p}_x & \hat{p}_y \end{bmatrix}^\transpose \\
+  &= \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
+  \hat{\vect{p}}_{i/c}^c
+\end{align}
+where
+\begin{align}
   \hat{\vect{p}}_{i/c}^c = R_b^c \left( \hat{R}_I^b \left( \hat{R}_I^g \right)^\transpose
-  \hat{\vect{r}}_{i/g}^g + \hat{R}_I^b \hat{\vect{p}}_{g/b}^v - \vect{p}_{c/b}^b \right)
+  \hat{\vect{r}}_{i/g}^g + \hat{R}_I^b \hat{\vect{p}}_{g/b}^v - \vect{p}_{c/b}^b
+\right).
+\end{align}
+For a given measurement of the pixel location of a landmark,
+$\vect{z}_{\text{pix}}$, the residual is given by
+\begin{equation}
+  \vect{r}_{\text{pix}} = \vect{z}_{\text{pix}} - h_{\text{pix}} \left( \hat{\x}
+    \right),
+\end{equation}
+which is modeled as
+\begin{align}
+  \vect{r}_{\text{pix}} &= h_{\text{pix}} \left( \x \right) - h_{\text{pix}} \left( \hat{\x}
+    \right) \\
+  &= \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} I_{2 \times 3} K
+  \vect{p}_{i/c}^c + \vect{\eta}_{\text{pix}} - \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
+  \hat{\vect{p}}_{i/c}^c.
+\end{align}
+We first expand~\eqref{eq:p_i_c_c}
+\begin{align}
+  \vect{p}_{i/c}^c &= R_b^c \left( R_I^b \left( R_I^g \right)^\transpose
+  \vect{r}_{i/g}^g + R_I^b \vect{p}_{g/b}^v - \vect{p}_{c/b}^b \right).
 \end{align}
 
 % where $f_x$, $f_y$, $c_x$, and $c_y$ are constant parameters of the camera. We
