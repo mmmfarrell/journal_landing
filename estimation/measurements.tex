@@ -88,46 +88,66 @@ for the multirotor UAV on the landing vehicle. The goal frame is therefore
 located at the center of the fiducial marker. This means that every detection of the fiducial
 marker yields a measurement of the relative translation and rotation from the
 camera frame to the goal frame as noted in~\eqref{eq:fiducial_meas}.
-The measurement model derived from estimated states and known constants can
-therefore be written as
+The measurement model and its estimate
+therefore can be written as
 \begin{align}
-  h_{\text{rt}} \left( \hat{\x} \right) &=
+  h_{\text{ft}} \left( \x \right) &=
+  \vect{p}_{g/c}^c + \vect{\eta}_{\text{ft}} \\
+  &= R_b^c \left( R_I^b \vect{p}_{g/b}^v -
+  \vect{p}_{c/b}^b \right) + \vect{\eta}_{\text{ft}} \\
+  h_{\text{ft}} \left( \hat{\x} \right) &=
     \hat{\vect{p}}_{g/c}^c \\
-  \hat{\vect{p}}_{g/c}^c  &= R_b^c \left( \hat{R}_I^b \hat{\vect{p}}_{g/b}^v -
+  &= R_b^c \left( \hat{R}_I^b \hat{\vect{p}}_{g/b}^v -
     \vect{p}_{c/b}^b \right). 
   % \hat{\vect{q}}_{c}^a  &= R_g^a \hat{R}_I^g \hat{R}_b^I R_c^b
 \end{align}
-For a given measurement of the relative translation,
-$\vect{z}_{\text{rt}}$, the residual is given by
+For a given measurement of the relative translation to the fiducial marker,
+$\vect{z}_{\text{ft}}$, the residual is given by
 \begin{equation*}
-  \vect{r}_{\text{rt}} = \vect{z}_{\text{rt}} - h_{\text{rt}} \left( \hat{\x}
+  \vect{r}_{\text{ft}} = \vect{z}_{\text{ft}} - h_{\text{ft}} \left( \hat{\x}
   \right),
 \end{equation*}
 which is modeled as
 \begin{align*}
-  \vect{r}_{\text{rt}} &=  h_{\text{rt}} \left( \x \right) - h_{\text{rt}} \left( \hat{\x}
+  \vect{r}_{\text{ft}} &=  h_{\text{ft}} \left( \x \right) - h_{\text{ft}} \left( \hat{\x}
   \right), \\
                        &= R_b^c \left( R_I^b \vect{p}_{g/b}^v -
                          \vect{p}_{c/b}^b \right)  +\eta_{\text{rt}} - R_b^c \left( \hat{R}_I^b \hat{\vect{p}}_{g/b}^v -
     \vect{p}_{c/b}^b \right)  \\
                        &= R_b^c R_I^b \vect{p}_{g/b}^v 
-                          - R_b^c \hat{R}_I^b \hat{\vect{p}}_{g/b}^v + \eta_{\text{rt}}
-                          TODO finish
-                        % &= \vect{p}_{b/I}^I + \eta_{\text{pos}} -
-                        % \hat{\vect{p}}_{b/I}^I \\
-                        % &= \tilde{\vect{p}}_{b/I}^I + \eta_{\text{pos}}.
+                          - R_b^c \hat{R}_I^b \hat{\vect{p}}_{g/b}^v +
+                          \eta_{\text{rt}} \\
+                       &= R_b^c \left( I - \skewmat{\tilde{\vect{\theta}}_I^b }\right) \hat{R}_I^b \left( \hat{\vect{p}}_{g/b}^v + \tilde{\vect{p}}_{g/b}^v \right) 
+                          - R_b^c \hat{R}_I^b \hat{\vect{p}}_{g/b}^v +
+                          \eta_{\text{rt}}.
 \end{align*}
+Expanding and removing second-order terms,
+\begin{align*}
+  \vect{r}_{\text{ft}} &\approx R_b^c \hat{R}_I^b \tilde{\vect{p}}_{g/b}^v -
+  R_b^c \skewmat{\tilde{\vect{\theta}}_I^b } \hat{R}_I^b \hat{\vect{p}}_{g/b}^v 
+      + \eta_{\text{rt}} \\
+&= R_b^c \hat{R}_I^b \tilde{\vect{p}}_{g/b}^v + R_b^c \skewmat{\hat{R}_I^b \hat{\vect{p}}_{g/b}^v} \tilde{\vect{\theta}}_I^b 
+      + \eta_{\text{rt}}.
+\end{align*}
+This results in the measurement jacobian
+\begin{equation*}
+  H_{\text{pos}} =
+  \begin{bmatrix}
+    \vect{0} & R_b^c \skewmat{ \hat{R}_I^b \hat{\vect{p}}_{g/b}^v } & \vect{0} &
+    \vect{0} & \vect{0} & R_b^c \hat{R}_I^b & \vect{0} & \dots & \vect{0}
+  \end{bmatrix}.
+\end{equation*}
 
 
-The non-zero components of the jacobian of the measurement model used for the
-Kalman filter update are
+% The non-zero components of the jacobian of the measurement model used for the
+% Kalman filter update are
 
-\begin{align}
-  \frac{\partial \hat{\vect{p}}_{g/c}^c}{\partial \vect{q}_I^b} =& R_b^c 
-  \hat{R}_I^b \skewmat{\hat{\vect{p}}_{g/b}^v} \\
-    \frac{\partial \hat{\vect{p}}_{g/c}^c}{\partial \vect{p}_{g/b}^v} =& R_b^c
-    \hat{R}_I^b.
-\end{align}
+% \begin{align}
+  % \frac{\partial \hat{\vect{p}}_{g/c}^c}{\partial \vect{q}_I^b} =& R_b^c 
+  % \hat{R}_I^b \skewmat{\hat{\vect{p}}_{g/b}^v} \\
+    % \frac{\partial \hat{\vect{p}}_{g/c}^c}{\partial \vect{p}_{g/b}^v} =& R_b^c
+    % \hat{R}_I^b.
+% \end{align}
 
 \subsubsection{Fidual Rotation Measurement}
 We use the relative rotation measurement from the camera frame to the goal frame
@@ -136,16 +156,36 @@ measurement is described as
 \begin{equation}
   \bar{\theta}_I^g = yaw \left( \bar{R}_c^g R_b^c \hat{R}_I^b \right).
 \end{equation}
+The measurement model and its estimate can
+be written as
+\begin{align}
+  h_{\text{fr}} \left( \x \right) &= \theta_I^g + \eta_{\text{fr}} \\
+  h_{\text{fr}} \left( \hat{\x} \right) &= \hat{\theta}_I^g.
+\end{align}
+For a given measurement of the rotation of the fiducial marker, $z_{\text{fr}}$,
+the residual is given by
+\begin{equation}
+  r_{\text{fr}} = z_{\text{fr}} - h_{\text{fr}} \left( \hat{\x} \right),
+\end{equation}
+which is modeled as
+\begin{align}
+  r_{\text{fr}} &= h_{\text{fr}} \left( \x \right) - h_{\text{fr}} \left( \hat{\x} \right) \\
+                &= \theta_I^g + \eta_{\text{fr}} - \hat{\theta}_I^g \\
+                &= \tilde{\theta}_I^g + \eta_{\text{fr}}.
+\end{align}
+This results in the measurement jacobian
+\begin{equation*}
+  H_{\text{pos}} =
+  \begin{bmatrix}
+    \vect{0} & \vect{0} & \vect{0} &
+    \vect{0} & \vect{0} & \vect{0} & \vect{0} & 1 & \vect{0} & \dots & \vect{0}
+  \end{bmatrix}.
+\end{equation*}
 
-The measurement model derived from the estimated states and known constants can
-therefore be written as
-\begin{equation}
-  \hat{h} \left( \hat{\x} \right) = \hat{\theta}_I^g,
-\end{equation}
-and the non-zero jacobians of the measurement model as
-\begin{equation}
-  \frac{\partial \hat{\theta}_I^g}{\partial \theta_I^g} = 1.
-\end{equation}
+% and the non-zero jacobians of the measurement model as
+% \begin{equation}
+  % \frac{\partial \hat{\theta}_I^g}{\partial \theta_I^g} = 1.
+% \end{equation}
 
 \subsubsection{Landmark Pixel Measurement}
 As described in~\eqref{eq:pixel_meas}, the estimator receives measurements of
