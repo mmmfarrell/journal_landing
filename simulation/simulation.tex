@@ -54,32 +54,41 @@ simulated camera was oriented at a yaw angle of $\pi/2 \hphantom{\cdot} rad$ wit
 frame and $p_{c/b}^b = \begin{bmatrix}0.25, & -0.2, &
 0.4 \end{bmatrix}^\transpose m$.
 
-The results for simulations where the estimator uses ten visual landmarks and
-zero visual landmarks are seen in~\ref{fig:BLAH} and~\ref{fig:BLAH}
-respectively. We do not include the plots of the UAV states,
+The simulation results for a 30 second simulation in which the estimator does
+not use any visual landmarks are seen in
+Figures~\ref{fig:no_lms_gp}, \ref{fig:no_lms_gv}, \ref{fig:no_lms_gatt}. In the
+experiment shown, the measurements from the fiducial landing marker are not used
+after $t = 5 \hphantom{\cdot} s$ to demonstrate the performance of the proposed
+estimation algorithm when the fiducial marker is not detected for significant
+periods of time. The figures clearly show that when measurements from the
+fiducial marker are not available, the covariance of the estimate grows rapidly
+and the estimated state of the landing vehicle quickly becomes inaccurate. This
+matches our intuition as the estimator receives no information about the landing
+vehicle after $t = 5 \hphantom{\cdot} s$ and therefore is only able to propagate
+the dynamics of the system. We note that the $z$ direction of the estimated
+relative goal position is the exception as the landing vehicle is constrained to
+move only in the $xy$ plane. We do not include the plots of the UAV states,
 $\vect{x}_{\text{UAV}}$, as it is well known that these states are easily
-estimated with the given measurements. In the experiments shown in the plots,
-the measurements from the fiducial landing marker are not used after $t = 5 s$
-in the simulation to demonstrate the performance of the proposed estimation
-algorithm. The figures clearly show that when ten visual landmarks are used by
-the estimator, the estimates of the goal states remain accurate and consistent
-throughout the duration of the simulation. However, when no visual landmarks are
-used by the estimator, the estimate of the goal states quickly become incorrect.
-We note that the $z$ direction of the goal position is the exception to this
-because the landing vehicle is constrained to move only in the $xy$ plane.
+estimated with the given measurements.
 
-To further demonstrate this performance, 100 simulation runs were performed
+Simulation results for the same scenario, but in which the estimator uses a
+maximum of 10 visual landmarks, are seen in
+Figures~\ref{fig:with_lms_gp}, \ref{fig:with_lms_gv}, \ref{fig:with_lms_gatt}.
+These figures clearly show that even after $t = 5 \hphantom{\cdot} s$ when the
+fiducial marker measurements are no longer available, the estimated states of
+the landing vehicle remain accurate with relatively tight covariance bounds. We
+reiterate that the only information the estimator receives during this time is
+the measured pixel locations of unknown visual landmarks on the landing vehicle.
+
+To further demonstrate performance, 100 simulation runs of the same scenario
+mentioned above were performed
 both using ten visual landmarks and using zero visual landmarks. The L2 norm of
-the errors in the $x$ and $y$ direction of the goal position state are plotted
-with respect to time in~\ref{fig:BLAH}. While the error when using ten landmarks
-almost entirely remains under 1 m for all 100 simulations, the error when using
-no landmarks quickly grows larger that 1 m. The error for several of the
-simulations reaches over 10 m after 30s.
-
-These simulation results clearly demonstrate the ability to maintain accurate
-and consistent estimates of the goal states when the fiducial landing marker is
-not detected for significant periods of time.
-
+the $xy$ error of the estimated goal position state are plotted
+with respect to time in
+Figures~\ref{fig:mc_no_lms_xy_err}~and~\ref{fig:mc_with_lms_xy_err}. While the error when using ten landmarks
+almost entirely remains under 1 $m$ for all 100 simulations, the error when using
+no landmarks quickly grows very large, reaching an error of over 10 $m$ in many
+of the runs.
 
 \begin{table}[h!]
   \begin{center}
@@ -117,14 +126,50 @@ not detected for significant periods of time.
       Gyroscope & 0.1 $rad/s$ & 250 Hz \\
       % walk & 0.01 $rad/s$  \\
       % init & 0.01 $rad/s$ \\
-      UAV global position & 0.01 $m$ & 10 Hz \\
-      UAV global attitude & 0.001 $rad$ & 10 Hz \\
+      UAV global position & 0.05 $m$ & 10 Hz \\
+      UAV global attitude & 0.01 $rad$ & 10 Hz \\
       Fiducial marker position & 0.1 $m$ & 30 Hz \\
       Fiducial marker attitude & 0.1 $rad$ & 30 Hz \\
       Landmark image point & 2.0 pixels & 30 Hz \\
     \end{tabular}
   \end{center}
 \end{table}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{plots/no_lms_gp.png}
+  \caption{Simulation results with the estimator using no visual
+  landmarks. The blue line represents the true state while the orange line
+  represents the estimated state. The two grey lines show a 2 $\sigma$ bound for
+  the estimate based on the estimated covariance. Measurements from the fiducial
+  marker are not used after $t$~=~5
+$s$ to demonstrate the performance of the estimator.}
+  \label{fig:no_lms_gp}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{plots/no_lms_gv.png}
+  \caption{Simulation results with the estimator using no visual
+  landmarks. The blue line represents the true state while the orange line
+  represents the estimated state. The two grey lines show a 2 $\sigma$ bound for
+  the estimate based on the estimated covariance. Measurements from the fiducial
+  marker are not used after $t$~=~5
+$s$ to demonstrate the performance of the estimator.}
+  \label{fig:no_lms_gv}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{plots/no_lms_gatt.png}
+  \caption{Simulation results with the estimator using no visual
+  landmarks. The blue line represents the true state while the orange line
+  represents the estimated state. The two grey lines show a 2 $\sigma$ bound for
+  the estimate based on the estimated covariance. Measurements from the fiducial
+  marker are not used after $t$~=~5
+$s$ to demonstrate the performance of the estimator.}
+  \label{fig:no_lms_gatt}
+\end{figure}
 
 \begin{figure}
   \centering
@@ -153,31 +198,16 @@ $s$ to demonstrate the performance of the estimator.}
   \label{fig:with_lms_gatt}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics[scale=0.5]{plots/no_lms_gp.png}
-  \caption{Simulation results with estimator using no visual
-  landmarks. Measurements from the fiducial marker are not used after $t$ = 5
-$s$ to demonstrate the performance of the estimator.}
-  \label{fig:no_lms_gp}
-\end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[scale=0.5]{plots/no_lms_gv.png}
+  \includegraphics[scale=0.5]{plots/mc_no_lms_xy_err.png}
   \caption{Simulation results with estimator using no visual
   landmarks. Measurements from the fiducial marker are not used after $t$ = 5
-$s$ to demonstrate the performance of the estimator.}
-  \label{fig:no_lms_gv}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[scale=0.5]{plots/no_lms_gatt.png}
-  \caption{Simulation results with estimator using no visual
-  landmarks. Measurements from the fiducial marker are not used after $t$ = 5
-$s$ to demonstrate the performance of the estimator.}
-  \label{fig:no_lms_gatt}
+$s$ to demonstrate the performance of the estimator. The L2 norm of the error in
+the x and y directions of the goal position is seen for 100 different simulation
+runs.}
+  \label{fig:mc_no_lms_xy_err}
 \end{figure}
 
 \begin{figure}
@@ -191,13 +221,3 @@ runs.}
   \label{fig:mc_with_lms_xy_err}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics[scale=0.5]{plots/mc_no_lms_xy_err.png}
-  \caption{Simulation results with estimator using no visual
-  landmarks. Measurements from the fiducial marker are not used after $t$ = 5
-$s$ to demonstrate the performance of the estimator. The L2 norm of the error in
-the x and y directions of the goal position is seen for 100 different simulation
-runs.}
-  \label{fig:mc_no_lms_xy_err}
-\end{figure}
