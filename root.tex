@@ -31,7 +31,18 @@ Engineering, Brigham Young University, Provo, UT, 84602, USA.}% <-this % stops a
 \maketitle
 
 \begin{abstract}
-The abstract goes here.
+  We propose an error-state Kalman filter to improve the state estimation of a
+  landing vehicle as observed by an approaching multirotor UAV. As is common, we
+  assume that the landing vehicle is outfitted with a fiducial landing marker.
+  In addition to measurements from the fiducial landing marker, the proposed
+  estimator uses measurements of visual landmarks which are tracked in the UAV's
+  camera frame. We assume that these tracked visual landmarks are rigidly
+  attached to the landing vehicle such that they provide information to the
+  filter about the relative position of the landing vehicle to the UAV. We show
+  in both simulation and hardware experiments that the addition of these visual
+  landmarks to the filter allows for accurate and consistent estimates of the
+  state of the landing vehicle even when the fiducial landing marker is not
+  detected for significant periods of time.
 \end{abstract}
 
 \section{Introduction} \label{sec:intro}

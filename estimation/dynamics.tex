@@ -55,9 +55,11 @@ $\x_{\text{UAV}}$ given by
 % $\vect{\eta}_v$, 
 where $\vect{\eta}_{\beta_a}$ and $\vect{\eta}_{\beta_\omega}$
 are zero-mean Gaussian noise processes for the corresponding states.
-We assume that the landing vehicle moves according to a unicycle motion model
+We model the motion of the landing vehicle with a unicycle motion model
 with a constant velocity and a constant
-angular velocity. The dynamics of $\x_{\text{Goal}}$ are expressed as
+angular velocity. Though this is a very simplified model, we show
+in~\secref{sec:simulation} and~\secref{sec:hardware} that it is sufficient for
+cases that do not perfectly match this model. The dynamics of $\x_{\text{Goal}}$ are expressed as
 % \begin{align}
   % \dot{\hat{\vect{p}}}_{g/b}^{v} &= \left( \hat{R}_{I}^{g} \right)^\transpose
   % \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
@@ -74,11 +76,11 @@ angular velocity. The dynamics of $\x_{\text{Goal}}$ are expressed as
   \dot{\theta}_{I}^{g} &= \omega_{g/I}^g \nonumber \\
   \dot{\omega}_{g/I}^{g} &= \eta_{g\omega} \nonumber,
 \end{align}
-where $\vect{eta}_{gv}$ and $\eta_{g\omega}$ are zero-mean Gaussian noise
+where $\vect{\eta}_{gv}$ and $\eta_{g\omega}$ are zero-mean Gaussian noise
 processes for the corresponding goal states.
 As mentioned previously, we assume the visual landmarks are rigidly
-attached to the landing vehicle. This means that the dynamics of their
-associated state is simply
+attached to the landing vehicle. This means that there are no dynamics 
+of their associated states
 \begin{equation}
   \dot{\vect{r}}_{i/g}^g = \vect{0}. \label{eq:landmark_dynamics}
   % \dot{\hat{\vect{r}}}_{i/g}^g = \vect{0}. \label{eq:landmark_dynamics}

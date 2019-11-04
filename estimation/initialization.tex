@@ -27,7 +27,7 @@ The linear and angular velocity of the landing vehicle are initialized to
 zero with large enough covariances for the specific use case.
 
 Similar to the manner in which the goal states are intialized,
-the new landmark states are initialized based on the first measurement received.
+the landmark states are initialized based on the first corresponding measurement received.
 % each time a new
 % landmark is added to the estimated vector, we initialize its state based on the
 % first measurement received.
@@ -59,7 +59,7 @@ sides, we get
     p_x \\ p_y \\ 1
   \end{bmatrix}
 \end{equation}
-which is equivalent to
+which can be rotated and solved to yield
 \begin{equation}
  \vect{p}_{i/c}^v
   =
@@ -79,11 +79,13 @@ As $\e_3^\transpose \vect{p}_{i/c}^c$ is unknown, we define
 \end{equation}
 which is equivalent to $\vect{p}_{i/c}^v$ up to a scale factor. As previously
 mentioned, we estimate this scale factor by assuming that $\e_3^\transpose
-\vect{r}_{i/g}^g = 0$. This means that
+\vect{r}_{i/g}^g = 0$ such that
+\begin{equation}
+  \e_3^\transpose \hat{\vect{p}}_{i/c}^v = \e_3^\transpose \hat{\vect{p}}_{g/b}^v -
+  \e_3^\transpose \left( \hat{R}_I^b \right)^\transpose \hat{\vect{p}}_{c/b}^b.
+\end{equation}
+This is used to solve for $\hat{\vect{r}}_{i/g}^g$ with
 \begin{align}
-  \e_3^\transpose \hat{\vect{p}}_{i/c}^v &= \e_3^\transpose \hat{\vect{p}}_{g/b}^v -
-  \e_3^\transpose \left( \hat{R}_I^b \right)^\transpose \hat{\vect{p}}_{c/b}^b
-  \\
   \hat{\vect{p}}_{i/c}^v &= \frac{\e_3^\transpose
   \hat{\vect{p}}_{i/c}^v}{\e_3^\transpose \scaled{\vect{p}}_{i/c}^v} \scaled{\vect{p}}_{i/c}^v
   \\

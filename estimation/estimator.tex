@@ -1,11 +1,11 @@
 % !TEX root=./root.tex
 
-The propsed estimator estimates both the state of
-the UAV and the state of the landing vehicle as well as the positions of visual
-landmarks on the landing vehicle.
+% The propsed estimator estimates both the state of
+% the UAV and the state of the landing vehicle as well as the positions of visual
+% landmarks on the landing vehicle.
 % in the same Error-State Kalman
 % filter~\cite{sola2017quaternion}.
-We express the state of the combined estimated system as the tuple
+We express the state of the estimated system as the tuple
 \begin{equation*}
   \hat{\x} =
   \begin{pmatrix}
@@ -53,10 +53,10 @@ The estimated states associated with the UAV, $\hat{\vect{x}}_{\text{UAV}}$,
 contain the traditionally estimated states of position, attitude, and velocity
 in addition to bias states for the accelerometer and gyroscope sensors. The
 estimated states associated with the landing vehicle,
-$\hat{\vect{x}}_{\text{Goal}}$, also contain the position, attitude and velocity
-of the landing vehicle in addition to the angular velocity. We note that the
+$\hat{\vect{x}}_{\text{Goal}}$, contain the position, attitude and velocity
+of the landing vehicle in addition to its angular velocity. We note that the
 estimated position of the landing vehicle is relative to the position of the UAV
-as the relative state is observable even with poor estimates of the UAV's global
+as this relative state is observable even with poor estimates of the UAV's global
 position, $\hat{\vect{p}}_{g/I}^I$.
 % Note that $\hat{\vect{x}}_{\text{UAV}}$ contains the same states mentioned previously
 % in~\secref{sec:UAV_dynamics} with the addition of $\hat{\vect{\beta}}_a$ and
@@ -96,10 +96,10 @@ The error-state of the estimated system is defined by
   \end{bmatrix}
   \in \mathbb{R}^{22 + 3n}.
 \end{equation*}
-Each vector component of $\hat{\x}$ has a corresponding error-state component
-defined with the vector subtraction operator as
+We define the error-state component of the vector states, $\x_{\vect{v}}$, with
+the vector subtraction operator as
 \begin{equation}
-  \tilde{\vect{p}} = \vect{p} - \hat{\vect{p}}.
+\tilde{\x}_{\vect{v}} = \x_{\vect{v}} - \hat{\x}_{\vect{v}}.
 \end{equation}
 We follow~\cite{koch2017relative}, defining the error-state of the quaternion
 $\hat{\q}_I^b$ as the minimal representation
@@ -117,7 +117,9 @@ that the estimated state is of dynamic size. As visual landmarks are
 detected they are added to the state vector until a maximum size of the state
 vector is reached. As the visual landmarks leave the field of view of the camera
 or are otherwise no longer tracked, they are removed from the estimated state
-vector to make room for new visual landmarks to be added. In the following
+vector to make room for new visual landmarks to be added.
+
+In the following
 subsections, we describe the dynamic equations used to model the state of the
 estimated system, the
 initialization of certain states, and the specific

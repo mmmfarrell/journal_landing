@@ -8,7 +8,8 @@ platforms. For the majority of commercial use cases, these UAVs are required to 
 completely autonomously as skilled pilots are often not feasible due to
 limitations in line of sight or communication with the UAV. 
 A variety of emerging use cases
-require the multirotor UAV to operate from a moving vehicle. These use
+require the multirotor UAV to operate from a moving vehicle instead of from the
+static world. These use
 cases include martitime surveillance, where the UAV must take off and land from
 a martitime vessel at sea
 and package delivery, where the UAV operates from a large truck
@@ -44,13 +45,13 @@ featured a stage that included landing a multirotor UAV on a visual fiducial
 marker atop a moving golf
 cart~\cite{baca2019autonomous,falanga2017vision,beul2017fast,cantelli2017autonomous}.
 While some methods employ image based visual servoing for
-landing~\cite{lee2012autonomous,wynn2019visual}, most of the other methods
+landing~\cite{lee2012autonomous,wynn2019visual}, most of the methods
 require an estimate of the state of the landing vehicle.
 Ling notes in~\cite{ling2014precision} that it is important to model the
 dynamics of the landing vehicle so that they can be propagated forward for short
 periods of time when the fiducial marker is not
 detected. All of the mentioned
-approaches, however, break if the fiducial marker is not detected for
+approaches, however, fail if the fiducial marker is not detected for
 significant periods of time.
 Even if the state of the landing vehicle is estimated, the estimates are only as
 good as the
@@ -69,9 +70,11 @@ detected and tracked features to help estimate camera motion.
 % \cite{mourikis2007multi} MSCKF, uses SIFT features
 % \cite{mur2015orb} ORB SLAM
 In these methods, the tracked visual features are assumed to belong to the
-static world. While a method using visual odometry techniques has been used for landing on
-moving platforms~\cite{falanga2017vision}, still, only static features are
-tracked. During the landing phase, it is not uncommon, however, for the landing vehicle
+static world. While a method using visual odometry techniques has been
+previously used for landing on
+moving platforms~\cite{falanga2017vision}, the method still only tracks and uses
+static features.
+During the landing phase, it is not uncommon, however, for the landing vehicle
 to occupy the entire field of view of the UAV's camera, making it not possible
 to track static features throughout the duration of the flight.
 The proposed estimator, instead, tracks

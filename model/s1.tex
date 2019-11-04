@@ -1,8 +1,30 @@
 % TEX root=../root.tex
 
-\subsection{S1}
-We treat S1 as a vector space but make sure to wrap residuals between -pi and
-pi. 
-
-Also a 2D rotation matrix can be made like this...
-And a 3D rotation matrix like this..
+\subsection{2D Rotation Group}
+We parameterize the 2D rotation group as an angle, $\theta$, that respresents
+the angle of rotation about a given axis. We treat $\theta$ as a vector space
+that uses the common addition and subtraction operators such that
+\begin{align}
+  \theta_I^g &= \theta_I^b + \theta_b^g \\
+  \theta_I^b &= \theta_I^g - \theta_b^g.
+\end{align}
+We note, however, that all addition and subtraction operations are wrapped such
+that the resultant angle $\in \left[ \right. -\pi, \pi \left. \right)$. The 2D
+rotation matrix can be created from any $\theta$ as
+\begin{equation}
+  R \left( \theta \right) = \begin{bmatrix} \ctheta & -\stheta \\ \stheta &
+  \ctheta \end{bmatrix}.
+\end{equation}
+If $\theta$ represents the angle of rotation about the $z$ axis of a frame, then
+the corresponding 3D rotation matrix is given by
+\begin{equation}
+  R \left( \theta \right) = \begin{bmatrix}
+    \ctheta & -\stheta & 0 \\
+    \stheta & \ctheta & 0 \\
+    0 & 0 & 1
+  \end{bmatrix}.
+\end{equation}
+% We treat S1 as a vector space but make sure to wrap residuals between -pi and
+% pi. 
+% Also a 2D rotation matrix can be made like this...
+% And a 3D rotation matrix like this..
