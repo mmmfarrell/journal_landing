@@ -301,6 +301,51 @@ which we define as
 \begin{equation*}
   \vect{p}_{i/c}^c = \hat{\vect{p}}_{i/c}^c + \tilde{\vect{p}}_{i/c}^c .
 \end{equation*}
+For simplificty we note that 
+\begin{equation}
+  H_{\text{pix}} = \frac{\partial}{\partial \tilde{\x}} \vect{r}_{\text{pix}}
+\end{equation}
+and that
+\begin{align*}
+  \frac{\partial}{\partial \tilde{\x}} \left( \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
+  \hat{\vect{p}}_{i/c}^c \right) &= \vect{0}
+\\
+  \frac{\partial}{\partial \tilde{\x}} \vect{\eta}_{\text{pix}} &= \vect{0}
+\end{align*}
+such that
+\begin{equation}
+  H_{\text{pix}} = \frac{\partial}{\partial \tilde{\x}}
+ \left( \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} I_{2 \times 3} K
+ \vect{p}_{i/c}^c \right).
+\end{equation}
+We expand this using the chain rule to show that
+\begin{align}
+  H_{\text{pix}} &= \frac{\partial}{\partial \tilde{\x}}
+ \left( \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} I_{2 \times 3} K
+ \vect{p}_{i/c}^c \right) \\
+  &= 
+ \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} I_{2 \times 3} K
+ \frac{\partial}{\partial \tilde{\x}} \vect{p}_{i/c}^c 
+ - \frac{\e_3^\transpose \frac{\partial}{\partial \tilde{\x}} 
+ \vect{p}_{i/c}^c}{\left( \e_3^\transpose
+ \vect{p}_{i/c}^c \right)^2 } I_{2 \times 3} K
+  \vect{p}_{i/c}^c. 
+\end{align}
+Using the equation above,
+\begin{align*}
+  \frac{\partial}{\partial \tilde{\vect{\theta}}_I^b } \vect{p}_{i/c}^c
+  &=
+  R_b^c \left( \skewmat{} \right) \\
+  \frac{\partial}{\partial \tilde{\vect{p}}_{g/b}^v} \vect{p}_{i/c}^c
+  &=
+  R_b^c \hat{R}_I^b \\
+  \frac{\partial}{\partial \tilde{\theta}_I^g} \vect{p}_{i/c}^c
+  &=
+  0 \\
+  \frac{\partial}{\partial \tilde{\vect{r}}_{i/c}^c} \vect{p}_{i/c}^c
+  &=
+  0 \\
+\end{align*}
 
 
 % where $f_x$, $f_y$, $c_x$, and $c_y$ are constant parameters of the camera. We
