@@ -108,7 +108,7 @@ $\vect{z}_{\text{ft}}$, the residual is given by
   \right),
 \end{equation*}
 which is modeled as
-\begin{align*}
+\begin{align}
   \vect{r}_{\text{ft}} &=  h_{\text{ft}} \left( \x \right) - h_{\text{ft}} \left( \hat{\x}
   \right), \\
                        &= R_b^c \left( R_I^b \vect{p}_{g/b}^v -
@@ -116,14 +116,32 @@ which is modeled as
     \vect{p}_{c/b}^b \right)  \\
                        &= R_b^c R_I^b \vect{p}_{g/b}^v 
                           - R_b^c \hat{R}_I^b \hat{\vect{p}}_{g/b}^v +
-                          \eta_{\text{rt}} \\
-                       &= R_b^c \left( I - \skewmat{\tilde{\vect{\theta}}_I^b }\right) \hat{R}_I^b \left( \hat{\vect{p}}_{g/b}^v + \tilde{\vect{p}}_{g/b}^v \right) 
-                          - R_b^c \hat{R}_I^b \hat{\vect{p}}_{g/b}^v +
                           \eta_{\text{rt}}.
-\end{align*}
-Expanding and removing second-order terms,
+                          \label{eq:rft_1}
+\end{align}
+We note that from~\eqref{eq:quat_true_state},
+\begin{equation*}
+  R_I^b = R \left( \exp_{\q} \left( \tilde{\vect{\theta}}_I^b \right) \right)
+  \hat{R}_I^b,
+\end{equation*}
+which can be simplifed using~\eqref{eq:quaternion_exp_approx}
+and~\eqref{eq:R_from_q} to show that
+\begin{equation}
+  R_I^b \approx \left( I - \skewmat{\tilde{\vect{\theta}}_I^b }\right) \hat{R}_I^b.
+  \label{eq:expand_R}
+\end{equation}
+We can similarly show that 
+\begin{equation}
+  \left( R_I^b \right)^\transpose \approx \left( \hat{R}_I^b \right)^\transpose
+  \left( I + \skewmat{\tilde{\vect{\theta}}_I^b }\right).
+\end{equation}
+Using~\eqref{eq:expand_R}, we can expand~\eqref{eq:rft_1} and ignore
+second-order terms to yield
 \begin{align*}
-  \vect{r}_{\text{ft}} &\approx R_b^c \hat{R}_I^b \tilde{\vect{p}}_{g/b}^v -
+   \vect{r}_{\text{ft}} &\approx R_b^c \left( I - \skewmat{\tilde{\vect{\theta}}_I^b }\right) \hat{R}_I^b \left( \hat{\vect{p}}_{g/b}^v + \tilde{\vect{p}}_{g/b}^v \right) 
+                          - R_b^c \hat{R}_I^b \hat{\vect{p}}_{g/b}^v +
+                          \eta_{\text{rt}} \\
+  &\approx R_b^c \hat{R}_I^b \tilde{\vect{p}}_{g/b}^v -
   R_b^c \skewmat{\tilde{\vect{\theta}}_I^b } \hat{R}_I^b \hat{\vect{p}}_{g/b}^v 
       + \eta_{\text{rt}} \\
 &= R_b^c \hat{R}_I^b \tilde{\vect{p}}_{g/b}^v + R_b^c \skewmat{\hat{R}_I^b \hat{\vect{p}}_{g/b}^v} \tilde{\vect{\theta}}_I^b 
