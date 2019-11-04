@@ -104,7 +104,14 @@ the vector subtraction operator as
 We follow~\cite{koch2017relative}, defining the error-state of the quaternion
 $\hat{\q}_I^b$ as the minimal representation
 \begin{equation}
-  \tilde{\vect{\theta}}_I^b = \log_{\q} \left( \left( \hat{\q}_I^b \right)^{-1} \otimes \q_I^b \right).
+  \tilde{\vect{\theta}}_I^b = \log_{\q} \left( \left( \hat{\q}_I^b \right)^{-1}
+  \otimes \q_I^b \right),
+\end{equation}
+which also gives us
+\begin{equation}
+  \q_I^b  = \hat{\q}_I^b \otimes \exp_{\q} \left( \tilde{\vect{\theta}}_I^b
+  \right).
+  \label{eq:quat_true_state}
 \end{equation}
 When
 updating the filter with measurements, we make use of the partial Kalman update

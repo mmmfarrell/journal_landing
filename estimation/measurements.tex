@@ -59,7 +59,7 @@ given by
   \hat{\x} \right)^{-1} \otimes \vect{z}_{\text{att}} \right)
   % \vect{r}_{\text{att}} = \vect{z}_{\text{att}} - h_{\text{att}} \left( \hat{\x}
 \end{equation*}
-which is modeled and simplified using~\eqref{eq:quat_err_state}
+which is modeled and simplified using~\eqref{eq:quat_true_state}
 \begin{align*}
   \vect{r}_{\text{att}} &= \log_{\q} \left(  h_{\text{att}} \left(
   \hat{\x} \right)^{-1} \otimes h_{\text{att}} \left( \x \right) \right) \\
@@ -90,7 +90,7 @@ marker yields a measurement of the relative translation and rotation from the
 camera frame to the goal frame as noted in~\eqref{eq:fiducial_meas}.
 The measurement model and its estimate
 therefore can be written as
-\begin{align}
+\begin{align*}
   h_{\text{ft}} \left( \x \right) &=
   \vect{p}_{g/c}^c + \vect{\eta}_{\text{ft}} \\
   &= R_b^c \left( R_I^b \vect{p}_{g/b}^v -
@@ -100,7 +100,7 @@ therefore can be written as
   &= R_b^c \left( \hat{R}_I^b \hat{\vect{p}}_{g/b}^v -
     \vect{p}_{c/b}^b \right). 
   % \hat{\vect{q}}_{c}^a  &= R_g^a \hat{R}_I^g \hat{R}_b^I R_c^b
-\end{align}
+\end{align*}
 For a given measurement of the relative translation to the fiducial marker,
 $\vect{z}_{\text{ft}}$, the residual is given by
 \begin{equation*}
@@ -150,9 +150,10 @@ This results in the measurement jacobian
 % \end{align}
 
 \subsubsection{Fidual Rotation Measurement}
-We use the relative rotation measurement from the camera frame to the goal frame
+We use the relative rotation measurement that results from a detection of the
+fiducial marker
 to create a pseudo measurement of the orientation of the goal frame. This pseudo
-measurement is described as
+measurement is created with
 \begin{equation}
   \bar{\theta}_I^g = yaw \left( \bar{R}_c^g R_b^c \hat{R}_I^b \right).
 \end{equation}
@@ -269,109 +270,109 @@ We first expand~\eqref{eq:p_i_c_c}
   % \end{bmatrix}.
 % \end{equation}
 
-Let us derive the measurement jacobians.
-\begin{align}
-  \frac{\partial}{\partial \x} \hat{h} &= \frac{\e_3^\transpose \hat{\vect{p}}_{i/c}^c
-  \frac{\partial}{\partial \x} K \hat{\vect{p}}_{i/c}^c - K \hat{\vect{p}}_{i/c}^c
-  \frac{\partial}{\partial \x} \e_3^\transpose \hat{\vect{p}}_{i/c}^c}{\left(
-\e_3^\transpose \hat{\vect{p}}_{i/c}^c \right)^2 } \\
-  \frac{\partial}{\partial \x} \hat{h} &= \frac{\e_3^\transpose \hat{\vect{p}}_{i/c}^c
-  K \frac{\partial}{\partial \x} \hat{\vect{p}}_{i/c}^c - K \hat{\vect{p}}_{i/c}^c
-  \e_3^\transpose \frac{\partial}{\partial \x} \hat{\vect{p}}_{i/c}^c}{\left(
-\e_3^\transpose \hat{\vect{p}}_{i/c}^c \right)^2 }
-\end{align}
-\begin{align}
-  \frac{\partial}{\partial \vect{p}_{g/b}^v} \hat{\vect{p}}_{i/c}^c &=
-  R_b^c \hat{R}_I^b \\
-  \frac{\partial}{\partial \vect{q}_{I}^b} \hat{\vect{p}}_{i/c}^c &=
-  -R_b^c \hat{R}_I^b \skewmat{ \left( R_I^g \right)^\transpose
-  \hat{\vect{r}}_{i/g}^g + \hat{\vect{p}}_{g/b}^v } \\
-  \frac{\partial}{\partial \theta_I^g} \hat{\vect{p}}_{i/c}^c &=
-  R_b^c \hat{R}_I^b \\
-\end{align}
+% Let us derive the measurement jacobians.
+% \begin{align}
+  % \frac{\partial}{\partial \x} \hat{h} &= \frac{\e_3^\transpose \hat{\vect{p}}_{i/c}^c
+  % \frac{\partial}{\partial \x} K \hat{\vect{p}}_{i/c}^c - K \hat{\vect{p}}_{i/c}^c
+  % \frac{\partial}{\partial \x} \e_3^\transpose \hat{\vect{p}}_{i/c}^c}{\left(
+% \e_3^\transpose \hat{\vect{p}}_{i/c}^c \right)^2 } \\
+  % \frac{\partial}{\partial \x} \hat{h} &= \frac{\e_3^\transpose \hat{\vect{p}}_{i/c}^c
+  % K \frac{\partial}{\partial \x} \hat{\vect{p}}_{i/c}^c - K \hat{\vect{p}}_{i/c}^c
+  % \e_3^\transpose \frac{\partial}{\partial \x} \hat{\vect{p}}_{i/c}^c}{\left(
+% \e_3^\transpose \hat{\vect{p}}_{i/c}^c \right)^2 }
+% \end{align}
+% \begin{align}
+  % \frac{\partial}{\partial \vect{p}_{g/b}^v} \hat{\vect{p}}_{i/c}^c &=
+  % R_b^c \hat{R}_I^b \\
+  % \frac{\partial}{\partial \vect{q}_{I}^b} \hat{\vect{p}}_{i/c}^c &=
+  % -R_b^c \hat{R}_I^b \skewmat{ \left( R_I^g \right)^\transpose
+  % \hat{\vect{r}}_{i/g}^g + \hat{\vect{p}}_{g/b}^v } \\
+  % \frac{\partial}{\partial \theta_I^g} \hat{\vect{p}}_{i/c}^c &=
+  % R_b^c \hat{R}_I^b \\
+% \end{align}
 
-% \subsubsection{Measurement Jacobian}
-For the purpose of deriving the jacobians, we will just look at the jacobians
-with respect to $p_x$, the pixel location along the $x$ axis of the camera
-frame. From above we have that
-\begin{align}
-  p_x &= f_x \frac{\e_1^\transpose \vect{p}_{i/c}^c}{\e_3^\transpose \vect{p}_{i/c}^c} + c_x \\ 
-  p_x &= f_x \frac{\e_1^\transpose R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-      \vect{p}_{c/b}^b\right) }{\e_3^\transpose R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  \vect{p}_{c/b}^b\right) } + c_x 
-\end{align}
-Note that all values are constants except for $\vect{p}_{i/v}^v$ and $R_v^b$.
-The individual parts of the jacobian are given here:
-\begin{equation}
-  \frac{\partial p_x}{\partial \vect{p}_{g/v}^v} =
-  \frac{f_x \e_1 R_b^c R_v^b}
-    {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    \vect{p}_{c/b}^b\right)\right)}
-    - \frac{\left(\e_3 R_b^c R_v^b \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-        \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  \vect{p}_{c/b}^b\right)\right)^2}
-\end{equation}
-where only the first two (of three) entries of the vector are used. The third
-entry is used for the jacobian w.r.t. $\vect{p}_{b/I}^I(2)$ as
-\begin{equation}
-  \frac{\partial p_x}{\partial \vect{p}_{b/I}^I(2)} = -\frac{\partial p_x}{\partial
-  \vect{p}_{g/v}^v}\left(2\right).
-\end{equation}
-The derivatives for the attitude representation are less straight forward. From
-"Micro Lie Theory" we use the fact that the jacobian of the rotation action can
-be shown to be
-\begin{equation}
-  J_R^{R \cdot v} = -R \skewmat{v}.
-\end{equation}
-\begin{equation}
-  \frac{\partial p_x}{\partial \q} =
-  \frac{-f_x \e_1 R_b^c R_v^b \skewmat{\vect{p}_{i/v}^v}}
-    {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    \vect{p}_{c/b}^b\right)\right)}
-    - \frac{\left(-\e_3 R_b^c R_v^b \skewmat{\vect{p}_{i/v}^v} \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-        \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  \vect{p}_{c/b}^b\right)\right)^2}
-\end{equation}
-where the jacobians for the other angles are similar, just substituting in.
-The derivative for the goal angle, $\theta_g$ is given by using
-\begin{equation}
-  \frac{\partial \vect{p}_{i/v}^v}{\partial \theta_g} =
-  \begin{bmatrix}
-    \e_1^\transpose \frac{\partial R_g^v}{\partial \theta_g} \vect{p}_{i/g}^g \\
-    \e_2^\transpose \frac{\partial R_g^v}{\partial \theta_g} \vect{p}_{i/g}^g \\
-    0
-  \end{bmatrix}
-\end{equation}
-in the jacobian given by
-\begin{equation}
-  \frac{\partial p_x}{\partial \theta_g} =
-  \frac{f_x \e_1 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \theta_g}}
-    {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    \vect{p}_{c/b}^b\right)\right)}
-    - \frac{\left(\e_3 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \theta_g} \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-        \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  \vect{p}_{c/b}^b\right)\right)^2}
-\end{equation}
-Similarly, the derivative for the landmark offset, $\vect{r}_i$ or
-$\vect{p}_{i/g}^g$ is given by using
-\begin{equation}
-  \frac{\partial \vect{p}_{i/v}^v}{\partial \vect{p}_{i/g}^g} =
-  \begin{bmatrix}
-    \e_1^\transpose R_g^v \\
-    \e_2^\transpose R_g^v \\
-    \e_3^\transpose
-  \end{bmatrix}
-\end{equation}
-in the jacobian given by
-\begin{equation}
-  \frac{\partial p_x}{\partial \vect{p}_{i/g}^g} =
-  \frac{f_x \e_1 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \vect{p}_{i/g}^g}}
-    {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    \vect{p}_{c/b}^b\right)\right)}
-    - \frac{\left(\e_3 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \vect{p}_{i/g}^g} \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-        \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  \vect{p}_{c/b}^b\right)\right)^2}
-\end{equation}
-The jacobians for the y pixel measurement, $p_y$ are similar to the ones derived
-above, just changing $f_y$ in place of $f_x$ and $\e_2$ instead of $\e_1$.
+% % \subsubsection{Measurement Jacobian}
+% For the purpose of deriving the jacobians, we will just look at the jacobians
+% with respect to $p_x$, the pixel location along the $x$ axis of the camera
+% frame. From above we have that
+% \begin{align}
+  % p_x &= f_x \frac{\e_1^\transpose \vect{p}_{i/c}^c}{\e_3^\transpose \vect{p}_{i/c}^c} + c_x \\ 
+  % p_x &= f_x \frac{\e_1^\transpose R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+      % \vect{p}_{c/b}^b\right) }{\e_3^\transpose R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+  % \vect{p}_{c/b}^b\right) } + c_x 
+% \end{align}
+% Note that all values are constants except for $\vect{p}_{i/v}^v$ and $R_v^b$.
+% The individual parts of the jacobian are given here:
+% \begin{equation}
+  % \frac{\partial p_x}{\partial \vect{p}_{g/v}^v} =
+  % \frac{f_x \e_1 R_b^c R_v^b}
+    % {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+    % \vect{p}_{c/b}^b\right)\right)}
+    % - \frac{\left(\e_3 R_b^c R_v^b \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+        % \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+  % \vect{p}_{c/b}^b\right)\right)^2}
+% \end{equation}
+% where only the first two (of three) entries of the vector are used. The third
+% entry is used for the jacobian w.r.t. $\vect{p}_{b/I}^I(2)$ as
+% \begin{equation}
+  % \frac{\partial p_x}{\partial \vect{p}_{b/I}^I(2)} = -\frac{\partial p_x}{\partial
+  % \vect{p}_{g/v}^v}\left(2\right).
+% \end{equation}
+% The derivatives for the attitude representation are less straight forward. From
+% "Micro Lie Theory" we use the fact that the jacobian of the rotation action can
+% be shown to be
+% \begin{equation}
+  % J_R^{R \cdot v} = -R \skewmat{v}.
+% \end{equation}
+% \begin{equation}
+  % \frac{\partial p_x}{\partial \q} =
+  % \frac{-f_x \e_1 R_b^c R_v^b \skewmat{\vect{p}_{i/v}^v}}
+    % {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+    % \vect{p}_{c/b}^b\right)\right)}
+    % - \frac{\left(-\e_3 R_b^c R_v^b \skewmat{\vect{p}_{i/v}^v} \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+        % \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+  % \vect{p}_{c/b}^b\right)\right)^2}
+% \end{equation}
+% where the jacobians for the other angles are similar, just substituting in.
+% The derivative for the goal angle, $\theta_g$ is given by using
+% \begin{equation}
+  % \frac{\partial \vect{p}_{i/v}^v}{\partial \theta_g} =
+  % \begin{bmatrix}
+    % \e_1^\transpose \frac{\partial R_g^v}{\partial \theta_g} \vect{p}_{i/g}^g \\
+    % \e_2^\transpose \frac{\partial R_g^v}{\partial \theta_g} \vect{p}_{i/g}^g \\
+    % 0
+  % \end{bmatrix}
+% \end{equation}
+% in the jacobian given by
+% \begin{equation}
+  % \frac{\partial p_x}{\partial \theta_g} =
+  % \frac{f_x \e_1 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \theta_g}}
+    % {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+    % \vect{p}_{c/b}^b\right)\right)}
+    % - \frac{\left(\e_3 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \theta_g} \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+        % \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+  % \vect{p}_{c/b}^b\right)\right)^2}
+% \end{equation}
+% Similarly, the derivative for the landmark offset, $\vect{r}_i$ or
+% $\vect{p}_{i/g}^g$ is given by using
+% \begin{equation}
+  % \frac{\partial \vect{p}_{i/v}^v}{\partial \vect{p}_{i/g}^g} =
+  % \begin{bmatrix}
+    % \e_1^\transpose R_g^v \\
+    % \e_2^\transpose R_g^v \\
+    % \e_3^\transpose
+  % \end{bmatrix}
+% \end{equation}
+% in the jacobian given by
+% \begin{equation}
+  % \frac{\partial p_x}{\partial \vect{p}_{i/g}^g} =
+  % \frac{f_x \e_1 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \vect{p}_{i/g}^g}}
+    % {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+    % \vect{p}_{c/b}^b\right)\right)}
+    % - \frac{\left(\e_3 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \vect{p}_{i/g}^g} \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+        % \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
+  % \vect{p}_{c/b}^b\right)\right)^2}
+% \end{equation}
+% The jacobians for the y pixel measurement, $p_y$ are similar to the ones derived
+% above, just changing $f_y$ in place of $f_x$ and $\e_2$ instead of $\e_1$.
 
