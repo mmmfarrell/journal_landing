@@ -245,11 +245,45 @@ which is modeled as
   \vect{p}_{i/c}^c + \vect{\eta}_{\text{pix}} - \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
   \hat{\vect{p}}_{i/c}^c.
 \end{align}
-We first expand~\eqref{eq:p_i_c_c}
+To compute the measurement jacobian, we first expand~\eqref{eq:p_i_c_c}
+\MF{This measurement jac is very crazy and the derivation may not be 100~\% correct}
 \begin{align}
-  \vect{p}_{i/c}^c &= R_b^c \left( R_I^b \left( R_I^g \right)^\transpose
-  \vect{r}_{i/g}^g + R_I^b \vect{p}_{g/b}^v - \vect{p}_{c/b}^b \right).
+  \vect{p}_{i/c}^c &= R_b^c \left( \left( I - \skewmat{\tilde{\vect{\theta}}_I^b
+    } \right) \hat{R}_I^b \left( I + \skewmat{\tilde{\vect{\theta}}_I^g }
+  \right) \left( \hat{R}_I^g \right)^\transpose
+\left( \hat{\vect{r}}_{i/g}^g  + \tilde{\vect{r}}_{i/g}^g \right) + \left( I - \skewmat{\tilde{\vect{\theta}}_I^b
+} \right) \hat{R}_I^b \left( \hat{\vect{p}}_{g/b}^v + \tilde{\vect{p}}_{g/b}^v \right) - \vect{p}_{c/b}^b \right).
 \end{align}
+By simplifying and ignoring secord-order terms,
+\begin{align*}
+  \vect{p}_{i/c}^c &= R_b^c \left( \hat{R}_I^b \left( \hat{R}_I^g \right)^\transpose
+  \hat{\vect{r}}_{i/g}^g + \hat{R}_I^b \hat{\vect{p}}_{g/b}^v - \vect{p}_{c/b}^b
+  - \skewmat{\tilde{\vect{\theta}}_I^b} \hat{R}_I^b \left( \hat{R}_I^g
+    \right)^\transpose \hat{\vect{r}}_{i/g}^g + \hat{R}_I^b
+    \skewmat{\tilde{\vect{\theta}}_I^g} \left( \hat{R}_I^g
+  \right)^\transpose \hat{\vect{r}}_{i/g}^g +
+\hat{R}_I^b \left( \hat{R}_I^g
+    \right)^\transpose \tilde{\vect{r}}_{i/g}^g \right. \\
+                   &- \left. \skewmat{\tilde{\vect{\theta}}_I^b} \hat{R}_I^b \hat{\vect{p}}_{g/b}^v
+    + \hat{R}_I^b \tilde{\vect{p}}_{g/b}^v
+   \right). \\
+    &= \hat{\vect{p}}_{i/c}^c
+    + R_b^c \left( 
+  - \skewmat{\tilde{\vect{\theta}}_I^b} \hat{R}_I^b \left( \hat{R}_I^g
+    \right)^\transpose \hat{\vect{r}}_{i/g}^g + \hat{R}_I^b
+    \skewmat{\tilde{\vect{\theta}}_I^g} \left( \hat{R}_I^g
+  \right)^\transpose \hat{\vect{r}}_{i/g}^g +
+\hat{R}_I^b \left( \hat{R}_I^g
+    \right)^\transpose \tilde{\vect{r}}_{i/g}^g
+                   - \skewmat{\tilde{\vect{\theta}}_I^b} \hat{R}_I^b \hat{\vect{p}}_{g/b}^v
+    + \hat{R}_I^b \tilde{\vect{p}}_{g/b}^v
+   \right), 
+\end{align*}
+which we define as
+\begin{equation*}
+  \vect{p}_{i/c}^c = \hat{\vect{p}}_{i/c}^c + \tilde{\vect{p}}_{i/c}^c .
+\end{equation*}
+
 
 % where $f_x$, $f_y$, $c_x$, and $c_y$ are constant parameters of the camera. We
 % can then express the position of the landmark $i$ with respect to the camera in the
