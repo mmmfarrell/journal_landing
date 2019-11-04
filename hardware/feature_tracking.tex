@@ -12,17 +12,17 @@ landing vehicle takes up the entire field of view of the camera.
 Visual features are first detected using a FAST feature
 detector~\cite{rosten2006machine}. Features are then tracked from one frame to
 the next using optical flow~\cite{bouguet2001pyramidal}. Periodically, we remove
-features that have been tracked poorly by computing the Essential matrix between
-the current camera image and a stored keyframe image using RANSAC. Outliers to the found
+features that have been tracked poorly by estimating the Essential matrix between
+the current camera image and a stored keyframe image. Outliers to the found
 Essential matrix are thrown out, and new FAST features are detected to replace
-them. For our experiements, the feature tracker attempted to maintain 250
-tracked features. As the proposed estimator only uses measurements from a few
+them. For our experiements, the feature tracker attempts to maintain 250
+tracked features at all times. As the proposed estimator only uses measurements from a few
 tracked features, a subset of the features which have been tracked the longest
 are provided to the estimator. 
 
 Each visual feature that is acquired and tracked is assigned a unique integer
 identitication number. The estimator uses these identification numbers to
-determine when a visual feature is no longer tracked and should be removed from
+determine when a visual feature is no longer tracked and, therefore, should be removed from
 the estimated state.
 An example camera image from the UAV showing the
 subset of tracked features provided to the estimator and their identificantion
