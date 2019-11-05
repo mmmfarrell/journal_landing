@@ -264,7 +264,6 @@ which is modeled as
   \hat{\vect{p}}_{i/c}^c.
 \end{align}
 To compute the measurement jacobian, we first expand~\eqref{eq:p_i_c_c}
-\MF{This measurement jac is very crazy and the derivation may not be 100~\% correct}
 \begin{align}
   \vect{p}_{i/c}^c &= R_b^c \left( \left( I - \skewmat{\tilde{\vect{\theta}}_I^b
     } \right) \hat{R}_I^b \left( I + \skewmat{\tilde{\vect{\theta}}_I^g }
@@ -301,7 +300,7 @@ which we define as
 \begin{equation*}
   \vect{p}_{i/c}^c = \hat{\vect{p}}_{i/c}^c + \tilde{\vect{p}}_{i/c}^c .
 \end{equation*}
-For simplificty we note that 
+For simplicity we note that 
 \begin{equation}
   H_{\text{pix}} = \frac{\partial}{\partial \tilde{\x}} \vect{r}_{\text{pix}}
 \end{equation}
@@ -330,22 +329,39 @@ We expand this using the chain rule to show that
  \vect{p}_{i/c}^c}{\left( \e_3^\transpose
  \vect{p}_{i/c}^c \right)^2 } I_{2 \times 3} K
   \vect{p}_{i/c}^c. 
+  \label{eq:H_pix_expanded}
 \end{align}
-Using the equation above,
+As $\vect{p}_{i/c}^c$ appears in~\eqref{eq:H_pix_expanded}, we substitute in our
+best possible guess for this vector, $\hat{\vect{p}}_{i/c}^c$, such that
+\begin{align}
+  H_{\text{pix}} 
+  &\approx
+  \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
+ \frac{\partial}{\partial \tilde{\x}} \vect{p}_{i/c}^c 
+ - \frac{\e_3^\transpose \frac{\partial}{\partial \tilde{\x}} 
+ \vect{p}_{i/c}^c}{\left( \e_3^\transpose
+ \hat{\vect{p}}_{i/c}^c \right)^2 } I_{2 \times 3} K
+ \hat{\vect{p}}_{i/c}^c. 
+\end{align}
+We define $\frac{\partial}{\partial \tilde{\x}} \vect{p}_{i/c}^c}$ by its
+non-zero components,
 \begin{align*}
   \frac{\partial}{\partial \tilde{\vect{\theta}}_I^b } \vect{p}_{i/c}^c
   &=
-  R_b^c \left( \skewmat{} \right) \\
+  R_b^c \skewmat{ \hat{R}_I^b \left( \left( \hat{R}_I^g \right)^\transpose
+  \hat{\vect{r}}_{i/g}^g + \hat{\vect{p}}_{g/b}^v \right) } \\
   \frac{\partial}{\partial \tilde{\vect{p}}_{g/b}^v} \vect{p}_{i/c}^c
   &=
   R_b^c \hat{R}_I^b \\
   \frac{\partial}{\partial \tilde{\theta}_I^g} \vect{p}_{i/c}^c
   &=
-  0 \\
+  R_b^c \hat{R}_I^b \left( \hat{R}_I^g \right)^\transpose
+  \skewmat{\begin{matrix} 0 \\ 0 \\ 1 \end{matrix}} \hat{\vect{r}}_{i/g}^g \\
   \frac{\partial}{\partial \tilde{\vect{r}}_{i/c}^c} \vect{p}_{i/c}^c
   &=
-  0 \\
+  R_b^c \hat{R}_I^b \left( \hat{R}_I^g \right)^\transpose .
 \end{align*}
+
 
 
 % where $f_x$, $f_y$, $c_x$, and $c_y$ are constant parameters of the camera. We
