@@ -206,9 +206,9 @@ This results in the measurement jacobian
   % \frac{\partial \hat{\theta}_I^g}{\partial \theta_I^g} = 1.
 % \end{equation}
 
-\subsubsection{Landmark Pixel Measurement}
+\subsubsection{Visual Feature Pixel Measurement}
 As described in~\eqref{eq:pixel_meas}, the estimator receives measurements of
-the location of each visual landmark in the camera image. We assume that the
+the location of each visual feature in the camera image. We assume that the
 pixel measurements received have already been corrected for lens distortion.
 Using the pinhole camera model, we therefore express the pixel locations as
 \begin{align}
@@ -249,7 +249,7 @@ where
   \hat{\vect{r}}_{i/g}^g + \hat{R}_I^b \hat{\vect{p}}_{g/b}^v - \vect{p}_{c/b}^b
 \right).
 \end{align}
-For a given measurement of the pixel location of a landmark,
+For a given measurement of the pixel location of a feature,
 $\vect{z}_{\text{pix}}$, the residual is given by
 \begin{equation}
   \vect{r}_{\text{pix}} = \vect{z}_{\text{pix}} - h_{\text{pix}} \left( \hat{\x}
@@ -343,7 +343,7 @@ best possible guess for this vector, $\hat{\vect{p}}_{i/c}^c$, such that
  \hat{\vect{p}}_{i/c}^c \right)^2 } I_{2 \times 3} K
  \hat{\vect{p}}_{i/c}^c. 
 \end{align}
-We define $\frac{\partial}{\partial \tilde{\x}} \vect{p}_{i/c}^c}$ by its
+We define $\frac{\partial}{\partial \tilde{\x}} \vect{p}_{i/c}^c$ by its
 non-zero components,
 \begin{align*}
   \frac{\partial}{\partial \tilde{\vect{\theta}}_I^b } \vect{p}_{i/c}^c

@@ -1,6 +1,6 @@
 % !TEX root=./root.tex
 
-\subsection{Goal and Landmark Initialization}
+\subsection{Goal and Feature Initialization}
 The goal states are initialized upon receiving the first measurement from
 the detection of the fiducial landing marker. We assume that we can measure the
 relative translation and rotation from the camera to the fiducial marker
@@ -27,19 +27,19 @@ The linear and angular velocity of the landing vehicle are initialized to
 zero with large enough covariances for the specific use case.
 
 Similar to the manner in which the goal states are intialized,
-the landmark states are initialized based on the first corresponding measurement received.
+the visual feature states are initialized based on the first corresponding measurement received.
 % each time a new
 % landmark is added to the estimated vector, we initialize its state based on the
 % first measurement received.
 As we only receive measurements of the pixel
-location of the visual landmark in the camera image,
+location of the visual feature in the camera image,
 \begin{equation}
   \vect{z} = \begin{bmatrix} \bar{p}_x & \bar{p}_y \end{bmatrix}
   \label{eq:pixel_meas},
 \end{equation}
 the full estimated state, $\hat{\vect{r}}_{i/g}^g$, is not observered.
 Therefore, to initialize
-the landmark states, we assume that the landmark lies in the $xy$ plane of the
+the feature states, we assume that the feature lies in the $xy$ plane of the
 goal frame, initializing the $z$ component of $\hat{\vect{r}}_{i/g}^g$ to zero with a
 large enough covariance for the specific landing vehicle. To compute the
 $x$ and $y$ components of $\hat{\vect{r}}_{i/g}^g$, we start with the pinhole camera

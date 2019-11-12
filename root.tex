@@ -1,5 +1,5 @@
-\documentclass[journal,onecolumn]{IEEEtran}
-% \documentclass[journal]{IEEEtran}
+% \documentclass[journal,onecolumn]{IEEEtran}
+\documentclass[journal]{IEEEtran}
 
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
@@ -33,15 +33,16 @@ Engineering, Brigham Young University, Provo, UT, 84602, USA.}% <-this % stops a
 
 \begin{abstract}
   We propose an error-state Kalman filter to improve the state estimation of a
-  landing vehicle as observed by an approaching multirotor UAV. As is common, we
+  landing vehicle as observed by an approaching multirotor unmanned aerial
+  vehicle (UAV). As is common, we
   assume that the landing vehicle is outfitted with a fiducial landing marker.
   In addition to measurements from the fiducial landing marker, the proposed
-  estimator uses measurements of visual landmarks which are tracked in the UAV's
-  camera frame. We assume that these tracked visual landmarks are rigidly
+  estimator uses measurements of visual features which are tracked in the UAV's
+  camera frame. We assume that these tracked visual features are rigidly
   attached to the landing vehicle such that they provide information to the
-  filter about the relative position of the landing vehicle to the UAV. We show
+  filter about the relative pose from the UAV to the landing vehicle. We show
   in both simulation and hardware experiments that the addition of these visual
-  landmarks to the filter allows for accurate and consistent estimates of the
+  features to the filter allows for accurate and consistent estimates of the
   state of the landing vehicle even when the fiducial landing marker is not
   detected for significant periods of time.
 \end{abstract}
@@ -90,9 +91,9 @@ Engineering, Brigham Young University, Provo, UT, 84602, USA.}% <-this % stops a
 The proposed estimator provides a method for maintaining accurate and consistent
 estimates of the state of a landing vehicle when a fiducial landing marker is
 not detected for significant periods of time. This improvement is achieved by
-tracking and estimating the locations of unknown visual landmarks on the landing
+tracking and estimating the locations of unknown visual features on the landing
 vehicle. The simulation and hardware experiments show that by tracking and
-estimating the locations of just 10 visual landmarks, the multirotor UAV can
+estimating the locations of just 10 visual features, the multirotor UAV can
 continue to reliably operate with respect to the landing vehicle for long
 periods of time without detecting the fiducial landing marker.
 

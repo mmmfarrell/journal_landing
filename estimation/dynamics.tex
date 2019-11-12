@@ -78,12 +78,12 @@ cases that do not perfectly match this model. The dynamics of $\x_{\text{Goal}}$
 \end{align}
 where $\vect{\eta}_{gv}$ and $\eta_{g\omega}$ are zero-mean Gaussian noise
 processes for the corresponding goal states.
-As mentioned previously, we assume the visual landmarks are rigidly
+As mentioned previously, we assume the visual features are rigidly
 attached to the landing vehicle. This means that there are no dynamics 
 of their associated states
 \begin{equation}
-  \dot{\vect{r}}_{i/g}^g = \vect{0}. \label{eq:landmark_dynamics}
-  % \dot{\hat{\vect{r}}}_{i/g}^g = \vect{0}. \label{eq:landmark_dynamics}
+  \dot{\vect{r}}_{i/g}^g = \vect{0}. \label{eq:feature_dynamics}
+  % \dot{\hat{\vect{r}}}_{i/g}^g = \vect{0}. \label{eq:feature_dynamics}
 \end{equation}
 
 % \subsubsection{UAV State Jacobians}
@@ -512,16 +512,16 @@ of their associated states
     % \frac{\partial \vect{z}}{\partial \vect{p}_{g/v}^v}\left(2\right).
 % \end{align}
 
-% \subsection{Landmark Pixel Measurement}
-% We assume that landmark locations that are rigidly attached to the landing
+% \subsection{Visual Feature Pixel Measurement}
+% We assume that feature locations that are rigidly attached to the landing
 % vehicle are tracked in the camera image. For now we will just have a fixed
-% number of landmarks that are tracked for the entire duration of the flight, even
+% number of feature that are tracked for the entire duration of the flight, even
 % when they leave the FOV of the camera and reenter. In real life, however, the
-% landmarks must be dynamically added and removed from the estimated states vector
+% feature must be dynamically added and removed from the estimated states vector
 % as they leave the FOV of the camera and more are acquired.
 
 % \subsubsection{Measurement Model}
-% The measurement is a pixel location of each landmark in the camera image
+% The measurement is a pixel location of each feature in the camera image
 % \begin{equation}
   % \vect{z} =
   % \begin{bmatrix}
@@ -541,7 +541,7 @@ of their associated states
   % \end{bmatrix},
 % \end{align}
 % where $f_x$, $f_y$, $c_x$, and $c_y$ are constant parameters of the camera. We
-% can then express the position of the landmark $i$ with respect to the camera in the
+% can then express the position of the feature $i$ with respect to the camera in the
 % camera frame as
 % \begin{align}
   % \vect{p}_{i/c}^c &= R_b^c R_v^b \left(\vect{p}_{i/v}^v -
