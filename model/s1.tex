@@ -1,26 +1,28 @@
 % TEX root=../root.tex
 
 \subsection{2D Rotation Group}
-We parameterize the 2D rotation group as an angle, $\theta$, that respresents
-the angle of rotation about a given axis. We treat $\theta$ as a vector space
+We parameterize the 2D rotation group as an angle, $\psi$, that respresents
+the angle of rotation about a given axis. We treat $\psi$ as a vector space
 that uses the common addition and subtraction operators such that
 \begin{align}
-  \theta_I^g &= \theta_I^b + \theta_b^g \\
-  \theta_I^b &= \theta_I^g - \theta_b^g.
+  \psi_a^c &= \psi_a^b + \psi_b^c \\
+  \psi_a^b &= \psi_a^c - \psi_b^c.
 \end{align}
-We note, however, that all addition and subtraction operations are wrapped such
-that the resultant angle $\in \left[ \right. -\pi, \pi \left. \right)$. The 2D
-rotation matrix can be created from any $\theta$ as
+We note, however, that with this formulation, all addition and subtraction
+operations must be wrapped such
+that the resultant angle $\psi \in \left[ \right. -\pi, \pi \left. \right)$. The
+passive 2D
+rotation matrix can be created from any $\psi$ as
 \begin{equation}
-  R \left( \theta \right) = \begin{bmatrix} \ctheta & -\stheta \\ \stheta &
-  \ctheta \end{bmatrix}.
+  R \left( \psi \right) = \begin{bmatrix} \cos \psi & -\sin \psi \\ \sin \psi &
+  \cos \psi \end{bmatrix}.
 \end{equation}
-If $\theta$ represents the angle of rotation about the $z$ axis of a frame, then
-the corresponding 3D rotation matrix is given by
+If $\psi$ represents the angle of rotation about the $z$ axis of a frame, then
+the corresponding passive 3D rotation matrix is given by
 \begin{equation}
-  R \left( \theta \right) = \begin{bmatrix}
-    \ctheta & -\stheta & 0 \\
-    \stheta & \ctheta & 0 \\
+  R \left( \psi \right) = \begin{bmatrix}
+    \cos \psi & -\sin \psi & 0 \\
+    \sin \psi & \cos \psi & 0 \\
     0 & 0 & 1
   \end{bmatrix}.
 \end{equation}

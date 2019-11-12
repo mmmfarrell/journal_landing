@@ -9,40 +9,52 @@
 
 We use the Hamiltonian notation for unit quaternions $\in S^3$
 \begin{equation}
-\q=\begin{pmatrix}q_{0} & q_{x}i & q_{y} j & q_{z}k \end{pmatrix}.%=\begin{pmatrix}q_{0} & \bar{\q} \end{pmatrix},
+  \q=\begin{pmatrix}q_{0} & q_{x}\vect{i} & q_{y} \vect{j} & q_{z} \vect{k} \end{pmatrix}.%=\begin{pmatrix}q_{0} & \bar{\q} \end{pmatrix},
 \end{equation}
-% and define the complex numbers $i$, $j$, and $k$, such that
+% We write the complex p
+% For convenience, we sometimes refer to the complex portion of the quaternion as
 % \begin{equation}
-% \begin{array}{rrrcc}
-	% & & ij &= -ji &= k, \\
-	% & & jk &= -kj &= i, \\
-	% & & ki &= -ik &= j, \\
-	% i^2 &= j^2 &= k^2 & = ijk &= -1.
-% \end{array}
+	% \bar{\q} = \begin{bmatrix} q_x & q_y & q_z \end{bmatrix} ^\transpose
 % \end{equation}
-For convenience, we sometimes refer to the complex portion of the quaternion as
+% and write quaternions as the tuple of the real and complex portions
+We write quaternions as the tuple of the real and complex portions
 \begin{equation}
-	\bar{\q} = \begin{bmatrix} q_x & q_y & q_z \end{bmatrix} ^\transpose
+	\q = \begin{pmatrix} q_0 \\ \bar{\q} \end{pmatrix}
 \end{equation}
-and write quaternions as the tuple of the real and complex portions
+where $q_0$ represents the real portion of the quaternion and the complex
+portion of the quaternion is given by
 \begin{equation}
-	\q = \begin{pmatrix} q_0 \\ \bar{\q} \end{pmatrix}.
+	\bar{\q} = \begin{bmatrix} q_x & q_y & q_z \end{bmatrix} ^\transpose.
 \end{equation}
 
-Given our use of the Hamiltonian notation, the quaternion group operator
+% Given our use of the Hamiltonian notation, the quaternion group operator
+Given this representation of the quaternion, the quaternion group operator
 $\otimes$ can be written as the following matrix-like product
 \begin{equation}
 	\q^a \otimes \q^b = \begin{pmatrix} -q_0^a & \left(-\bar{\q}^{a}\right)^\transpose \\ \bar{\q}^a & q^a_0 I + \skewmat{\bar{\q}^a} \end{pmatrix}
 	\begin{pmatrix} q^b \\ \bar{\q}^b\end{pmatrix}.
 \end{equation}
-It is often convenient to convert a quaternion $\q$ to its associated passive rotation matrix.  This is done with
+% It is often convenient to convert a quaternion $\q$ to its associated passive rotation matrix.  This is done with
+We frequently convert a quaternion $\q$ to its associated passive rotation
+matrix. This is done with
 \begin{equation}
 \label{eq:R_from_q}
 R\left(\q\right)=\left(2q_{0}^{2}-1\right)I-2q_{0}\skewmat{\bar{\q}}+2\bar{\q}\bar{\q}^{\top}\in SO\left(3\right).
 \end{equation}
+We also note that rotations are written equivalently as
+$\q_a^b=R\left(\q_a^b\right)=R_a^b$, throughout the paper, where the choice of these is dictated by convenience.
+% We use passive rotation matrices, meaning that the rotation matrix $R_a^b$ acts
+% on a vector $\vect{r}^a$, expressed in frame $a$, and results in the same
+% vector, now expressed in frame $b$ as
+% \begin{equation}
+% \vect{r}^b = R_a^b \vect{r}^a .
+% \end{equation}
 
-We also need to frequently convert between the Lie group, $S^3$, and the Lie
-algebra, $\mathbb{R}^3$, which enables us to operate in a vector space. This is done with the
+% We need to frequently convert between the Lie group, $S^3$, and the Lie
+% algebra, $\mathbb{R}^3$, which enables us to operate in a vector space.
+To operate in a vector space, we frequently convert between the Lie group,
+$S^3$, and the Lie algebra, $\mathbb{R}^3$.
+This is done with the
 exponential and logarithmic mappings. The exponential mapping for a unit quaternion is defined as
 \begin{align}
 \exp_{\q} & :\mathbb{R}^{3}\rightarrow S^3\nonumber \\
@@ -55,7 +67,10 @@ with the corresponding logarithmic map defined as
 \log_{\q} & :S^3\rightarrow \mathbb{R}^{3}\nonumber \\
 \log_{\q}\left(\q\right) & \triangleq2\;\mathrm{atan2}\left(\left\Vert \bar{\q}\right\Vert ,q_{0}\right)\frac{\bar{\q}}{\left\Vert \bar{\q}\right\Vert }.\label{eqn:log_map}
 \end{align}
-To avoid numerical issues when $\norm{\vect{\delta}}\approx0$, we also employ the small-angle approximations of the quaternion exponential and logarithm
+% To avoid numerical issues when $\norm{\vect{\delta}}\approx0$, we also employ the small-angle approximations of the quaternion exponential and logarithm
+When $\norm{\vect{\delta}}\approx0$,
+we employ the small-angle approximations of the quaternion exponential and
+logarithm given by
 \begin{align}
 \exp_{\q}\left(\vect{\delta}\right) & \approx\begin{bmatrix}1\\
 \frac{\vect{\delta}}{2}
@@ -63,13 +78,6 @@ To avoid numerical issues when $\norm{\vect{\delta}}\approx0$, we also employ th
 \log_{\q}\left(\q\right) & \approx2\;\textrm{sign}\left(q_{0}\right)\bar{\q}.\label{eq:quaternion_log_approx}
 \end{align}
 
-We also note that rotations may be written equivalently as $\q_a^b=R\left(\q_a^b\right)=R_a^b$, where the choice of these is dictated by convenience.
-We use passive rotation matrices, meaning that the rotation matrix $R_a^b$ acts
-on a vector $\vect{r}^a$, expressed in frame $a$, and results in the same
-vector, now expressed in frame $b$ as
-\begin{equation}
-\vect{r}^b = R_a^b \vect{r}^a .
-\end{equation}
 
 % The $\boxplus$/$\boxminus$ notation for unit quaternions is now defined by
 % \begin{align*}
