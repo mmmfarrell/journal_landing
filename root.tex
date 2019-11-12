@@ -1,5 +1,9 @@
-% \documentclass[journal,onecolumn]{IEEEtran}
-\documentclass[journal]{IEEEtran}
+\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out if you need a4paper
+
+\IEEEoverridecommandlockouts                              % This command is only needed if 
+                                                          % you want to use the \thanks command
+
+\overrideIEEEmargins                                      % Needed to meet printer requirements.
 
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
@@ -17,8 +21,12 @@
 
 \begin{document}
 
-\title{Improving State Estimation of a Landing Vehicle From a Multirotor UAV
-Using Feature Tracking}
+% \title{Improving State Estimation of a Landing Vehicle From a Multirotor UAV
+% Using Feature Tracking}
+\title{\LARGE \bf
+Improving State Estimation of a Landing Vehicle \\
+From a Multirotor UAV Using Feature Tracking
+}
 
 \author{Michael~Farrell
         and~Tim~McLain
@@ -30,6 +38,8 @@ Engineering, Brigham Young University, Provo, UT, 84602, USA.}% <-this % stops a
 }
 
 \maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
 
 \begin{abstract}
   We propose an error-state Kalman filter to improve the state estimation of a
