@@ -1,6 +1,13 @@
 % !TEX root=./root.tex
 
 \subsection{Measurement Models}
+\label{sec:measurement_models}
+
+When
+updating the filter with measurements, we make use of the partial Kalman update
+as first introduced by~\cite{brink2017partial} to improve the estimation of the
+bias states as well as the constant values $\vect{r}_{1/g}^{g} \dots
+\vect{r}_{n/g}^{g}$.
 
 \subsubsection{Global UAV Position Measurement}
 We assume to have some measurement of the position of the UAV with respect to
