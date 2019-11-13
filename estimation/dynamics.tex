@@ -49,8 +49,8 @@ angular velocity motion model such that
   % \dot{\hat{\omega}}_{g/I}^{g} &= 0. \nonumber
 % \end{align}
 \begin{align}
-  \dot{\vect{p}}_{g/b}^{v} &= \left( R_{I}^{g} \right)^\transpose
-  \vect{v}_{g/I}^{g} - \left( R_{I}^{b} \right)^\transpose
+  \dot{\vect{p}}_{g/b}^{v} &= I_{3 \times 2} \left( R_{I}^{g} \right)^\transpose
+   \vect{v}_{g/I}^{g} - \left( R_{I}^{b} \right)^\transpose
   \vect{v}_{b/I}^{b} \label{eq:goal_dynamics} \\
   \dot{\vect{v}}_{g/I}^{g} &= \vect{\eta}_{gv} \nonumber \\
   \dot{\psi}_{I}^{g} &= \omega_{g/I}^g \nonumber \\
@@ -101,8 +101,8 @@ of~\eqref{eq:uav_dynamics}, \eqref{eq:goal_dynamics}, and
   \\
   \dot{\hat{\vect{\beta}}}_\omega &= \vect{0} \nonumber
   \\
-  \dot{\hat{\vect{p}}}_{g/b}^{v} &= \left( \hat{R}_{I}^{g} \right)^\transpose
-  \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \dot{\hat{\vect{p}}}_{g/b}^{v} &= I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+   \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
   \hat{\vect{v}}_{b/I}^{b} \nonumber \\
   \dot{\hat{\vect{v}}}_{g/I}^{g} &= \vect{0} \nonumber \\
   \dot{\hat{\psi}}_{I}^{g} &= \hat{\omega}_{g/I}^g \nonumber \\
@@ -415,7 +415,106 @@ expression:
 \end{align}
 
 \subsubsection{UAV Bias Error-State Dynamics}
+To derive the error-state dynamics for the UAV bias states, we start with the
+time derivative of their error-state definitions
+\begin{align}
+  \dot{\tilde{\vect{\beta}}}_a &= \dot{\vect{\beta}}_a -
+  \dot{\hat{\vect{\beta}}}_a \\
+  \dot{\tilde{\vect{\beta}}}_\omega &= \dot{\vect{\beta}}_\omega -
+  \dot{\hat{\vect{\beta}}}_\omega
+\end{align}
+We then substitue in the dynamics from~\eqref{eq:uav_dynamics}
+and~\eqref{eq:estimated_dynamics} to yield the final expression
+\begin{align}
+  \dot{\tilde{\vect{\beta}}}_a &= \vect{\eta}_{\beta_a} \\
+  \dot{\tilde{\vect{\beta}}}_\omega &= \vect{\eta}_{\beta_\omega}.
+\end{align}
+
 \subsubsection{Landing Vehicle Position Error-State Dynamics}
+Similar to the method used for the UAV states, to derive the error-state
+dynamics for the landing vehicle position state, we start with the time
+derivative of the error-state definition
+\begin{equation}
+  \dot{\tilde{\vect{p}}}_{g/b}^{v} = \dot{\vect{p}}_{g/b}^{v} -
+  \dot{\hat{\vect{p}}}_{g/b}^{v}.
+\end{equation}
+We then substitue in the dynamics from~\eqref{eq:goal_dynamics}
+and~\eqref{eq:estimated_dynamics} and expand using the error-state definitions
+and approximations
+\begin{align}
+  \dot{\tilde{\vect{p}}}_{g/b}^{v}
+  &=
+  I_{3 \times 2} \left( R_{I}^{g} \right)^\transpose
+  \vect{v}_{g/I}^{g} - \left( R_{I}^{b} \right)^\transpose
+  \vect{v}_{b/I}^{b}
+  -
+  \left(
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \hat{\vect{v}}_{b/I}^{b}
+  \right) \\
+  &\approx
+  \label{eq:goal_pos_err_state1}
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \left( R \left( \tilde{\psi}_{I}^{g} \right) \right)^\transpose
+  \left( \hat{\vect{v}}_{g/I}^{g} + \tilde{\vect{v}}_{g/I}^{g} \right) - \left(
+  \hat{R}_{I}^{b} \right)^\transpose
+  \left( I + \skewmat{\tilde{\vect{\theta}}_I^b} \right)
+  \left( \hat{\vect{v}}_{b/I}^{b} + \tilde{\vect{v}}_{b/I}^{b} \right) \\
+  & \qquad -
+  \left(
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \hat{\vect{v}}_{b/I}^{b}
+  \right). \nonumber
+\end{align}
+From~\cite{sola2018micro}, by assuming $\tilde{\psi}_I^g$ is small, we can approximate 
+\begin{equation}
+  \left( R \left( \tilde{\psi}_I^g \right) \right)^\transpose \approx I -
+  \skewmat{\tilde{\psi}_I^g}
+  \label{eq:2d_err_rot_approx}
+\end{equation}
+where the two dimensional skew-symmetric matrix is given by
+\begin{equation}
+  \skewmat{\psi} \triangleq
+  \begin{bmatrix}
+    0 & -\psi \\
+    \psi & 0
+  \end{bmatrix}.
+\end{equation}
+We can then substitue~\eqref{eq:2d_err_rot_approx}
+into~\eqref{eq:goal_pos_err_state1} and simplify and neglect higher-order terms
+to get the final expression
+\begin{align}
+  \dot{\tilde{\vect{p}}}_{g/b}^{v}
+  &\approx
+  \label{eq:goal_pos_err_state1}
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \left( I - \skewmat{\tilde{\psi}_I^g} \right)
+  \left( \hat{\vect{v}}_{g/I}^{g} + \tilde{\vect{v}}_{g/I}^{g} \right)
+  - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \left( I + \skewmat{\tilde{\vect{\theta}}_I^b} \right)
+  \left( \hat{\vect{v}}_{b/I}^{b} + \tilde{\vect{v}}_{b/I}^{b} \right) \\
+  & \qquad -
+  \left(
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \hat{\vect{v}}_{b/I}^{b}
+  \right). \nonumber \\
+  &\approx
+  \label{eq:goal_pos_err_state1}
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \tilde{\vect{v}}_{g/I}^g
+  +
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \skewmat{ \tilde{\psi}_I^g } \hat{\vect{v}}_{g/I}^g
+  +
+  \left( \hat{R}_{I}^{b} \right)^\transpose \skewmat{ \hat{\vect{v}}_{b/I}^{b} } 
+  \tilde{\vect{\theta}}_I^b
+  -
+  \left( \hat{R}_{I}^{b} \right)^\transpose \tilde{\vect{v}}_{b/I}^{b} .
+\end{align}
+
 \subsubsection{Landing Vehicle Velocity Error-State Dynamics}
 \subsubsection{Landing Vehicle Attitude Error-State Dynamics}
 \subsubsection{Landing Vehicle Angular Rate Error-State Dynamics}
