@@ -170,9 +170,14 @@ first-order approximation of the error-state dynamics are given by
   \dot{\tilde{\vect{r}}}_{i/g}^g &= \vect{0}. \nonumber
 \end{align}
 The derivation of these error-state dynamics can be found in
-Appendix~\ref{apdx:estimation_err_state_derivation}. The Jacobians used for the
-filter propagation are found by differentiating the error-state dynamics with
-respect to the the error-state and input noise resulting in
+Appendix~\ref{apdx:estimation_err_state_derivation}. In practice, the expected
+value of the error-state remains zero over the propagation window, and only the
+error covariance, $P$ is propagated forward using
+\begin{equation}
+  \dot{P} = FP + PF^\transpose + G Q_{\vect{u}} G^\transpose + Q_{\vect{x}}
+\end{equation}
+where $Q_{\vect{u}}$ is the input noise covariance, $Q_{\vect{x}}$ is the
+process noise covariance,
 \begin{align}
   F &= \frac{ \partial \dot{\tilde{\x}} }{ \partial \tilde{\x} } \\
     &=
@@ -207,7 +212,7 @@ respect to the the error-state and input noise resulting in
                & 0 & 0 & \vect{0} \\
       \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
                & 0 & 0 & \vect{0}
-    \end{bmatrix}
+    \end{bmatrix},
 \end{align}
 and
 \begin{align}
