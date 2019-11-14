@@ -34,7 +34,7 @@ We use the standard basis vectors $\vect{e}_1, \vect{e}_2, \vect{e}_3$,
 where $\vect{e}_1 = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix}^\transpose$,
 $\vect{e}_2 = \begin{bmatrix} 0 & 1 & 0 \end{bmatrix}^\transpose$,
 and $\vect{e}_3 = \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^\transpose$.
-We also use the skew-symmetric matrix operator
+We use the skew-symmetric matrix operator
 % We make frequent use of the skew-symmetric matrix operator defined by
 \begin{equation}
   \skewmat{\vect{v}} \triangleq
@@ -51,6 +51,14 @@ which is related to the cross-product between two vectors as
 and the skew-symmetric identity that
 \begin{equation}
   \skewmat{\vect{v}} \vect{w} = -\skewmat{\vect{w}} \vect{v}.
+\end{equation}
+We also use the 2D skew-symmetric operator which acts on a scalar
+\begin{equation}
+  \skewmat{a} \triangleq
+  \begin{bmatrix}
+  0 & a \\
+  a & 0
+  \end{bmatrix}.
 \end{equation}
 We use the identity matrix $I$ as well as submatricies of $I$ denoted with
 subscripts such that
