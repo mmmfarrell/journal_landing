@@ -31,10 +31,10 @@ with the components defined as
   % \end{bmatrix}^\transpose \\
     \hat{\x}_{\text{Goal}} & =
     \begin{pmatrix}
-      \hat{\vect{p}}_{g/b}^{v}, \hat{\vect{v}}_{g/I}^{g}, \hat{R}_{I}^{g},
+      \hat{\vect{p}}_{g/b}^{v}, \hat{\vect{v}}_{g/I}^{g}, \hat{\psi}_{I}^{g},
       \hat{\omega}_{g/I}^{g}
     \end{pmatrix}
-    \in \mathbb{R}^3 \times \mathbb{R}^2 \times SO(2) \times \mathbb{R}^1
+    \in \mathbb{R}^3 \times \mathbb{R}^2 \times \mathbb{R}^1 \times \mathbb{R}^1
     \\
     \hat{\x}_{\text{Features}} & =
     \begin{pmatrix}
@@ -128,10 +128,11 @@ such that
   \tilde{\vect{p}}_{b/I}^I = \vect{p}_{b/I}^I - \hat{\vect{p}}_{b/I}^I.
   \label{eq:est_paper_uav_pos_err_state}
 \end{equation}
-% We reiterate that we treat $\psi_I^g \in S^1$ as a vector space such that
-% \begin{equation}
-  % \tilde{\psi}_I^g = \psi_I^g - \hat{\psi}_I^g.
-% \end{equation}
+We reiterate that we treat $\psi_I^g$ as a vector space such that
+\begin{equation}
+  \tilde{\psi}_I^g = \psi_I^g - \hat{\psi}_I^g.
+\end{equation}
+
 We follow~\cite{koch2017relative}, defining the error-state of the quaternion
 state,
 $\q_I^b$,
@@ -154,15 +155,15 @@ quaternions,~\eqref{eq:quat_true_state} can also be expressed as
   \hat{R}_I^b.
   \label{eq:rot_true_state}
 \end{equation}
-Similarly, we define the error-state of the 2D rotation matrix state, $R_I^g$,
-as
-\begin{equation}
-  \tilde{\psi}_I^g = \log_R \left(  
-  R_I^g \left( \hat{R}_I^g \right)^\transpose \right)
-  \label{eq:2d_rot_err_state}
-\end{equation}
+% Similarly, we define the error-state of the 2D rotation matrix state, $R_I^g$,
+% as
+% \begin{equation}
+  % \tilde{\psi}_I^g = \log_R \left(  
+  % R_I^g \left( \hat{R}_I^g \right)^\transpose \right)
+  % \label{eq:2d_rot_err_state}
+% \end{equation}
 
-To derive the error-state dynamics and the measurement model jacobians in the
+To derive the error-state dynamics and the measurement model Jacobians in the
 following sections, we
 use an approximation for~\eqref{eq:rot_true_state} developed by first expanding
 the

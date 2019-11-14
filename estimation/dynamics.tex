@@ -53,8 +53,8 @@ angular velocity motion model such that
    \vect{v}_{g/I}^{g} - \left( R_{I}^{b} \right)^\transpose
   \vect{v}_{b/I}^{b} \label{eq:goal_dynamics} \\
   \dot{\vect{v}}_{g/I}^{g} &= \vect{\eta}_{gv} \nonumber \\
-  % \dot{\psi}_{I}^{g} &= \omega_{g/I}^g \nonumber \\
-  \dot{R}_{I}^{g} &= -\skewmat{ \omega_{g/I}^g } R_I^g \nonumber \\
+  \dot{\psi}_{I}^{g} &= \omega_{g/I}^g \nonumber \\
+  % \dot{R}_{I}^{g} &= -\skewmat{ \omega_{g/I}^g } R_I^g \nonumber \\
   \dot{\omega}_{g/I}^{g} &= \eta_{g\omega} \nonumber
 \end{align}
 where $\vect{\eta}_{gv}$ and $\eta_{g\omega}$ are zero-mean Gaussian noise
@@ -107,8 +107,8 @@ of~\eqref{eq:uav_dynamics}, \eqref{eq:goal_dynamics}, and
    \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
   \hat{\vect{v}}_{b/I}^{b} \nonumber \\
   \dot{\hat{\vect{v}}}_{g/I}^{g} &= \vect{0} \nonumber \\
-  % \dot{\hat{\psi}}_{I}^{g} &= \hat{\omega}_{g/I}^g \nonumber \\
-  \dot{\hat{R}}_{I}^{g} &= -\skewmat{ \hat{\omega}_{g/I}^g } \hat{R}_I^g \nonumber \\
+  \dot{\hat{\psi}}_{I}^{g} &= \hat{\omega}_{g/I}^g \nonumber \\
+  % \dot{\hat{R}}_{I}^{g} &= -\skewmat{ \hat{\omega}_{g/I}^g } \hat{R}_I^g \nonumber \\
   \dot{\hat{\omega}}_{g/I}^{g} &= 0 \nonumber \\
   \dot{\hat{\vect{r}}}_{i/g}^g &= \vect{0}. \nonumber
 \end{align}
