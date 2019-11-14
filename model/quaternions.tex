@@ -29,12 +29,15 @@ portion of the quaternion is given by
 
 % Given our use of the Hamiltonian notation, the quaternion group operator
 Given this representation of the quaternion, the quaternion group operator
-$\otimes$ can be written as the following matrix-like product
-\begin{equation}
-	\q^a \otimes \q^b = \begin{pmatrix} q_0^a & \left(-\bar{\q}^{a}\right)^\transpose \\ \bar{\q}^a & q^a_0 I + \skewmat{\bar{\q}^a} \end{pmatrix}
-	\begin{pmatrix} q^b \\ \bar{\q}^b\end{pmatrix}.
-  \label{eq:quat_otimes_product}
-\end{equation}
+$\otimes$ can be written as the following matrix-like products
+\begin{align}
+  \q^a \otimes \q^b &= \begin{pmatrix} q_0^a & \left(-\bar{\q}^{a}\right)^\transpose \\ \bar{\q}^a & q^a_0 I + \skewmat{\bar{\q}^a} \end{pmatrix}
+	\begin{pmatrix} q^b \\ \bar{\q}^b\end{pmatrix}
+  \label{eq:quat_otimes_product1} \\
+  &= \begin{pmatrix} q_0^b & \left(-\bar{\q}^{b}\right)^\transpose \\ \bar{\q}^b & q^b_0 I - \skewmat{\bar{\q}^b} \end{pmatrix}
+	\begin{pmatrix} q^a \\ \bar{\q}^a \end{pmatrix}.
+  \label{eq:quat_otimes_product2}
+\end{align}
 % It is often convenient to convert a quaternion $\q$ to its associated passive rotation matrix.  This is done with
 We frequently convert a quaternion $\q$ to its associated passive rotation
 matrix. This is done with

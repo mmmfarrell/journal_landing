@@ -75,7 +75,8 @@ by the measurements as described in~\secref{sec:measurement_models}.
 
 The estimated vectors $\hat{\vect{r}}_{1/g}^{g} \dots \hat{\vect{r}}_{n/g}^{g}$ represent the
 locations of visual features $1 \dots n$ which are rigidly attached to the
-landing vehicle. We show in our simulation and hardware experiments, that the
+landing vehicle. We show in the experiments found in~\secref{sec:est_paper_simulation}
+and~\secref{sec:est_paper_hardware} that the
 addition of only 10 visual features to the estimated state significantly
 improves the estimates of $\hat{\x}_{\text{Goal}}$
 while the fiducial landing marker is not detected. 
@@ -140,7 +141,7 @@ as the minimal representation
   \otimes \q_I^b \right),
   \label{eq:quat_error_state}
 \end{equation}
-which also results in
+which implies
 \begin{equation}
   \q_I^b  = \hat{\q}_I^b \otimes \exp_{\q} \left( \tilde{\vect{\theta}}_I^b
   \right).
@@ -156,8 +157,8 @@ quaternions,~\eqref{eq:quat_true_state} can also be expressed as
 Similarly, we define the error-state of the 2D rotation matrix state, $R_I^g$,
 as
 \begin{equation}
-  \tilde{\psi}_I^g = \log_R \left( \left( \hat{R}_I^g \right)^\transpose 
-  R_I^g \right)
+  \tilde{\psi}_I^g = \log_R \left(  
+  R_I^g \left( \hat{R}_I^g \right)^\transpose \right)
   \label{eq:2d_rot_err_state}
 \end{equation}
 

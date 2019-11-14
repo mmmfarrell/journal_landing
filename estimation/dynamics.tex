@@ -59,7 +59,8 @@ angular velocity motion model such that
 \end{align}
 where $\vect{\eta}_{gv}$ and $\eta_{g\omega}$ are zero-mean Gaussian noise
 processes. Though this is a very simplified motion model for the landing
-vehicle, we show in~\secref{sec:simulation} and~\secref{sec:hardware} that is is
+vehicle, we show in~\secref{sec:est_paper_simulation}
+and~\secref{sec:est_paper_hardware} that it is
 satisfactory for our experiments. We intend the motion model of the landing
 vehicle to be easily modified for landing vehicles with more complex motion such
 as a boat at sea.
@@ -169,7 +170,61 @@ first-order approximation of the error-state dynamics are given by
   \dot{\tilde{\vect{r}}}_{i/g}^g &= \vect{0}. \nonumber
 \end{align}
 The derivation of these error-state dynamics can be found in
-Appendix~\ref{apdx:estimation_err_state_derivation}.
+Appendix~\ref{apdx:estimation_err_state_derivation}. The Jacobians used for the
+filter propagation are found by differentiating the error-state dynamics with
+respect to the the error-state and input noise resulting in
+\begin{align}
+  F &= \frac{ \partial \dot{\tilde{\x}} }{ \partial \tilde{\x} } \\
+    &=
+    \begin{bmatrix}
+      \vect{0} & - \left( \hat{R}_I^b \right)^\transpose
+      \skewmat{\hat{\vect{v}}_{b/I}^b} & \left( \hat{R}_I^b \right)^\transpose &
+      \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               & 0 & 0 & \vect{0} \\
+      \vect{0} & -\skewmat{ \bar{\vect{\omega}}_{b/I}^b
+      - \hat{\vect{\beta}}_\omega} & \vect{0} & \vect{0} & -I & \vect{0} & \vect{0}
+               & 0 & 0 & \vect{0} \\
+      \vect{0} & \skewmat{ \hat{R}_I^b \vect{g} } &
+      -\skewmat{ \bar{\omega}_{b/I}^b - \hat{\vect{\beta}}_\omega } & -I &
+      -\skewmat{ \hat{\vect{v}}_{b/I}^b } & \vect{0} & \vect{0}
+               & 0 & 0 & \vect{0} \\
+      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               & 0 & 0 & \vect{0} \\
+      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               & 0 & 0 & \vect{0} \\
+      \vect{0} & \left( \hat{R}_{I}^{b} \right)^\transpose
+      \skewmat{ \hat{\vect{v}}_{b/I}^{b} } & 
+      -\left( \hat{R}_{I}^{b} \right)^\transpose & \vect{0} & \vect{0} & \vect{0} & 
+      I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+               & I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+               \skewmat{ 1 } \hat{\vect{v}}_{g/I}^g
+               & 0 & \vect{0} \\
+      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               & 0 & 0 & \vect{0} \\
+      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               & 0 & 1 & \vect{0} \\
+      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               & 0 & 0 & \vect{0} \\
+      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               & 0 & 0 & \vect{0}
+    \end{bmatrix}
+\end{align}
+and
+\begin{align}
+  G &= \frac{ \partial \dot{\tilde{\x}} }{ \partial \vect{\upsilon} } \\
+    &=
+    \begin{bmatrix}
+      \vect{0} & \vect{0} \\
+      \vect{0} & -I \\
+      -I & -\skewmat{\hat{\vect{v}}_{b/I}^b} \\
+      \vect{0} & \vect{0} \\
+      \vect{0} & \vect{0} \\
+      \vect{0} & \vect{0} \\
+      \vect{0} & \vect{0} \\
+      \vect{0} & \vect{0} \\
+      \vect{0} & \vect{0} \\
+      \vect{0} & \vect{0} 
+    \end{bmatrix}.
+\end{align}
 
-I changed something here
 

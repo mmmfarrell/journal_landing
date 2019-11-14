@@ -13,8 +13,8 @@ require multirotor UAVs to operate from a moving vehicle.
 These use
 cases include martitime surveillance, where the UAV must take off and land from
 a martitime vessel at sea
-and package delivery, where the UAV operates from a large truck
-which carries packages to be delivered. The ability to operate reliably from a
+and package delivery, where the UAV must operate from a large truck
+which carries the packages to be delivered. The ability to operate reliably from a
 moving vehicle is still a very active field of research, posing many unsolved
 problems.
 
@@ -41,12 +41,12 @@ AprilTags~\cite{olson2011tags} or ArUco markers~\cite{garrido2016generation}
 have become more widely
 used~\cite{ling2014precision,borowczyk2017autonomous,marantos2018vision,
 araar2017vision}.
-In 2017, the Mohamed Bin Zayed International Robotics Challenge (MBZIRC)
-featured a stage that included landing a multirotor UAV on a visual fiducial
-marker atop a moving golf
-cart~\cite{baca2019autonomous,falanga2017vision,beul2017fast,cantelli2017autonomous}.
-While some methods employ image based visual servoing for
-landing~\cite{lee2012autonomous,wynn2019visual}, most of the methods
+% In 2017, the Mohamed Bin Zayed International Robotics Challenge (MBZIRC)
+% featured a stage that included landing a multirotor UAV on a visual fiducial
+% marker atop a moving golf
+% cart~\cite{baca2019autonomous,falanga2017vision,beul2017fast,cantelli2017autonomous}.
+While some methods employ image-based visual servoing for
+landing~\cite{lee2012autonomous,wynn2019visual}, most methods
 require an estimate of the state of the landing vehicle.
 Ling notes in~\cite{ling2014precision} that it is important to model the
 dynamics of the landing vehicle so that they can be propagated forward for short
@@ -56,12 +56,13 @@ approaches, however, fail if the fiducial marker is not detected for
 significant periods of time.
 Even if the state of the landing vehicle is estimated, the estimates are only as
 good as the
-motion model of the landing vehicle when the fiducial marker is not detected. We propose an estimation algorithm that detects,
-tracks, and estimates unknown visual features on the landing vehicle to improve
+motion model of the landing vehicle when the fiducial marker is not detected.
+We propose an estimation algorithm that detects,
+tracks, and estimates the positions of unknown visual features on the landing vehicle to improve
 estimation accuracy when the fiducial marker is not detected for significant
 periods of time.
 
-The proposed method of detecting, tracking, and estimating visual features is
+The proposed method of detecting, tracking, and estimating the position of visual features is
 similar to that commonly used in the field of visual odometry. Many methods such
 as~\cite{qin2018vins,leutenegger2013keyframe,mourikis2007multi,mur2015orb} use
 detected and tracked features to help estimate camera motion.
