@@ -110,9 +110,10 @@ therefore can be written as
   h_{\text{ft}} \left( \hat{\x} \right) &=
     \hat{\vect{p}}_{g/c}^c \\
   &= R_b^c \left( \hat{R}_I^b \hat{\vect{p}}_{g/b}^v -
-    \vect{p}_{c/b}^b \right). 
+    \vect{p}_{c/b}^b \right)
   % \hat{\vect{q}}_{c}^a  &= R_g^a \hat{R}_I^g \hat{R}_b^I R_c^b
 \end{align}
+where $R_b^c$ and $\vect{p}_{c/b}^b$ are assumed to be known constants.
 For a given measurement of the relative translation to the fiducial marker,
 $\vect{z}_{\text{ft}}$, the residual is given by
 \begin{equation}
@@ -252,6 +253,7 @@ visual feature $i$ as
     p_x \\ p_y \\ 1
   \end{bmatrix} &= \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} K
   \vect{p}_{i/c}^c,
+  \label{eq:pinhole_camera}
   % \vect{z} &=
   % \begin{bmatrix}
     % f_x \frac{\e_1 \vect{p}_{i/c}^c}{\e_3 \vect{p}_{i/c}^c} + c_x \\
@@ -308,7 +310,7 @@ which is modeled as
   \hat{\vect{p}}_{i/c}^c.
   \label{eq:rpix}
 \end{align}
-The results in the residual Jacobian
+This results in the residual Jacobian
 \begin{align}
   % H_{\text{pix}} &= \frac{ \partial \vect{r}_{\text{pix}} }{ \partial \tilde{\x}} \\
   H_{\text{pix}} 
@@ -318,9 +320,9 @@ The results in the residual Jacobian
  - \frac{\e_3^\transpose \frac{\partial}{\partial \tilde{\x}} 
  \vect{p}_{i/c}^c}{\left( \e_3^\transpose
  \hat{\vect{p}}_{i/c}^c \right)^2 } I_{2 \times 3} K
- \hat{\vect{p}}_{i/c}^c. 
+ \hat{\vect{p}}_{i/c}^c
 \end{align}
-Where the non-zero components of $\frac{\partial}{\partial \tilde{\x}}
+where the non-zero components of $\frac{\partial}{\partial \tilde{\x}}
 \vect{p}_{i/c}^c$ are given by
 \begin{align}
   \frac{\partial}{\partial \tilde{\vect{\theta}}_I^b } \vect{p}_{i/c}^c
