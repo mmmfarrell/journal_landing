@@ -177,11 +177,13 @@ error covariance, $P$ is propagated forward using
   \dot{P} = FP + PF^\transpose + G Q_{\vect{u}} G^\transpose + Q_{\vect{x}}
 \end{equation}
 where $Q_{\vect{u}}$ is the input noise covariance, $Q_{\vect{x}}$ is the
-process noise covariance,
+process noise covariance, \MF{TODO define this matrix by vertical slices}
 \begin{align}
   F &= \frac{ \partial \dot{\tilde{\x}} }{ \partial \tilde{\x} } \\
     &=
+    \scriptsize
     \begin{bmatrix}
+    % \begin{smallbmatrix}
       \vect{0} & - \left( \hat{R}_I^b \right)^\transpose
       \skewmat{\hat{\vect{v}}_{b/I}^b} & \left( \hat{R}_I^b \right)^\transpose &
       \vect{0} & \vect{0} & \vect{0} & \vect{0}
@@ -213,6 +215,7 @@ process noise covariance,
       \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
                & 0 & 0 & \vect{0}
     \end{bmatrix},
+    % \end{smallbmatrix},
 \end{align}
 and
 \begin{align}
