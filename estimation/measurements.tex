@@ -7,7 +7,7 @@ When
 updating the filter with measurements, we make use of the partial Kalman update
 as described in~\cite{brink2017partial} to improve the estimation of the
 bias states as well as the constant values $\vect{r}_{1/g}^{g} \dots
-\vect{r}_{n/g}^{g}$. The measurement model, residual model and residual
+\vect{r}_{n/g}^{g}$. \MF{TODO measurement update equation} The measurement model, residual model and residual
 Jacobians are defined below for each type of measurement used in the filter.
 
 \subsubsection{Global UAV Position Measurement}
@@ -182,16 +182,24 @@ This results in the measurement Jacobian
 \subsubsection{Fidual Rotation Measurement}
 We use the relative rotation measurement that results from a detection of the
 fiducial marker
-to create a pseudo measurement of the orientation of the goal frame. This pseudo
+to create a pseudo measurement of the orientation of the goal frame. In theory,
+a measurement model could be developed to use the entire measurement,
+$\bar{R}_c^g$, however, in practice, this may cause complications when the
+fiducial landing marker is not perfectly aligned with the plane of the landing
+vehicle's motion (i.e. the fiducial marker is slighly rolled or pitched with
+respect to the inertial frame).
+The pseudo
 measurement is created with
 \begin{equation}
-  \bar{\theta}_I^g = yaw \left( \bar{R}_c^g R_b^c \hat{R}_I^b \right).
+  \bar{\psi}_I^g = \text{yaw} \left( \bar{R}_c^g R_b^c \hat{R}_I^b \right)
 \end{equation}
+where $\text{yaw}\left(\right)$ is a function that extracts the yaw angle
+from a rotation matrix.
 The measurement model and its estimate can
 be written as
 \begin{align}
-  h_{\text{fr}} \left( \x \right) &= \theta_I^g + \eta_{\text{fr}} \\
-  h_{\text{fr}} \left( \hat{\x} \right) &= \hat{\theta}_I^g.
+  h_{\text{fr}} \left( \x \right) &= \psi_I^g + \eta_{\text{fr}} \\
+  h_{\text{fr}} \left( \hat{\x} \right) &= \hat{\psi}_I^g.
 \end{align}
 For a given measurement of the rotation of the fiducial marker, $z_{\text{fr}}$,
 the residual is given by
@@ -201,8 +209,8 @@ the residual is given by
 which is modeled as
 \begin{align}
   r_{\text{fr}} &= h_{\text{fr}} \left( \x \right) - h_{\text{fr}} \left( \hat{\x} \right) \\
-                &= \theta_I^g + \eta_{\text{fr}} - \hat{\theta}_I^g \\
-                &= \tilde{\theta}_I^g + \eta_{\text{fr}}.
+                &= \psi_I^g + \eta_{\text{fr}} - \hat{\psi}_I^g \\
+                &= \tilde{\psi}_I^g + \eta_{\text{fr}}.
 \end{align}
 This results in the measurement Jacobian
 \begin{equation}
@@ -222,7 +230,7 @@ This results in the measurement Jacobian
 The estimator receives measurements of
 the location of each tracked visual feature in the camera image. We assume that the
 pixel measurements received have already been corrected for lens distortion.
-We assume to know the camera intrinsic matrix
+We also assume to know the camera intrinsic matrix
 \begin{equation}
   K =
   \begin{bmatrix}
@@ -233,7 +241,7 @@ We assume to know the camera intrinsic matrix
 \end{equation}
 where $f_x$ and $f_y$ are the focal lengths of the camera and $c_x$ and $c_y$
 are the coordinates of the principal point in the camera image.
-Using the pinhole camera model, we therefore express the pixel location of
+Using the pinhole camera model, we express the pixel location of
 visual feature $i$ as
 \begin{align}
   % \hat{h} &=
@@ -298,6 +306,7 @@ which is modeled as
   \vect{p}_{i/c}^c + \vect{\eta}_{\text{pix}} - \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
   \hat{\vect{p}}_{i/c}^c.
 \end{align}
+\MF{TODO put this stuff in another appendix}
 To compute the measurement Jacobian, we first expand~\eqref{eq:p_i_c_c}
 \begin{align}
   \vect{p}_{i/c}^c &= R_b^c \left( \left( I - \skewmat{\tilde{\vect{\theta}}_I^b
