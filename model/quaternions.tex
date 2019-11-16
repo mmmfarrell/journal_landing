@@ -7,17 +7,19 @@
 % $S^3$ is a double cover of $\SO(3)$.  Quaternions have the advantage over
 % $\SO(3)$ of being more efficient to implement on modern hardware~\cite{casey2013AttitudeRepresentation}, therefore in the software implementation of the described algorithm, we use quaternions, rather than rotation matrices.
 
-We use the Hamiltonian notation for unit quaternions $\in S^3$
+% We use the Hamiltonian notation for unit quaternions $\in S^3$
+Unit quaternions $\in S^3$ throughout the paper follow the Hamiltonian notation
 \begin{equation}
-  \q=\begin{pmatrix}q_{0} & q_{x}\vect{i} & q_{y} \vect{j} & q_{z} \vect{k} \end{pmatrix}.%=\begin{pmatrix}q_{0} & \bar{\q} \end{pmatrix},
+  \q=\begin{pmatrix}q_{0} & q_{x}i & q_{y} j & q_{z} k \end{pmatrix}.%=\begin{pmatrix}q_{0} & \bar{\q} \end{pmatrix},
 \end{equation}
+where $i$, $j$, and $k$ are the fundamental quaternion units.
 % We write the complex p
 % For convenience, we sometimes refer to the complex portion of the quaternion as
 % \begin{equation}
 	% \bar{\q} = \begin{bmatrix} q_x & q_y & q_z \end{bmatrix} ^\transpose
 % \end{equation}
 % and write quaternions as the tuple of the real and complex portions
-We write quaternions as the tuple of the real and complex portions
+We write quaternions as the tuple
 \begin{equation}
 	\q = \begin{pmatrix} q_0 \\ \bar{\q} \end{pmatrix}
 \end{equation}
@@ -29,7 +31,7 @@ portion of the quaternion is given by
 
 % Given our use of the Hamiltonian notation, the quaternion group operator
 Given this representation of the quaternion, the quaternion group operator
-$\otimes$ can be written as the following matrix-like products
+$\otimes$ can be written as the matrix-like products
 \begin{align}
   \q^a \otimes \q^b &= \begin{pmatrix} q_0^a & \left(-\bar{\q}^{a}\right)^\transpose \\ \bar{\q}^a & q^a_0 I + \skewmat{\bar{\q}^a} \end{pmatrix}
 	\begin{pmatrix} q^b \\ \bar{\q}^b\end{pmatrix}
@@ -46,7 +48,7 @@ R\left(\q\right)=\left(2q_{0}^{2}-1\right)I-2q_{0}\skewmat{\bar{\q}}+2\bar{\q}\b
 \label{eq:est_paper_R_from_q}
 \end{equation}
 We also note that rotations are written equivalently as
-$\q_a^b=R\left(\q_a^b\right)=R_a^b$, throughout the paper, where the choice of these is dictated by convenience.
+$\q_a^b=R\left(\q_a^b\right)=R_a^b$ throughout the paper, where the choice of these is dictated by convenience.
 % We use passive rotation matrices, meaning that the rotation matrix $R_a^b$ acts
 % on a vector $\vect{r}^a$, expressed in frame $a$, and results in the same
 % vector, now expressed in frame $b$ as
@@ -59,7 +61,7 @@ $\q_a^b=R\left(\q_a^b\right)=R_a^b$, throughout the paper, where the choice of t
 To operate in a vector space, we frequently convert between the Lie group,
 $S^3$,
 % and the Lie algebra, $\mathbb{R}^3$.
-and the vector space that is isomorphic to the Lie algebra, $\mathbb{R}^3$.
+and the vector space, $\mathbb{R}^3$, that is isomorphic to the Lie algebra.
 This is done with the
 exponential and logarithmic mappings. The exponential mapping for a unit quaternion is defined as
 \begin{align}

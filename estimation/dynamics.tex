@@ -34,7 +34,7 @@ where $\vect{\eta}_{\beta_a}$, $\vect{\eta}_{\beta_\omega}$,
 $\vect{\upsilon}_\omega$, and $\vect{\upsilon}_a$
 are zero-mean Gaussian noise processes.
 
-We model the motion of the landing vehicle
+We model the motion of the landing target vehicle
 with a constant velocity and constant
 angular velocity motion model such that
 % Though this is a very simplified model, we show
@@ -62,7 +62,7 @@ processes. Though this is a very simplified motion model for the landing
 vehicle, we show in~\secref{sec:est_paper_simulation}
 and~\secref{sec:est_paper_hardware} that it is
 satisfactory for our experiments. We intend the motion model of the landing
-vehicle to be easily modified for landing vehicles with more complex motion such
+vehicle to be easily modified for target vehicles with more complex motion such
 as a boat at sea.
 
 As mentioned previously, we assume the tracked visual features are rigidly
@@ -172,7 +172,7 @@ first-order approximation of the error-state dynamics are given by
 The derivation of these error-state dynamics can be found in
 Appendix~\ref{apdx:estimation_err_state_derivation}. In practice, the expected
 value of the error-state remains zero over the propagation window, and only the
-error covariance, $P$ is propagated forward using
+error covariance, $P$, is propagated forward using
 \begin{equation}
   \dot{P} = FP + PF^\transpose + G Q_{\vect{u}} G^\transpose + Q_{\vect{x}}
 \end{equation}

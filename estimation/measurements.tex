@@ -5,15 +5,61 @@
 
 When
 updating the filter with measurements, we make use of the partial Kalman update
-as described in~\cite{brink2017partial} to improve the estimation of the
-bias states as well as the constant values $\vect{r}_{1/g}^{g} \dots
-\vect{r}_{n/g}^{g}$. The measurement model, residual model and residual
+which has been shown to improve estimates of bias states and constant values~\cite{brink2017partial}. The partial Kalman update provides us a
+means to limit the effect of measurement updates to certain estimated
+states by providing a tuning vector
+\begin{equation}
+  \vect{\lambda} =
+\begin{bmatrix}
+  \lambda_1 & \lambda_2 & \dots & \lambda_N
+\end{bmatrix}
+\end{equation}
+where $\lambda_i \in \left[ 0, 1\right]$ determines the proportion of the
+measurement update applied to state $i$.
+In practice, we use $\lambda < 1$ only for the
+bias states, $\vect{\beta}_a$ and $\vect{\beta}_\omega$, and the
+constant value states $\vect{r}_{1/g}^{g} \dots \vect{r}_{n/g}^{g}$.
+
+With this formulation,
+when a measurement is received, we compute the Kalman gain
+\begin{equation}
+  K = P H^\transpose \left(H P H^\transpose + R \right)^{-1}
+\end{equation}
+where $H$ is the residual Jacobian for the measurement and $R$ is the
+measurement covariance. We then use $K$ to update the filter such that
+\begin{align}
+  \hat{\tilde{\x}}^{+} &= \vect{\lambda} \odot K \vect{r} \\
+  P^{+} &= P + \Lambda \odot \left( \left(I - K H \right) P \left(I - K H
+  \right)^\transpose + K R K^\transpose - P \right)
+\end{align}
+where $\odot$ is the Hadamard product, $\vect{r}$ is the residual of the
+measurement and
+\begin{align}
+  \vect{1} &= \begin{bmatrix} 1 & 1 & \dots & 1 \end{bmatrix}^\transpose \\
+  \Lambda &= \vect{1} \vect{\lambda}^\transpose + \vect{\lambda} \vect{1} -
+  \vect{\lambda} \vect{\lambda}^\transpose.
+\end{align}
+As the estimate of the error-state of the system, $\hat{\tilde{\x}}$, becomes
+non-zero at this point, this estimate is used to correct the estimated state
+$\hat{\x}$. This correction is done piece-wise where the vector components are
+updated with
+\begin{equation}
+  \hat{\vect{\x}}_{\vect{v}}^{+} = \hat{\vect{\x}}_{\vect{v}} + \tilde{\vect{\x}}_{\vect{v}}
+\end{equation}
+and the quaternion state is updated with
+\begin{equation}
+  \left( \hat{\q}_I^b \right)^{+}  = \hat{\q}_I^b \otimes \exp_{\q} \left(
+  \tilde{\vect{\theta}}_I^b \right).
+\end{equation}
+
+The measurement model, residual model and residual
 Jacobians are defined below for each type of measurement used in the filter.
 
 \subsubsection{Global UAV Position Measurement}
 We assume to have some measurement of the position of the UAV with respect to
 the inertial
 frame. This measurement may come from a sensor such as GPS or a motion capture system.
+% The 
 The measurement model and its estimate can
 be written as
 \begin{align}
