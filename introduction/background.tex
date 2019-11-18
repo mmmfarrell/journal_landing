@@ -2,7 +2,7 @@
 
 Small multirotor unmanned air vehicles (UAVs) have rapidly become popular platforms for
 a variety of applications including
-surveillance, delivery, and search and rescue.
+inspection, reconnaissance, and search and rescue.
 % The ability of small multirotor UAVs to agily operate in confined spaces and to
 % take off and land vertically give them a unique advantage over other robotic
 % platforms.
@@ -44,10 +44,13 @@ vehicles rely on the
 % moving vehicles have been proposed in literature.
 % Nearly all of these approaches rely on the
 detection of a fiducial marker on the moving vehicle for relative pose
-estimation. One of the earliest of
-these works relied on the detection of infrared LEDs that were
-illuminated in a known configuration on the landing
-vehicle~\cite{wenzel2011automatic}. Since then, visual fiducial markers such as
+estimation. One of the earliest of these works
+used a known configuration of infrared LEDs on the landing vehicle as a fiducial
+marker~\cite{wenzel2011automatic}.
+% relied on the detection of infrared LEDs that were
+% illuminated in a known configuration on the landing
+% vehicle~\cite{wenzel2011automatic}.
+Since then, visual fiducial markers such as
 AprilTags~\cite{olson2011tags} or ArUco markers~\cite{garrido2016generation}
 have become more widely
 used~\cite{ling2014precision,borowczyk2017autonomous,marantos2018vision,
@@ -87,8 +90,9 @@ short periods of time~\cite{baca2019autonomous}.
 % detected.
 All of the mentioned
 approaches, however, are likely to fail if the fiducial marker is not detected for
-significant periods of time because the target vehicle is likely to not
-perfectly follow the modeled motion.
+significant periods of time due to imperfect motion models.
+% because the target vehicle is likely to not
+% perfectly follow the modeled motion.
 % Even if the state of the target vehicle is estimated, the estimates are only as
 % good as the
 % motion model of the target vehicle when the fiducial marker is not detected.

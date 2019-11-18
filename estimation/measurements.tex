@@ -5,7 +5,7 @@
 
 When
 updating the filter with measurements, we make use of the partial Kalman update
-which has been shown to improve estimates of bias states and constant values~\cite{brink2017partial}. The partial Kalman update provides us a
+which has been shown to improve estimates of bias states and constant values~\cite{brink2017partial}. The partial Kalman update provides a
 means to limit the effect of measurement updates to certain estimated
 states by providing a tuning vector
 \begin{equation}
@@ -41,12 +41,12 @@ measurement and
 \end{align}
 As the estimate of the error-state of the system, $\hat{\tilde{\x}}$, becomes
 non-zero at this point, this estimate is used to correct the estimated state
-$\hat{\x}$. This correction is done piece-wise where the vector components are
-updated with
+$\hat{\x}$. This correction is done piece-wise with the vector components
+updated as
 \begin{equation}
   \hat{\vect{\x}}_{\vect{v}}^{+} = \hat{\vect{\x}}_{\vect{v}} + \tilde{\vect{\x}}_{\vect{v}}
 \end{equation}
-and the quaternion state is updated with
+and the quaternion state updated as
 \begin{equation}
   \left( \hat{\q}_I^b \right)^{+}  = \hat{\q}_I^b \otimes \exp_{\q} \left(
   \tilde{\vect{\theta}}_I^b \right).
@@ -56,7 +56,7 @@ The measurement model, residual model and residual
 Jacobians are defined below for each type of measurement used in the filter.
 
 \subsubsection{Global UAV Position Measurement}
-We assume to have some measurement of the position of the UAV with respect to
+We assume to have a measurement of the position of the UAV with respect to
 the inertial
 frame. This measurement may come from a sensor such as GPS or a motion capture system.
 % The 
@@ -98,7 +98,7 @@ This results in the residual Jacobian
 % \end{equation}
 
 \subsubsection{Global UAV Attitude Measurement}
-Similar to the position measurement above, we assume to have some measurement of
+Similar to the position measurement above, we assume to have a measurement of
 the attitude of the UAV with respect to the inertial frame. This measurement may
 come from an attitude and heading reference system or from a motion
 capture system. 
@@ -116,10 +116,16 @@ given by
   \hat{\x} \right)^{-1} \otimes \vect{z}_{\text{att}} \right)
   % \vect{r}_{\text{att}} = \vect{z}_{\text{att}} - h_{\text{att}} \left( \hat{\x}
 \end{equation}
-which is modeled and simplified using~\eqref{eq:quat_true_state}
+which is modeled as
+\begin{equation}
+  \vect{r}_{\text{att}} = \log_{\q} \left(  h_{\text{att}} \left(
+  \hat{\x} \right)^{-1} \otimes h_{\text{att}} \left( \x \right) \right).
+\end{equation}
+This can be simplified using~\eqref{eq:quat_true_state} to yield
 \begin{align}
-  \vect{r}_{\text{att}} &= \log_{\q} \left(  h_{\text{att}} \left(
-  \hat{\x} \right)^{-1} \otimes h_{\text{att}} \left( \x \right) \right) \\
+  \vect{r}_{\text{att}}
+  % &= \log_{\q} \left(  h_{\text{att}} \left(
+  % \hat{\x} \right)^{-1} \otimes h_{\text{att}} \left( \x \right) \right) \\
                         &= \log_{\q} \left(  \left(
   \hat{\vect{q}}_{I}^b \right)^{-1} \otimes \vect{q}_{I}^b \otimes \exp_{\q} \left(
   \vect{\eta}_{\text{att}} \right)\right) \\
@@ -141,13 +147,13 @@ This results in the residual Jacobian
 
 \subsubsection{Fiducial Translation Measurement}
 We assume that a known fiducial marker serves as the desired landing position
-for the multirotor UAV on the landing vehicle. The goal frame is therefore
-located at the center of the fiducial marker. This means that every detection of the fiducial
+for the multirotor UAV on the target vehicle. The goal frame is, therefore,
+located at the center of the fiducial marker. In consequence, every detection of the fiducial
 marker yields a measurement of the relative translation and rotation from the
 camera frame to the goal frame.
 % as noted in~\eqref{eq:fiducial_meas}.
 The measurement model and its estimate for the relative translation measurement
-therefore can be written as
+can be written as
 \begin{align}
   h_{\text{ft}} \left( \x \right) &=
   \vect{p}_{g/c}^c + \vect{\eta}_{\text{ft}} \\
@@ -194,7 +200,7 @@ which is modeled as
   % \left( R_I^b \right)^\transpose \approx \left( \hat{R}_I^b \right)^\transpose
   % \left( I + \skewmat{\tilde{\vect{\theta}}_I^b }\right).
 % \end{equation}
-Using~\eqref{eq:est_paper_Rapprox}, we can expand~\eqref{eq:rft_1} and ignore
+Using~\eqref{eq:est_paper_Rapprox}, we expand~\eqref{eq:rft_1} and ignore
 second-order terms to yield
 \begin{align}
    \vect{r}_{\text{ft}} &\approx R_b^c \left( I - \skewmat{\tilde{\vect{\theta}}_I^b }\right) \hat{R}_I^b \left( \hat{\vect{p}}_{g/b}^v + \tilde{\vect{p}}_{g/b}^v \right) 
@@ -257,9 +263,9 @@ which is modeled as
 \begin{align}
   r_{\text{fr}} &= h_{\text{fr}} \left( \x \right) - h_{\text{fr}} \left( \hat{\x} \right) \\
                 &= \psi_I^g + \eta_{\text{fr}} - \hat{\psi}_I^g \\
-                &= \tilde{\psi}_I^g + \eta_{\text{fr}}.
+                &= \tilde{\psi}_I^g + \eta_{\text{fr}},
 \end{align}
-This results in the residual Jacobian
+resulting in the residual Jacobian
 \begin{equation}
   H_{\text{fr}} =
   \begin{bmatrix}
@@ -276,15 +282,16 @@ This results in the residual Jacobian
 \subsubsection{Visual Feature Pixel Measurement}
 The estimator receives measurements of
 the location of each tracked visual feature in the camera image. We assume that the
-pixel measurements received have already been corrected for lens distortion.
-We also assume to know the camera intrinsic matrix
+pixel measurements received have already been corrected for lens distortion and
+that we known the camera intrinsic matrix,
+% We also assume to know the camera intrinsic matrix
 \begin{equation}
   K =
   \begin{bmatrix}
     f_x & 0 & c_x \\
     0 & f_y & c_y \\
     0 & 0 & 1
-  \end{bmatrix}
+  \end{bmatrix},
 \end{equation}
 where $f_x$ and $f_y$ are the focal lengths of the camera and $c_x$ and $c_y$
 are the coordinates of the principal point in the camera image.
@@ -323,7 +330,7 @@ where
   \vect{r}_{i/g}^g + R_I^b \vect{p}_{g/b}^v - \vect{p}_{c/b}^b \right).
   \label{eq:p_i_c_c}
 \end{align}
-The measurement model and its estimate can be written as
+The measurement model and its estimate can, therefore, be written as
 \begin{align}
   h_{\text{pix}} \left( \x \right)
   &= \begin{bmatrix} p_x & p_y \end{bmatrix}^\transpose \\

@@ -11,6 +11,16 @@
 % uncertainty in the UAV states that appear in the motion model of the target
 % vehicle and the measurement
 % models used. states upon which many of the measurement models depend.
+This work focuses on the estimation of the state of the landing target vehicle.
+However, as several of the measurement models depend on the state of the
+UAV, we also estimate its state in the same filter to properly
+account for the uncertainty in the state. We, therefore, estimate the position,
+attitude, and velocity of the UAV together with the position, attitude, velocity,
+and angular rate of the target vehicle and the positions of visual features on
+the target vehicle. We also estimate bias states for the
+accelerometer and gyroscope sensors used as inputs to the filter.
+% to properly
+% account for the uncertainty, as several of the 
 We express the state of the estimated system as the tuple
 \begin{equation}
   \hat{\x} =
@@ -54,23 +64,25 @@ The inputs to the estimated system are given by
         \mathbb{R}^3 \times \mathbb{R}^3,
 \end{equation}
 which are directly measured from an inertial measurement unit mounted on the UAV.
-Though
-this work focuses on the estimation of the state of the landing target
-vehicle, we also estimate the state of the UAV to properly account for the
-uncertainty in these UAV states upon which the motion model for
-$\x_{\text{Goal}}$ and many of the measurement models depend.
+% Though
+% this work focuses on the estimation of the state of the landing target
+% vehicle, we also estimate the state of the UAV to properly account for the
+% uncertainty in these states upon which the motion model for
+% $\x_{\text{Goal}}$ and many of the measurement models depend.
 
-The estimated states associated with the UAV, $\hat{\vect{x}}_{\text{UAV}}$,
-contain the traditionally estimated states of position, attitude, and velocity
-in addition to bias states for the accelerometer and gyroscope sensors.
+% The estimated states associated with the UAV, $\hat{\vect{x}}_{\text{UAV}}$,
+% contain the traditionally estimated states of position, attitude, and velocity
+% in addition to bias states for the accelerometer and gyroscope sensors.
 
-The estimated states associated with the target vehicle,
-$\hat{\vect{x}}_{\text{Goal}}$, contain the position, attitude, velocity, and
-angular velocity of the target vehicle.
+% The estimated states associated with the target vehicle,
+% $\hat{\vect{x}}_{\text{Goal}}$, contain the position, attitude, velocity, and
+% angular velocity of the target vehicle.
 We note that the
-estimated position of the target vehicle is relative to the position of the
-UAV. This relative state is observable even with poor estimates of the UAV's global
-position, $\hat{\vect{p}}_{g/I}^I$, because of the relative information provided
+estimated position of the target vehicle, $\hat{\vect{p}}_{g/b}^v$, is relative to the position of the
+UAV.
+We formulate this state relatively,
+as this relative state is observable even with poor estimates of the UAV's global
+position, $\hat{\vect{p}}_{g/I}^I$, due to the relative information provided
 by the measurements as described in~\secref{sec:measurement_models}.
 % Note that $\hat{\vect{x}}_{\text{UAV}}$ contains the same states mentioned previously
 % in~\secref{sec:UAV_dynamics} with the addition of $\hat{\vect{\beta}}_a$ and
@@ -92,7 +104,7 @@ addition of only 10 visual features to the estimated state significantly
 improves the estimates of $\hat{\x}_{\text{Goal}}$
 while the fiducial landing marker is not detected. 
 
-We note
+We also note
 that the estimated state is of dynamic size. As visual features are
 detected they are added to the state vector until a maximum size of the state
 vector is reached. As the visual features leave the field of view of the camera,
@@ -175,7 +187,7 @@ quaternions,~\eqref{eq:quat_true_state} can also be expressed as
   % \label{eq:2d_rot_err_state}
 % \end{equation}
 
-To derive the error-state dynamics and the measurement model Jacobians in the
+To derive the error-state dynamics and the measurement residual Jacobians in the
 following sections, we
 use an approximation for~\eqref{eq:rot_true_state} developed by first expanding
 the

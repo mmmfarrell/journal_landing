@@ -30,9 +30,10 @@ the UAV given by
   \dot{\vect{\beta}}_\omega &= \vect{\eta}_{\beta_\omega} \nonumber
 \end{align}
 % $\vect{\eta}_v$, 
-where $\vect{\eta}_{\beta_a}$, $\vect{\eta}_{\beta_\omega}$,
-$\vect{\upsilon}_\omega$, and $\vect{\upsilon}_a$
-are zero-mean Gaussian noise processes.
+where $\vect{\eta}_{\beta_a}$ and $\vect{\eta}_{\beta_\omega}$ are zero-mean
+Guassian noise processes corresponding to thes state dynamics and
+$\vect{\upsilon}_\omega$ and $\vect{\upsilon}_a$ are zero-mean Gaussian noise
+processes corresponding to the noise in the inputs to the system.
 
 We model the motion of the landing target vehicle
 with a constant velocity and constant
@@ -172,12 +173,17 @@ first-order approximation of the error-state dynamics are given by
 The derivation of these error-state dynamics can be found in
 Appendix~\ref{apdx:estimation_err_state_derivation}. In practice, the expected
 value of the error-state remains zero over the propagation window, and only the
-error covariance, $P$, is propagated forward using
+error covariance, $P$, is propagated.
+The continous-time derivative of covariance is given by
+% forward using a first-order approximation
+% of the continous-time derivative of covariance given by
 \begin{equation}
   \dot{P} = FP + PF^\transpose + G Q_{\vect{u}} G^\transpose + Q_{\vect{x}}
+  % P^{+} = FP + PF^\transpose + G Q_{\vect{u}} G^\transpose + Q_{\vect{x}}
 \end{equation}
 where $Q_{\vect{u}}$ is the input noise covariance, $Q_{\vect{x}}$ is the
-process noise covariance, \MF{TODO define this matrix by vertical slices}
+process noise covariance,
+% \MF{TODO define this matrix by vertical slices}
 \begin{align}
   F &= \frac{ \partial \dot{\tilde{\x}} }{ \partial \tilde{\x} } \\
     &=
@@ -234,5 +240,16 @@ and
       \vect{0} & \vect{0} 
     \end{bmatrix}.
 \end{align}
+However, to ensure numerical stability, we propagate the covariance using a first-order discrete approximation
+defined by
+\begin{equation}
+  P_{k+1} = F_{k} P_{k} F_{k}^\transpose + G_k Q_u Q_k^\transpose + Q_x \Delta
+  t^2
+\end{equation}
+where
+\begin{align}
+  F_k &\approx I + \Delta t \\
+  G_k &\approx G \Delta t.
+\end{algin}
 
 
