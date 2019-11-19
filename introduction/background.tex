@@ -7,7 +7,7 @@ inspection, reconnaissance, and search and rescue.
 % take off and land vertically give them a unique advantage over other robotic
 % platforms.
 For many of these use cases, UAVs are required to operate
-autonomously, as skilled pilots are often not feasible due to
+autonomously, as skilled pilots are not feasible due to
 limitations in line of sight. 
 % A variety of emerging use cases
 % require multirotor UAVs to operate from larger, mobile vehicles.
@@ -62,7 +62,7 @@ araar2017vision}.
 % While some landing methods employ image-based visual
 % servoing~\cite{lee2012autonomous,wynn2019visual}, most methods
 % require an estimate of the state of the target landing vehicle.
-While some landing methods control the UAV entirely based on detections of the
+While some landing methods control the UAV entirely based on the detections of the
 fiducial marker~\cite{lee2012autonomous,wynn2019visual}, more robust methods
 compute control based on an estimate of the state of the target landing
 vehicle~\cite{ling2014precision}.
@@ -82,8 +82,10 @@ For this reason, it is important that the dynamics of the target vehicle are
 modeled and
 used by the estimation algorithm to predict the state of the target vehicle
 when measurements are not available.
-The Kalman filter has been frequently used
-for this task, showing good results when the fiducial marker is not detected for
+The Kalman filter~\cite{kalman} has been frequently used
+for this task, producing accurate estimates 
+% showing good results 
+when the fiducial marker is not detected for
 short periods of time~\cite{baca2019autonomous}.
 % n estimation method which models
 % the dynamics of the target vehicle is employed to maintain accurate estimates in
@@ -103,9 +105,12 @@ significant periods of time.
 % good as the
 % motion model of the target vehicle when the fiducial marker is not detected.
 % We propose an improvement to these methods: 
-To improve these methods, we propose an estimation algorithm that detects,
-tracks, and estimates the positions of unknown visual features on the target
-vehicle in addition to the fiducial marker.
+% To improve these methods, we propose an estimation algorithm that detects,
+% tracks, and estimates the positions of unknown visual features on the target
+% vehicle in addition to the fiducial marker.
+To improve these methods, we propose an estimation algorithm that uses
+measurements of unknown visual features on the target vehicle in addition to
+measurements resulting from detections of a fiducial marker.
 % to improve
 % estimation accuracy when the fiducial marker is not detected for significant
 % periods of time.
@@ -116,7 +121,7 @@ vehicle in addition to the fiducial marker.
 % in the field of visual odometry.
 Many visual odometry methods such
 as~\cite{qin2018vins,leutenegger2013keyframe,mourikis2007multi,mur2015orb} use
-detected and tracked features to aid camera motion estimation.
+detected and tracked visual features to aid in camera motion estimation.
 % as VINS-MONO, OKVIS, MSCKF, and ORB SLAM use an indirect approach
 % \cite{qin2018vins} VINS-MONO, feature extraction, optical flow frame to frame
 % \cite{leutenegger2013keyframe} OKVIS, BRISK features
@@ -128,9 +133,9 @@ Visual odometry techniques
 % tracking static features
 have also been previously applied to landing on
 moving platforms~\cite{falanga2017vision}.
-During landing, however, static features become more sparse as the target vehicle
+During landing, however, static features become more sparse as the dynamic target vehicle
 occupies progessively more of the
-field of view of the UAV's camera, resulting in detoriating
+field of view of the UAV's camera. This results in detoriating
 estimates as the UAV approaches the landing target.
 % During landing, however, it is common for the target vehicle to occupy the
 % entire field of view of the UAV's camera, making it impossible to track static
@@ -142,7 +147,8 @@ estimates as the UAV approaches the landing target.
 % During the landing phase, it is not uncommon, however, for the target vehicle
 % to occupy the entire field of view of the UAV's camera, making it not possible
 % to track static features throughout the duration of the flight.
-For this reason, the proposed estimator, instead, tracks
+For this reason, the proposed estimator, instead, tracks and estimates the
+locations of
 visual features that are rigidly attached to the target vehicle. These tracked
 visual features provide information about the relative position of the target
 vehicle
@@ -151,6 +157,6 @@ as long as the vehicle remains in the field of view of the camera.
 % movement of the UAV as well as
 % information about the movement of the target vehicle.
 We show in simulation and hardware experiments that the estimation of these tracked features allows
-for accurate and consistent estimates of the state of the target vehicle even
+for accurate estimates of the state of the target vehicle even
 when the fiducial marker is not detected for significant periods of time.
 
