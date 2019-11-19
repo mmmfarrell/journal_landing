@@ -1,8 +1,9 @@
 % !TEX root=./root.tex
 
 \subsection{Propagation Model}
-We use common rigid body kinematics to model the dynamics of
-the UAV given by
+To model the motion of the UAV, we use common rigid-body kinematics given by
+% We use common rigid body kinematics to model the dynamics of
+% the UAV given by
 \begin{align}
   \dot{\vect{p}}_{b/I}^I
   &=
@@ -31,7 +32,7 @@ the UAV given by
 \end{align}
 % $\vect{\eta}_v$, 
 where $\vect{\eta}_{\beta_a}$ and $\vect{\eta}_{\beta_\omega}$ are zero-mean
-Guassian noise processes corresponding to thes state dynamics and
+Guassian noise processes corresponding to the state dynamics and
 $\vect{\upsilon}_\omega$ and $\vect{\upsilon}_a$ are zero-mean Gaussian noise
 processes corresponding to the noise in the inputs to the system.
 
@@ -59,11 +60,11 @@ angular velocity motion model such that
   \dot{\omega}_{g/I}^{g} &= \eta_{g\omega} \nonumber
 \end{align}
 where $\vect{\eta}_{gv}$ and $\eta_{g\omega}$ are zero-mean Gaussian noise
-processes. Though this is a very simplified motion model for the landing
+processes. Though this is a very simplified motion model for the target
 vehicle, we show in~\secref{sec:est_paper_simulation}
 and~\secref{sec:est_paper_hardware} that it is
-satisfactory for our experiments. We intend the motion model of the landing
-vehicle to be easily modified for target vehicles with more complex motion such
+satisfactory for our experiments. We intend the motion model of the target
+vehicle to be easily modified for vehicles with more complex motion such
 as a boat at sea.
 
 As mentioned previously, we assume the tracked visual features are rigidly
@@ -119,7 +120,7 @@ the modeled true-state dynamics from~\eqref{eq:uav_dynamics},
 \eqref{eq:goal_dynamics}, and \eqref{eq:feature_dynamics}
 with~\eqref{eq:estimated_dynamics} using the error-state definitions
 from~\eqref{eq:est_paper_vector_error_state} and~\eqref{eq:quat_error_state}. The
-first-order approximation of the error-state dynamics are given by 
+first-order approximation of the error-state dynamics is given by 
 \begin{align}
   \dot{\tilde{\vect{p}}}_{b/I}^I
   &\approx
@@ -172,9 +173,9 @@ first-order approximation of the error-state dynamics are given by
 \end{align}
 The derivation of these error-state dynamics can be found in
 Appendix~\ref{apdx:estimation_err_state_derivation}. In practice, the expected
-value of the error-state remains zero over the propagation window, and only the
+value of the error state remains zero over the propagation window, and only the
 error covariance, $P$, is propagated.
-The continous-time derivative of covariance is given by
+The continous-time derivative of the error covariance is given by
 % forward using a first-order approximation
 % of the continous-time derivative of covariance given by
 \begin{equation}

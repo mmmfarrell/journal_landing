@@ -12,13 +12,13 @@
 % vehicle and the measurement
 % models used. states upon which many of the measurement models depend.
 This work focuses on the estimation of the state of the landing target vehicle.
-However, as several of the measurement models depend on the state of the
-UAV, we also estimate its state in the same filter to properly
-account for the uncertainty in the state. We, therefore, estimate the position,
+However, as several of the measurement models employed depend on the state of the
+UAV, we also estimate the state of the UAV in the same filter to properly
+account for the uncertainty in its state. We, therefore, estimate the position,
 attitude, and velocity of the UAV together with the position, attitude, velocity,
 and angular rate of the target vehicle and the positions of visual features on
 the target vehicle. We also estimate bias states for the
-accelerometer and gyroscope sensors used as inputs to the filter.
+accelerometer and gyroscope sensors which are used as inputs to the filter.
 % to properly
 % account for the uncertainty, as several of the 
 We express the state of the estimated system as the tuple
@@ -96,12 +96,15 @@ by the measurements as described in~\secref{sec:measurement_models}.
 % of the global state, $\hat{\vect{p}}_{g/I}^I$, as the relative state is observable
 % even with poor estimates of the UAV's global position, $\hat{\vect{p}}_{b/I}^I$.
 
-The estimated vectors $\hat{\vect{r}}_{1/g}^{g} \dots \hat{\vect{r}}_{n/g}^{g}$ represent the
-locations of visual features $1 \dots n$ which are rigidly attached to the
-target vehicle. We show in the experiments found in~\secref{sec:est_paper_simulation}
+The estimated vectors $\hat{\vect{r}}_{1/g}^{g}, \dots \hat{\vect{r}}_{n/g}^{g}$ represent the
+locations of visual features $1, \dots n$ with respect to the goal frame and
+expressed in the goal frame. As we assume these features are rigidly attached to the
+target vehicle, these vectors remain constant as the vehicle moves and rotates.
+We show in the experiments described in~\secref{sec:est_paper_simulation}
 and~\secref{sec:est_paper_hardware} that the
 addition of only ten visual features to the estimated state significantly
-improves the estimates of $\hat{\x}_{\text{Goal}}$
+improves the estimates of the state of the target vehicle
+% $\hat{\x}_{\text{Goal}}$
 while the fiducial landing marker is not detected. 
 
 We also note
@@ -163,7 +166,7 @@ $\q_I^b$,
 as the minimal representation
 \begin{equation}
   \tilde{\vect{\theta}}_I^b \triangleq \log_{\q} \left( \left( \hat{\q}_I^b \right)^{-1}
-  \otimes \q_I^b \right),
+  \otimes \q_I^b \right)
   \label{eq:quat_error_state}
 \end{equation}
 which implies

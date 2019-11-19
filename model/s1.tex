@@ -1,6 +1,7 @@
 % TEX root=../root.tex
 
-\subsection{2D Rotation Group}
+\subsection{Planar Rotations}
+% \subsection{2D Rotation Group}
 % We use rotation matrices, the Lie group $SO(2)$, to represent 2D rotations.
 % We parameterize the 2D rotation matrix by the angle, $\psi$, such that
 % \begin{align}
@@ -19,7 +20,8 @@
   % R_b^c R_a^b = R_a^b R_b^c \qquad \forall R_a^b, R_b^c \in SO(2).
 % \end{equation}
 
-We parameterize the 2D rotation group as an angle, $\psi$, which respresents
+% We parameterize the 2D rotation group as an angle, $\psi$, which respresents
+We parameterize planar rotations as an angle, $\psi$, which respresents
 the angle of rotation about a given axis.
 We treat $\psi$ as a vector space
 that uses the common addition and subtraction operators such that
@@ -36,7 +38,7 @@ rotation matrix can be created from any $\psi$ as
   R \left( \psi \right) = \begin{bmatrix} \cos \psi & -\sin \psi \\ \sin \psi &
   \cos \psi \end{bmatrix}.
 \end{equation}
-If $\psi$ represents the angle of rotation about the $z$ axis of a frame, then
+If $\psi$ represents the angle of rotation about the $z$ axis of a reference frame, then
 the corresponding passive 3D rotation matrix is given by
 \begin{equation}
   R \left( \psi \right) = \begin{bmatrix}

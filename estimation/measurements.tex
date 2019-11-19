@@ -18,7 +18,7 @@ where $\lambda_i \in \left[ 0, 1\right]$ determines the proportion of the
 measurement update applied to state $i$.
 In practice, we use $\lambda < 1$ only for the
 bias states, $\vect{\beta}_a$ and $\vect{\beta}_\omega$, and the
-constant value states $\vect{r}_{1/g}^{g} \dots \vect{r}_{n/g}^{g}$.
+constant-value states $\vect{r}_{1/g}^{g}, \dots \vect{r}_{n/g}^{g}$.
 
 With this formulation,
 when a measurement is received, we compute the Kalman gain
@@ -39,21 +39,25 @@ measurement and
   \Lambda &= \vect{1} \vect{\lambda}^\transpose + \vect{\lambda} \vect{1} -
   \vect{\lambda} \vect{\lambda}^\transpose.
 \end{align}
-As the estimate of the error-state of the system, $\hat{\tilde{\x}}$, becomes
-non-zero at this point, this estimate is used to correct the estimated state
-$\hat{\x}$. This correction is done piece-wise with the vector components
+As the estimate of the error state of the system, $\hat{\tilde{\x}}$, becomes
+non-zero at this point, we use this estimate to correct the estimated state,
+$\hat{\x}$. As the estimated state is not a vector, this correction is done
+piecewise. The vector components of the estimated state are
 updated as
 \begin{equation}
   \hat{\vect{\x}}_{\vect{v}}^{+} = \hat{\vect{\x}}_{\vect{v}} + \tilde{\vect{\x}}_{\vect{v}}
 \end{equation}
-and the quaternion state updated as
+and the quaternion state is updated as
 \begin{equation}
   \left( \hat{\q}_I^b \right)^{+}  = \hat{\q}_I^b \otimes \exp_{\q} \left(
   \tilde{\vect{\theta}}_I^b \right).
 \end{equation}
+After this correction, the estimate of the error state of the system is then
+reset to zero.
+% The estimate of the error state of the system is then reset to zero before any
 
 The measurement model, residual model and residual
-Jacobians are defined below for each type of measurement used in the filter.
+Jacobian are defined below for each type of measurement used in the filter.
 
 \subsubsection{Global UAV Position Measurement}
 We assume to have a measurement of the position of the UAV with respect to

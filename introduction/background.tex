@@ -44,14 +44,14 @@ vehicles rely on the
 % moving vehicles have been proposed in literature.
 % Nearly all of these approaches rely on the
 detection of a fiducial marker on the moving vehicle for relative pose
-estimation. One of the earliest of these works
+measurements. One of the earliest of these works
 used a known configuration of infrared LEDs on the landing vehicle as a fiducial
 marker~\cite{wenzel2011automatic}.
 % relied on the detection of infrared LEDs that were
 % illuminated in a known configuration on the landing
 % vehicle~\cite{wenzel2011automatic}.
 Since then, visual fiducial markers such as
-AprilTags~\cite{olson2011tags} or ArUco markers~\cite{garrido2016generation}
+AprilTags~\cite{olson2011tags} and ArUco markers~\cite{garrido2016generation}
 have become more widely
 used~\cite{ling2014precision,borowczyk2017autonomous,marantos2018vision,
 araar2017vision}.
@@ -76,9 +76,13 @@ As the UAV descends toward the landing target, it is common
 that the fiducial marker remains undetected
 % to not detect the fiducial marker
 for periods of time due to poor lighting, occlusion, or extreme
-motion. For this reason, it is important that a model of the dynamics of the target vehicle
-are used by the estimation algorithm to predict the state of the target vehicle
-when measurements are not available. Varients of the Kalman filter have been frequently used
+motion.
+% For this reason, it is important that a model of the dynamics of the target vehicle
+For this reason, it is important that the dynamics of the target vehicle are
+modeled and
+used by the estimation algorithm to predict the state of the target vehicle
+when measurements are not available.
+The Kalman filter has been frequently used
 for this task, showing good results when the fiducial marker is not detected for
 short periods of time~\cite{baca2019autonomous}.
 % n estimation method which models
@@ -88,9 +92,11 @@ short periods of time~\cite{baca2019autonomous}.
 % dynamics of the target vehicle so that they can be propagated forward for short
 % periods of time when the fiducial marker is not
 % detected.
-All of the mentioned
-approaches, however, are likely to fail if the fiducial marker is not detected for
-significant periods of time due to imperfect motion models.
+Due to imperfect motion models, however,
+all of the mentioned
+approaches are likely to fail if the fiducial marker is not detected for
+significant periods of time.
+% due to imperfect motion models.
 % because the target vehicle is likely to not
 % perfectly follow the modeled motion.
 % Even if the state of the target vehicle is estimated, the estimates are only as
@@ -118,9 +124,12 @@ detected and tracked features to aid camera motion estimation.
 % \cite{mur2015orb} ORB SLAM
 In these methods, the tracked visual features are assumed to belong to the
 static world.
-Visual odometry techniques tracking static features have also been previously applied to landing on
+Visual odometry techniques
+% tracking static features
+have also been previously applied to landing on
 moving platforms~\cite{falanga2017vision}.
-During landing, however, the target vehicle occupies progessively more of the
+During landing, however, static features become more sparse as the target vehicle
+occupies progessively more of the
 field of view of the UAV's camera, resulting in detoriating
 estimates as the UAV approaches the landing target.
 % During landing, however, it is common for the target vehicle to occupy the
@@ -136,7 +145,9 @@ estimates as the UAV approaches the landing target.
 For this reason, the proposed estimator, instead, tracks
 visual features that are rigidly attached to the target vehicle. These tracked
 visual features provide information about the relative position of the target
-vehicle for the duration of the flight.
+vehicle
+as long as the vehicle remains in the field of view of the camera.
+% for the duration of the flight.
 % movement of the UAV as well as
 % information about the movement of the target vehicle.
 We show in simulation and hardware experiments that the estimation of these tracked features allows
