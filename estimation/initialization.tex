@@ -1,6 +1,12 @@
 % !TEX root=./root.tex
 
-\subsection{Goal and Feature Initialization}
+\subsection{Goal and Feature State Initialization}
+Unlike $\hat{\vect{x}}_{\text{UAV}}$ which is initialized based on an initial
+guess of the true state, the estimated states associated with the landing
+vehicle, $\hat{\vect{x}}_{\text{Goal}}$, and the estimated states associated
+with the visual features, $\hat{\vect{x}}_{\text{Features}}$, are initialized
+upon receiving the first measurements corresponding measurements.
+
 The goal states are initialized upon receiving the first measurement from
 the detection of the fiducial landing marker. We assume that we can measure the
 relative translation and rotation from the camera to the fiducial marker

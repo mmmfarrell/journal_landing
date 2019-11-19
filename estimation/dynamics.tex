@@ -1,32 +1,8 @@
 % !TEX root=./root.tex
 
-\subsection{State Dynamics}
-We use common rigid body kinematics for the dynamics of
-$\x_{\text{UAV}}$ given by
-% \begin{align}
-  % \dot{\hat{\vect{p}}}_{b/I}^I
-  % &=
-  % \left( \hat{R}_I^b \right)^\transpose \hat{\vect{v}}_{b/I}^b
-  % \label{eq:uav_dynamics}
-  % \\
-  % \dot{\hat{\vect{q}}}_{I}^{b} 
-	% &= 	
-  % \hat{\q}_I^b \otimes \begin{pmatrix} 0 \\ \frac{1}{2}
-  % \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
-% \end{pmatrix} \nonumber \\
-  % \dot{\hat{\vect{v}}}_{b/I}^b 
-  % &=
-  % \hat{R}_I^b \vect{g}
-  % +
-  % \skewmat{\hat{\vect{v}}_{b/I}^b}
-  % \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
-  % +
-  % \left( \bar{\vect{a}} - \hat{\vect{\beta}}_a \right) + \vect{\eta}_v \nonumber
-  % \\
-  % \dot{\hat{\vect{\beta}}}_a &= \vect{\eta}_{\beta_a} \nonumber
-  % \\
-  % \dot{\hat{\vect{\beta}}}_\omega &= \vect{\eta}_{\beta_\omega}, \nonumber
-% \end{align}
+\subsection{Propagation Model}
+We use common rigid body kinematics to model the dynamics of
+the UAV given by
 \begin{align}
   \dot{\vect{p}}_{b/I}^I
   &=
@@ -54,12 +30,14 @@ $\x_{\text{UAV}}$ given by
 \end{align}
 % $\vect{\eta}_v$, 
 where $\vect{\eta}_{\beta_a}$ and $\vect{\eta}_{\beta_\omega}$
-are zero-mean Gaussian noise processes for the corresponding states.
-We model the motion of the landing vehicle with a unicycle motion model
-with a constant velocity and a constant
-angular velocity. Though this is a very simplified model, we show
-in~\secref{sec:simulation} and~\secref{sec:hardware} that it is sufficient for
-cases that do not perfectly match this model. The dynamics of $\x_{\text{Goal}}$ are expressed as
+are zero-mean Gaussian noise processes.
+
+We model the motion of the landing vehicle
+with a constant velocity and constant
+angular velocity motion model such that
+% Though this is a very simplified model, we show
+% in~\secref{sec:simulation} and~\secref{sec:hardware} that it is sufficient for
+% cases that do not perfectly match this model. The dynamics of $\x_{\text{Goal}}$ are expressed as
 % \begin{align}
   % \dot{\hat{\vect{p}}}_{g/b}^{v} &= \left( \hat{R}_{I}^{g} \right)^\transpose
   % \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
@@ -73,18 +51,103 @@ cases that do not perfectly match this model. The dynamics of $\x_{\text{Goal}}$
   \vect{v}_{g/I}^{g} - \left( R_{I}^{b} \right)^\transpose
   \vect{v}_{b/I}^{b} \label{eq:goal_dynamics} \\
   \dot{\vect{v}}_{g/I}^{g} &= \vect{\eta}_{gv} \nonumber \\
-  \dot{\theta}_{I}^{g} &= \omega_{g/I}^g \nonumber \\
+  \dot{\psi}_{I}^{g} &= \omega_{g/I}^g \nonumber \\
   \dot{\omega}_{g/I}^{g} &= \eta_{g\omega} \nonumber,
 \end{align}
 where $\vect{\eta}_{gv}$ and $\eta_{g\omega}$ are zero-mean Gaussian noise
-processes for the corresponding goal states.
-As mentioned previously, we assume the visual features are rigidly
-attached to the landing vehicle. This means that there are no dynamics 
-of their associated states
+processes. Though this is a very simplified motion model for the landing
+vehicle, we show in~\secref{sec:simulation} and~\secref{sec:hardware} that is is
+satisfactory for our experiments. We intend the motion model of the landing
+vehicle to be easily modified for landing vehicles with more complex motion such
+as a boat at sea.
+
+As mentioned previously, we assume the tracked visual features are rigidly
+attached to the landing vehicle such that
+% there are no dynamics 
+% of their associated states
 \begin{equation}
   \dot{\vect{r}}_{i/g}^g = \vect{0}. \label{eq:feature_dynamics}
   % \dot{\hat{\vect{r}}}_{i/g}^g = \vect{0}. \label{eq:feature_dynamics}
 \end{equation}
+
+In the ESKF, the estimated state is propagated independently of the filter using
+the expected value of the modeled dynamics. We use the expected values
+of~\eqref{eq:uav_dynamics}, \eqref{eq:goal_dynamics}, and
+\eqref{eq:feature_dynamics} given by
+% The estimated state is propagated
+\begin{align}
+  \dot{\hat{\vect{p}}}_{b/I}^I
+  &=
+  \left( \hat{R}_I^b \right)^\transpose \hat{\vect{v}}_{b/I}^b
+  \label{eq:estimated_dynamics}
+  \\
+  \dot{\hat{\vect{q}}}_{I}^{b} 
+  &= 	
+  \hat{\q}_I^b \otimes \begin{pmatrix} 0 \\ \frac{1}{2}
+  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+\end{pmatrix} \nonumber \\
+  \dot{\hat{\vect{v}}}_{b/I}^b 
+  &=
+  \hat{R}_I^b \vect{g}
+  +
+  \skewmat{\hat{\vect{v}}_{b/I}^b}
+  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+  +
+  \left( \bar{\vect{a}} - \hat{\vect{\beta}}_a \right) \nonumber
+  \\
+  \dot{\hat{\vect{\beta}}}_a &= \vect{0} \nonumber
+  \\
+  \dot{\hat{\vect{\beta}}}_\omega &= \vect{0} \nonumber
+  \\
+  \dot{\hat{\vect{p}}}_{g/b}^{v} &= \left( \hat{R}_{I}^{g} \right)^\transpose
+  \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \hat{\vect{v}}_{b/I}^{b} \nonumber \\
+  \dot{\hat{\vect{v}}}_{g/I}^{g} &= \vect{0} \nonumber \\
+  \dot{\hat{\psi}}_{I}^{g} &= \hat{\omega}_{g/I}^g \nonumber \\
+  \dot{\hat{\omega}}_{g/I}^{g} &= 0 \nonumber \\
+  \dot{\hat{\vect{r}}}_{i/g}^g &= \vect{0}. \nonumber
+\end{align}
+
+The error-state dynamics used to propagate the filter are found by relating
+the modeled true-state dynamics from~\eqref{eq:uav_dynamics},
+\eqref{eq:goal_dynamics}, and \eqref{eq:feature_dynamics}
+with~\eqref{eq:estimated_dynamics} using the error-state definitions
+from~\eqref{eq:vector_error_state} and~\eqref{eq:quat_error_state}. The
+first-order approximation of the error-state dynamics are given by \MF{TODO put
+the right err state dynamics here}
+\begin{align}
+  \dot{\hat{\vect{p}}}_{b/I}^I
+  &=
+  \left( \hat{R}_I^b \right)^\transpose \hat{\vect{v}}_{b/I}^b
+  \\
+  \dot{\hat{\vect{q}}}_{I}^{b} 
+  &= 	
+  \hat{\q}_I^b \otimes \begin{pmatrix} 0 \\ \frac{1}{2}
+  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+\end{pmatrix} \nonumber \\
+  \dot{\hat{\vect{v}}}_{b/I}^b 
+  &=
+  \hat{R}_I^b \vect{g}
+  +
+  \skewmat{\hat{\vect{v}}_{b/I}^b}
+  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+  +
+  \left( \bar{\vect{a}} - \hat{\vect{\beta}}_a \right) \nonumber
+  \\
+  \dot{\hat{\vect{\beta}}}_a &= \vect{0} \nonumber
+  \\
+  \dot{\hat{\vect{\beta}}}_\omega &= \vect{0} \nonumber
+  \\
+  \dot{\hat{\vect{p}}}_{g/b}^{v} &= \left( \hat{R}_{I}^{g} \right)^\transpose
+  \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \hat{\vect{v}}_{b/I}^{b} \nonumber \\
+  \dot{\hat{\vect{v}}}_{g/I}^{g} &= \vect{0} \nonumber \\
+  \dot{\hat{\psi}}_{I}^{g} &= \hat{\omega}_{g/I}^g \nonumber \\
+  \dot{\hat{\omega}}_{g/I}^{g} &= 0 \nonumber \\
+  \dot{\hat{\vect{r}}}_{i/g}^g &= \vect{0}. \nonumber
+\end{align}
+The derivation of these error-state dynamics can be found in the Appendix
+\MF{TODO reference correct section}.
 
 % \subsubsection{UAV State Jacobians}
 % \begin{equation}
