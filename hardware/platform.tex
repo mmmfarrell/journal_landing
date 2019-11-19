@@ -5,14 +5,18 @@ The proposed estimation algorithm was implemented and flown in
 hardware to validate the performance observed in the simulation
 results. The multirotor used for the experiments was built on a DJI 450 Flamewheel
 frame. All computation was done onboard the UAV on an NVIDIA Jetson TX2 using
-ROS. An ELP
+the Robot Operating System\footnote{Robot Operating System:
+\url{www.ros.org}}. An ELP
 USB Camera with a 2.1 mm lens was mounted to the bottom of the UAV such that the
 camera faced downward during flight. The image from this camera was used for visual
 feature tracking and fiducial marker detection.
 
 % Throught the flight, the UAV was controlled based on the estimated state of the
 % target vehicleto maintain a relative 
-A successive-loop PID control scheme closed the loop around the
+The multirotor UAV was manually flown until the fiducial landing marker was
+detected.
+Upon detection, a successive-loop PID control scheme took full control of the
+UAV, closing the loop around the
 estimated states. Throughout the flight, the UAV was controlled to maintain a
 0.5 m altitude directly above the landing target such that $\hat{\vect{p}}_{g/b}^v =
 \begin{bmatrix} 0 & 0 & 0.5 \end{bmatrix}$ m.
