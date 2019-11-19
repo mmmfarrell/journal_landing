@@ -19,8 +19,8 @@ with the components defined as
     \hat{\vect{p}}_{b/I}^{I}, \hat{\vect{q}}_I^{b}, \hat{\vect{v}}_{b/I}^b,
     \hat{\vect{\beta}}_a,
     \hat{\vect{\beta}}_{\omega}
-  \end{pmatrix} \\
-    & \qquad \qquad \in \mathbb{R}^3 \times S^3 \times \mathbb{R}^3 \times \mathbb{R}^3 \times
+  \end{pmatrix}
+    \in \mathbb{R}^3 \times S^3 \times \mathbb{R}^3 \times \mathbb{R}^3 \times
     \mathbb{R}^3  \\
   % \x_{\text{UAV}} &=
   % \begin{bmatrix}
@@ -76,9 +76,22 @@ by the measurements as described in~\secref{sec:measurement_models}.
 The estimated vectors $\hat{\vect{r}}_{1/g}^{g} \dots \hat{\vect{r}}_{n/g}^{g}$ represent the
 locations of visual features $1 \dots n$ which are rigidly attached to the
 landing vehicle. We show in our simulation and hardware experiments, that the
-addition of these visual features to the estimated state allows the estimator
-to maintain accurate and consistent estimates of $\hat{\x}_{\text{Goal}}$ even
-while the fiducial landing marker is not detected for long periods of time. 
+addition of only 10 visual features to the estimated state significantly
+improves the estimates of $\hat{\x}_{\text{Goal}}$
+while the fiducial landing marker is not detected. 
+
+We note
+that the estimated state is of dynamic size. As visual features are
+detected they are added to the state vector until a maximum size of the state
+vector is reached. As the visual features leave the field of view of the camera
+or are otherwise no longer tracked, they are removed from the estimated state
+vector to make room for new visual features to be added.
+
+% In the following
+% subsections, we define the error-state of the estimated system,  thdescribe the dynamic equations used to model the state of the
+% estimated system, the
+% initialization of certain states, and the specific
+% measurement models used to update the filter.
 
 We note
 that the estimated state is of dynamic size. As visual features are
@@ -112,8 +125,6 @@ We define the error-state of the estimated system as
     \tilde{\vect{\beta}}_{\omega},
     \tilde{\vect{p}}_{g/b}^{v}, \tilde{\vect{v}}_{g/I}^{g}, \tilde{\psi}_{I}^{g},
     \tilde{\omega}_{g/I}^{g},
-    \end{matrix}\right. \\
-    & \qquad \left. \begin{matrix}
       \tilde{\vect{r}}_{1/g}^{g}, \dots \tilde{\vect{r}}_{n/g}^{g}
   \end{matrix} \right]
   \in \mathbb{R}^{22 + 3n}
@@ -122,11 +133,12 @@ with the error-state components related to the vector states, $\x_{\vect{v}}$, d
 the vector subtraction operator as
 \begin{equation}
 \tilde{\x}_{\vect{v}} \triangleq \x_{\vect{v}} - \hat{\x}_{\vect{v}}
-\label{eq:vector_error_state}
+\label{eq:est_paper_vector_error_state}
 \end{equation}
 such that
 \begin{equation}
   \tilde{\vect{p}}_{b/I}^I = \vect{p}_{b/I}^I - \hat{\vect{p}}_{b/I}^I.
+  \label{eq:est_paper_uav_pos_err_state}
 \end{equation}
 We reiterate that we treat $\psi_I^g \in S^1$ as a vector space such that
 \begin{equation}
@@ -145,5 +157,43 @@ which also results in
   \right).
   \label{eq:quat_true_state}
 \end{equation}
+As rotation matrices concatenate in the order opposite to
+quaternions,~\eqref{eq:quat_true_state} can also be expressed as
+\begin{equation}
+  R_I^b  = R \left( \exp_{\q} \left( \tilde{\vect{\theta}}_I^b \right) \right)
+  \hat{R}_I^b.
+  \label{eq:rot_true_state}
+\end{equation}
+
+To derive the error-state dynamics and the measurement model jacobians in the
+following sections, we
+use an approximation for~\eqref{eq:rot_true_state} developed by first expanding
+the
+quaternion exponential using~\eqref{eq:est_paper_quaternion_exp_approx} as
+$\tilde{\vect{\theta}}_I^b$ is assumed to be small
+\begin{equation}
+  R_I^b  \approx R \left( \begin{bmatrix}
+      1 \\
+    \frac{1}{2} \tilde{\vect{\theta}}_I^b
+  \end{bmatrix}\right)
+  \hat{R}_I^b.
+\end{equation}
+We then employ~\eqref{eq:est_paper_R_from_q}, neglecting higher-order terms to
+yield the approximation
+\begin{equation}
+  R_I^b  \approx 
+  \left( I - \skewmat{\tilde{\vect{\theta}}_I^b} \right)
+  \hat{R}_I^b.
+  \label{eq:est_paper_Rapprox}
+\end{equation}
+It can similarly be shown that
+\begin{equation}
+  \left( R_I^b \right)^\transpose  \approx 
+  \left( \hat{R}_I^b \right)^\transpose
+  \left( I + \skewmat{\tilde{\vect{\theta}}_I^b} \right).
+  \label{eq:est_paper_RTapprox}
+\end{equation}
+
+>>>>>>> 28198c48be2c86623ca57f088db60d0dfabd3f40
 
 

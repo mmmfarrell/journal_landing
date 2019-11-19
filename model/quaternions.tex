@@ -31,15 +31,16 @@ portion of the quaternion is given by
 Given this representation of the quaternion, the quaternion group operator
 $\otimes$ can be written as the following matrix-like product
 \begin{equation}
-	\q^a \otimes \q^b = \begin{pmatrix} -q_0^a & \left(-\bar{\q}^{a}\right)^\transpose \\ \bar{\q}^a & q^a_0 I + \skewmat{\bar{\q}^a} \end{pmatrix}
+	\q^a \otimes \q^b = \begin{pmatrix} q_0^a & \left(-\bar{\q}^{a}\right)^\transpose \\ \bar{\q}^a & q^a_0 I + \skewmat{\bar{\q}^a} \end{pmatrix}
 	\begin{pmatrix} q^b \\ \bar{\q}^b\end{pmatrix}.
+  \label{eq:quat_otimes_product}
 \end{equation}
 % It is often convenient to convert a quaternion $\q$ to its associated passive rotation matrix.  This is done with
 We frequently convert a quaternion $\q$ to its associated passive rotation
 matrix. This is done with
 \begin{equation}
-\label{eq:R_from_q}
 R\left(\q\right)=\left(2q_{0}^{2}-1\right)I-2q_{0}\skewmat{\bar{\q}}+2\bar{\q}\bar{\q}^{\top}\in SO\left(3\right).
+\label{eq:est_paper_R_from_q}
 \end{equation}
 We also note that rotations are written equivalently as
 $\q_a^b=R\left(\q_a^b\right)=R_a^b$, throughout the paper, where the choice of these is dictated by convenience.
@@ -74,7 +75,7 @@ logarithm given by
 \begin{align}
 \exp_{\q}\left(\vect{\delta}\right) & \approx\begin{bmatrix}1\\
 \frac{\vect{\delta}}{2}
-\end{bmatrix}\label{eq:quaternion_exp_approx}\\
+\end{bmatrix}\label{eq:est_paper_quaternion_exp_approx}\\
 \log_{\q}\left(\q\right) & \approx2\;\textrm{sign}\left(q_{0}\right)\bar{\q}.\label{eq:quaternion_log_approx}
 \end{align}
 

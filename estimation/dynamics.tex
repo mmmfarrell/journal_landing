@@ -12,24 +12,26 @@ the UAV given by
   \dot{\vect{q}}_{I}^{b} 
 	&= 	
   \q_I^b \otimes \begin{pmatrix} 0 \\ \frac{1}{2}
-  \left( \bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega \right)
+    \left( \bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega - \vect{\upsilon}_\omega \right)
 \end{pmatrix} \nonumber \\
   \dot{\vect{v}}_{b/I}^b 
   &=
   R_I^b \vect{g}
   +
   \skewmat{\vect{v}_{b/I}^b}
-  \left( \bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega \right)
+  \left( \bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega -
+  \vect{\upsilon}_\omega \right)
   +
-  \left( \bar{\vect{a}} - \vect{\beta}_a \right) \nonumber
+  \left( \bar{\vect{a}} - \vect{\beta}_a - \vect{\upsilon}_a \right) \nonumber
   % \vect{\eta}_v 
   \\
   \dot{\vect{\beta}}_a &= \vect{\eta}_{\beta_a} \nonumber
   \\
-  \dot{\vect{\beta}}_\omega &= \vect{\eta}_{\beta_\omega}, \nonumber
+  \dot{\vect{\beta}}_\omega &= \vect{\eta}_{\beta_\omega} \nonumber
 \end{align}
 % $\vect{\eta}_v$, 
-where $\vect{\eta}_{\beta_a}$ and $\vect{\eta}_{\beta_\omega}$
+where $\vect{\eta}_{\beta_a}$, $\vect{\eta}_{\beta_\omega}$,
+$\vect{\upsilon}_\omega$, and $\vect{\upsilon}_a$
 are zero-mean Gaussian noise processes.
 
 We model the motion of the landing vehicle
@@ -47,8 +49,8 @@ angular velocity motion model such that
   % \dot{\hat{\omega}}_{g/I}^{g} &= 0. \nonumber
 % \end{align}
 \begin{align}
-  \dot{\vect{p}}_{g/b}^{v} &= \left( R_{I}^{g} \right)^\transpose
-  \vect{v}_{g/I}^{g} - \left( R_{I}^{b} \right)^\transpose
+  \dot{\vect{p}}_{g/b}^{v} &= I_{3 \times 2} \left( R_{I}^{g} \right)^\transpose
+   \vect{v}_{g/I}^{g} - \left( R_{I}^{b} \right)^\transpose
   \vect{v}_{b/I}^{b} \label{eq:goal_dynamics} \\
   \dot{\vect{v}}_{g/I}^{g} &= \vect{\eta}_{gv} \nonumber \\
   \dot{\psi}_{I}^{g} &= \omega_{g/I}^g \nonumber \\
@@ -99,8 +101,8 @@ of~\eqref{eq:uav_dynamics}, \eqref{eq:goal_dynamics}, and
   \\
   \dot{\hat{\vect{\beta}}}_\omega &= \vect{0} \nonumber
   \\
-  \dot{\hat{\vect{p}}}_{g/b}^{v} &= \left( \hat{R}_{I}^{g} \right)^\transpose
-  \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \dot{\hat{\vect{p}}}_{g/b}^{v} &= I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+   \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
   \hat{\vect{v}}_{b/I}^{b} \nonumber \\
   \dot{\hat{\vect{v}}}_{g/I}^{g} &= \vect{0} \nonumber \\
   \dot{\hat{\psi}}_{I}^{g} &= \hat{\omega}_{g/I}^g \nonumber \\
@@ -621,284 +623,416 @@ The derivation of these error-state dynamics can be found in the Appendix
     % \left( \e_3^\transpose \vect{p}_{i/g}^g + 1 / \rho \right)
   % \end{bmatrix}.
 % \end{equation}
+=======
+>>>>>>> 28198c48be2c86623ca57f088db60d0dfabd3f40
 
-% \subsubsection{Measurement Jacobian}
-% For the purpose of deriving the jacobians, we will just look at the jacobians
-% with respect to $p_x$, the pixel location along the $x$ axis of the camera
-% frame. From above we have that
-% \begin{align}
-  % p_x &= f_x \frac{\e_1^\transpose \vect{p}_{i/c}^c}{\e_3^\transpose \vect{p}_{i/c}^c} + c_x \\ 
-  % p_x &= f_x \frac{\e_1^\transpose R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-      % \vect{p}_{c/b}^b\right) }{\e_3^\transpose R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  % \vect{p}_{c/b}^b\right) } + c_x 
-% \end{align}
-% Note that all values are constants except for $\vect{p}_{i/v}^v$ and $R_v^b$.
-% The individual parts of the jacobian are given here:
-% \begin{equation}
-  % \frac{\partial p_x}{\partial \vect{p}_{g/v}^v} =
-  % \frac{f_x \e_1 R_b^c R_v^b}
-    % {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    % \vect{p}_{c/b}^b\right)\right)}
-    % - \frac{\left(\e_3 R_b^c R_v^b \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-        % \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  % \vect{p}_{c/b}^b\right)\right)^2}
-% \end{equation}
-% where only the first two (of three) entries of the vector are used. The third
-% entry is used for the jacobian w.r.t. $\rho$ as
-% \begin{equation}
-  % \frac{\partial p_x}{\partial \rho} = -\frac{1}{\rho^2} \frac{\partial p_x}{\partial
-  % \vect{p}_{g/v}^v}\left(2\right).
-% \end{equation}
-% The derivatives for the euler angles are given by
-% \begin{equation}
-  % \frac{\partial p_x}{\partial \phi} =
-  % \frac{f_x \e_1 R_b^c \frac{\partial R_v^b}{\partial \phi} \vect{p}_{i/v}^v}
-    % {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    % \vect{p}_{c/b}^b\right)\right)}
-    % - \frac{\left(\e_3 R_b^c \frac{\partial R_v^b}{\partial \phi} \vect{p}_{i/v}^v \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-        % \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  % \vect{p}_{c/b}^b\right)\right)^2}
-% \end{equation}
-% where the jacobians for the other angles are similar, just substituting in.
-% The derivative for the goal angle, $\theta_g$ is given by using
-% \begin{equation}
-  % \frac{\partial \vect{p}_{i/v}^v}{\partial \theta_g} =
-  % \begin{bmatrix}
-    % \e_1^\transpose \frac{\partial R_g^v}{\partial \theta_g} \vect{p}_{i/g}^g \\
-    % \e_2^\transpose \frac{\partial R_g^v}{\partial \theta_g} \vect{p}_{i/g}^g \\
-    % 0
-  % \end{bmatrix}
-% \end{equation}
-% in the jacobian given by
-% \begin{equation}
-  % \frac{\partial p_x}{\partial \theta_g} =
-  % \frac{f_x \e_1 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \theta_g}}
-    % {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    % \vect{p}_{c/b}^b\right)\right)}
-    % - \frac{\left(\e_3 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \theta_g} \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-        % \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  % \vect{p}_{c/b}^b\right)\right)^2}
-% \end{equation}
-% Similarly, the derivative for the landmark offset, $\vect{r}_i$ or
-% $\vect{p}_{i/g}^g$ is given by using
-% \begin{equation}
-  % \frac{\partial \vect{p}_{i/v}^v}{\partial \vect{p}_{i/g}^g} =
-  % \begin{bmatrix}
-    % \e_1^\transpose R_g^v \\
-    % \e_2^\transpose R_g^v \\
-    % \e_3^\transpose
-  % \end{bmatrix}
-% \end{equation}
-% in the jacobian given by
-% \begin{equation}
-  % \frac{\partial p_x}{\partial \vect{p}_{i/g}^g} =
-  % \frac{f_x \e_1 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \vect{p}_{i/g}^g}}
-    % {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    % \vect{p}_{c/b}^b\right)\right)}
-    % - \frac{\left(\e_3 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \vect{p}_{i/g}^g} \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-        % \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  % \vect{p}_{c/b}^b\right)\right)^2}
-% \end{equation}
-% The jacobians for the y pixel measurement, $p_y$ are similar to the ones derived
-% above, just changing $f_y$ in place of $f_x$ and $\e_2$ instead of $\e_1$.
+The error-state dynamics used to propagate the filter are found by relating
+the modeled true-state dynamics from~\eqref{eq:uav_dynamics},
+\eqref{eq:goal_dynamics}, and \eqref{eq:feature_dynamics}
+with~\eqref{eq:estimated_dynamics} using the error-state definitions
+from~\eqref{eq:est_paper_vector_error_state} and~\eqref{eq:quat_error_state}. The
+first-order approximation of the error-state dynamics are given by \MF{TODO put
+the right err state dynamics here}
+\begin{align}
+  \dot{\hat{\vect{p}}}_{b/I}^I
+  &=
+  \left( \hat{R}_I^b \right)^\transpose \hat{\vect{v}}_{b/I}^b
+  \\
+  \dot{\hat{\vect{q}}}_{I}^{b} 
+  &= 	
+  \hat{\q}_I^b \otimes \begin{pmatrix} 0 \\ \frac{1}{2}
+  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+\end{pmatrix} \nonumber \\
+  \dot{\hat{\vect{v}}}_{b/I}^b 
+  &=
+  \hat{R}_I^b \vect{g}
+  +
+  \skewmat{\hat{\vect{v}}_{b/I}^b}
+  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+  +
+  \left( \bar{\vect{a}} - \hat{\vect{\beta}}_a \right) \nonumber
+  \\
+  \dot{\hat{\vect{\beta}}}_a &= \vect{0} \nonumber
+  \\
+  \dot{\hat{\vect{\beta}}}_\omega &= \vect{0} \nonumber
+  \\
+  \dot{\hat{\vect{p}}}_{g/b}^{v} &= \left( \hat{R}_{I}^{g} \right)^\transpose
+  \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \hat{\vect{v}}_{b/I}^{b} \nonumber \\
+  \dot{\hat{\vect{v}}}_{g/I}^{g} &= \vect{0} \nonumber \\
+  \dot{\hat{\psi}}_{I}^{g} &= \hat{\omega}_{g/I}^g \nonumber \\
+  \dot{\hat{\omega}}_{g/I}^{g} &= 0 \nonumber \\
+  \dot{\hat{\vect{r}}}_{i/g}^g &= \vect{0}. \nonumber
+\end{align}
+The derivation of these error-state dynamics can be found in the continuing
+subsections.
 
-% \subsection{Landmark Pixel Measurement 2.0}
+\subsubsection{UAV Position Error-State Dynamics}
+To derive the error-state dynamics for the UAV position state, we start by
+differentiating the error-state definition given
+in~\eqref{eq:est_paper_uav_pos_err_state} with respect to time to yield
+\begin{equation}
+  \dot{\tilde{\vect{p}}}_{b/I}^I = \dot{\vect{p}}_{b/I}^I - \dot{\hat{\vect{p}}}_{b/I}^I.
+\end{equation}
+We then substitue in the corresponding dynamics from~\eqref{eq:uav_dynamics}
+and~\eqref{eq:estimated_dynamics}
+\begin{align}
+  \dot{\tilde{\vect{p}}}_{b/I}^I
+  &=
+  \left( R_I^b \right)^\transpose \vect{v}_{b/I}^b
+  - \left( \hat{R}_I^b \right)^\transpose \hat{\vect{v}}_{b/I}^b.
+\end{align}
+We expand this equation using the approximation for $\left( R_I^b \right)^\transpose$ given
+in~\eqref{eq:est_paper_RTapprox} and the error-state definition given
+in~\eqref{eq:est_paper_vector_error_state} resulting in
+\begin{align}
+  \dot{\tilde{\vect{p}}}_{b/I}^I
+  &=
+  \left( \hat{R}_I^b \right)^\transpose
+  \left( I + \skewmat{\tilde{\vect{\theta}}_I^b} \right)
+  \left( \hat{\vect{v}}_{b/I}^b + \tilde{\vect{v}}_{b/I}^b \right)
+  - \left( \hat{R}_I^b \right)^\transpose \hat{\vect{v}}_{b/I}^b \\
+  &=
+  \left( \hat{R}_I^b \right)^\transpose
+  \left( \hat{\vect{v}}_{b/I}^b + \tilde{\vect{v}}_{b/I}^b
+  + \skewmat{\tilde{\vect{\theta}}_I^b} \hat{\vect{v}}_{b/I}^b
+  + \skewmat{\tilde{\vect{\theta}}_I^b} \tilde{\vect{v}}_{b/I}^b \right)
+  - \left( \hat{R}_I^b \right)^\transpose \hat{\vect{v}}_{b/I}^b \\
+  &=
+  \left( \hat{R}_I^b \right)^\transpose \tilde{\vect{v}}_{b/I}^b
+  + \left( \hat{R}_I^b \right)^\transpose \skewmat{\tilde{\vect{\theta}}_I^b} \hat{\vect{v}}_{b/I}^b
+  + \left( \hat{R}_I^b \right)^\transpose \skewmat{\tilde{\vect{\theta}}_I^b} \tilde{\vect{v}}_{b/I}^b.
+\end{align}
+We assume the error-state components to be small, neglecting the higher-order
+terms to get the final expression
+\begin{align}
+  \dot{\tilde{\vect{p}}}_{b/I}^I
+  &=
+  \left( \hat{R}_I^b \right)^\transpose \tilde{\vect{v}}_{b/I}^b
+  - \left( \hat{R}_I^b \right)^\transpose \skewmat{\hat{\vect{v}}_{b/I}^b}
+  \tilde{\vect{\theta}}_I^b.
+\end{align}
 
-% \subsubsection{Measurement Model}
-% The measurement is a pixel location of each landmark in the camera image
-% \begin{equation}
-  % \vect{z} =
-  % \begin{bmatrix}
-    % p_x & p_y
-  % \end{bmatrix}^\transpose.
-% \end{equation}
-% We can expand this measurements using our estimated states
-% \begin{align}
-  % \vect{z} &=
-  % \begin{bmatrix}
-    % p_x & p_y
-  % \end{bmatrix}^\transpose \\
-  % \vect{z} &=
-  % \begin{bmatrix}
-    % f_x \frac{\e_1 \vect{p}_{i/c}^c}{\e_3 \vect{p}_{i/c}^c} + c_x \\
-    % f_y \frac{\e_2 \vect{p}_{i/c}^c}{\e_3 \vect{p}_{i/c}^c} + c_y
-  % \end{bmatrix},
-% \end{align}
-% where $f_x$, $f_y$, $c_x$, and $c_y$ are constant parameters of the camera. We
-% can then express the position of the landmark $i$ with respect to the camera in the
-% camera frame as
-% \begin{align}
-  % \vect{p}_{i/c}^c &= R_b^c R_v^b \left(\vect{p}_{i/v}^v -
-    % \vect{p}_{c/v}^v\right) \\
-    % \vect{p}_{i/c}^c &= R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    % \vect{p}_{c/b}^b\right)
-% \end{align}
-% This is actually a little bit weird because of the state parameters, but
-% \begin{equation}
-  % \vect{p}_{i/v}^v =
-  % \begin{bmatrix}
-    % \e_1^\transpose \left( R_g^v \vect{p}_{i/g}^g + \vect{p}_{g/v}^v \right) \\
-    % \e_2^\transpose \left( R_g^v \vect{p}_{i/g}^g + \vect{p}_{g/v}^v \right) \\
-    % \e_3^\transpose \left( \vect{p}_{i/g}^g - \vect{p}_{b/I}^I \right)
-  % \end{bmatrix}.
-% \end{equation}
+\subsubsection{UAV Attitude Error-State Dynamics}
+To derive the error-state dynamics for the UAV attitude state, we
+follow~\cite{koch2017relative}, starting
+with~\eqref{eq:quat_true_state} and letting $\tilde{\q}_I^b = \exp_{\q} \left(
+  \tilde{\vect{\theta}}_I^b \right)$ such that
+\begin{equation}
+  \q_I^b  = \hat{\q}_I^b \otimes \tilde{\q}_I^b
+  \right).
+\end{equation}
+Differentiating with respect to time results in
+\begin{equation}
+  \dot{\q}_I^b  = \dot{\hat{\q}}_I^b \otimes \tilde{\q}_I^b + 
+  \hat{\q}_I^b \otimes \dot{\tilde{\q}}_I^b
+  \right)
+\end{equation}
+which we multiply all terms on the left by $\left( \hat{\q}_I^b \right)^{-1}$
+and simplify to yield
+\begin{align}
+  \left( \hat{\q}_I^b \right)^{-1} \otimes \dot{\q}_I^b  &= \left( \hat{\q}_I^b
+  \right)^{-1} \otimes \dot{\hat{\q}}_I^b \otimes \tilde{\q}_I^b + 
+  \left( \hat{\q}_I^b \right)^{-1} \otimes \hat{\q}_I^b \otimes \dot{\tilde{\q}}_I^b
+  \right) \\
+  \left( \hat{\q}_I^b \right)^{-1} \otimes \dot{\q}_I^b  &= \left( \hat{\q}_I^b
+  \right)^{-1} \otimes \dot{\hat{\q}}_I^b \otimes \tilde{\q}_I^b + 
+  \dot{\tilde{\q}}_I^b
+  \right).
+\end{align}
+We then rearrange the above equation and simplify using the true-state and
+estimated-state dynamics of the UAV attitude state given
+in~\eqref{eq:uav_dynamics} and~\eqref{eq:estimated_dynamics} along with the
+error-state definition from~\eqref{eq:quat_error_state}:
+\begin{align}
+  \dot{\tilde{\q}}_I^b &=
+  \left( \hat{\q}_I^b \right)^{-1} \otimes \dot{\q}_I^b  - \left( \hat{\q}_I^b
+  \right)^{-1} \otimes \dot{\hat{\q}}_I^b \otimes \tilde{\q}_I^b
+  \right) \\
+  &=
+  \left( \hat{\q}_I^b \right)^{-1} \otimes \q_I^b \otimes
+  \begin{pmatrix}
+    0 \\
+    \frac{1}{2} \left( \bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega
+    -\vect{\upsilon}_\omega \right)
+  \end{pmatrix}
+  - \left( \hat{\q}_I^b
+  \right)^{-1} \otimes \hat{\q}_I^b \otimes
+  \begin{pmatrix}
+    0 \\
+    \frac{1}{2} \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega
+  \end{pmatrix}
+  \otimes \tilde{\q}_I^b
+  \right) \\
+  &=
+  \label{eq:intermed_eq1}
+  \frac{1}{2} \tilde{\q}_I^b \otimes
+  \begin{pmatrix}
+    0 \\
+    \left( \bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega -
+    \vect{\upsilon}_\omega \right)
+  \end{pmatrix}
+  - \frac{1}{2}
+  \begin{pmatrix}
+    0 \\
+    \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega
+  \end{pmatrix}
+  \otimes \tilde{\q}_I^b
+  \right). 
+\end{align}
+Applying~\eqref{eq:quat_otimes_product} and noting that the quaternion group
+operator $\otimes$ can also be written as
+\begin{equation}
+	\q^a \otimes \q^b = \begin{pmatrix} q_0^b & \left(-\bar{\q}^{b}\right)^\transpose \\ \bar{\q}^b & q^b_0 I - \skewmat{\bar{\q}^b} \end{pmatrix}
+	\begin{pmatrix} q^a \\ \bar{\q}^a \end{pmatrix},
+\end{equation}
+we can expand~\eqref{eq:intermed_eq1} as matrix-like products
+\begin{align}
+  \dot{\tilde{\q}}_I^b &=
+  \frac{1}{2}
+  \begin{pmatrix}
+    0 & -\left( \bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega -
+      \vect{\upsilon}_\omega
+    \right)^\transpose \\
+      \left( \bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega -
+    \vect{\upsilon}_\omega \right) &
+    -\skewmat{\bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega -
+    \vect{\upsilon}_\omega }
+  \end{pmatrix}
+  \tilde{\q}_I^b \\
+                       & \qquad - \frac{1}{2}
+  \begin{pmatrix}
+    0 & -\left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega
+    \right)^\transpose \\
+      \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right) &
+      \skewmat{\bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega }
+  \end{pmatrix}
+  \tilde{\q}_I^b
+  \right). \nonumber
+\end{align}
+We then simplify the previous equation using the error-state definition
+$\tilde{\vect{\beta}}_\omega \triangleq \vect{\beta}_\omega -
+\hat{\vect{\beta}}_\omega$ giving
+\begin{align}
+  \dot{\tilde{\q}}_I^b &=
+  \frac{1}{2}
+  \begin{pmatrix}
+    0 & -\left( - \tilde{\vect{\beta}}_\omega -
+      \vect{\upsilon}_\omega
+    \right)^\transpose \\
+    \left( - \tilde{\vect{\beta}}_\omega -
+    \vect{\upsilon}_\omega \right) &
+    \skewmat{ -2\bar{\vect{\omega}}_{b/I}^b + 2\hat{\vect{\beta}}_\omega
+      + \tilde{\vect{\beta}}_\omega + \vect{\upsilon}_\omega }
+  \end{pmatrix}
+  \tilde{\q}_I^b
+\end{align}
+which implies that
+\begin{align}
+  \begin{pmatrix}
+    1 \\
+    \frac{1}{2} \dot{\tilde{\vect{\theta}}}_I^b
+  \end{pmatrix}
+  &=
+  \frac{1}{2}
+  \begin{pmatrix}
+    0 & -\left( - \tilde{\vect{\beta}}_\omega -
+      \vect{\upsilon}_\omega
+    \right)^\transpose \\
+    \left( - \tilde{\vect{\beta}}_\omega -
+    \vect{\upsilon}_\omega \right) &
+    \skewmat{ -2\bar{\vect{\omega}}_{b/I}^b + 2\hat{\vect{\beta}}_\omega
+      + \tilde{\vect{\beta}}_\omega + \vect{\upsilon}_\omega }
+  \end{pmatrix}
+  \begin{pmatrix}
+    1 \\
+    \frac{1}{2} \tilde{\vect{\theta}}_I^b
+  \end{pmatrix}.
+\end{align}
+To get the final expression, we drop the scalar equation and neglect
+second-order terms to yield
+\begin{align}
+  \dot{\tilde{\vect{\theta}}}_I^b
+  &=
+    \left( - \tilde{\vect{\beta}}_\omega -
+    \vect{\upsilon}_\omega \right) 
+    + \frac{1}{2}
+    \skewmat{ -2\bar{\vect{\omega}}_{b/I}^b + 2\hat{\vect{\beta}}_\omega
+      + \tilde{\vect{\beta}}_\omega + \vect{\upsilon}_\omega }
+    \tilde{\vect{\theta}}_I^b \\
+  &\approx
+  -\skewmat{ \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega}
+    \tilde{\vect{\theta}}_I^b
+    - \tilde{\vect{\beta}}_\omega -
+    \vect{\upsilon}_\omega .
+\end{align}
 
-% \subsubsection{Measurement Jacobian}
-% For the purpose of deriving the jacobians, we will just look at the jacobians
-% with respect to $p_x$, the pixel location along the $x$ axis of the camera
-% frame. From above we have that
-% \begin{align}
-  % p_x &= f_x \frac{\e_1^\transpose \vect{p}_{i/c}^c}{\e_3^\transpose \vect{p}_{i/c}^c} + c_x \\ 
-  % p_x &= f_x \frac{\e_1^\transpose R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-      % \vect{p}_{c/b}^b\right) }{\e_3^\transpose R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  % \vect{p}_{c/b}^b\right) } + c_x 
-% \end{align}
-% Note that all values are constants except for $\vect{p}_{i/v}^v$ and $R_v^b$.
-% The individual parts of the jacobian are given here:
-% \begin{equation}
-  % \frac{\partial p_x}{\partial \vect{p}_{g/v}^v} =
-  % \frac{f_x \e_1 R_b^c R_v^b}
-    % {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    % \vect{p}_{c/b}^b\right)\right)}
-    % - \frac{\left(\e_3 R_b^c R_v^b \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-        % \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  % \vect{p}_{c/b}^b\right)\right)^2}
-% \end{equation}
-% where only the first two (of three) entries of the vector are used. The third
-% entry is used for the jacobian w.r.t. $\vect{p}_{b/I}^I(2)$ as
-% \begin{equation}
-  % \frac{\partial p_x}{\partial \vect{p}_{b/I}^I(2)} = -\frac{\partial p_x}{\partial
-  % \vect{p}_{g/v}^v}\left(2\right).
-% \end{equation}
-% The derivatives for the attitude representation are less straight forward. From
-% "Micro Lie Theory" we use the fact that the jacobian of the rotation action can
-% be shown to be
-% \begin{equation}
-  % J_R^{R \cdot v} = -R \skewmat{v}.
-% \end{equation}
-% \begin{equation}
-  % \frac{\partial p_x}{\partial \q} =
-  % \frac{-f_x \e_1 R_b^c R_v^b \skewmat{\vect{p}_{i/v}^v}}
-    % {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    % \vect{p}_{c/b}^b\right)\right)}
-    % - \frac{\left(-\e_3 R_b^c R_v^b \skewmat{\vect{p}_{i/v}^v} \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-        % \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  % \vect{p}_{c/b}^b\right)\right)^2}
-% \end{equation}
-% where the jacobians for the other angles are similar, just substituting in.
-% The derivative for the goal angle, $\theta_g$ is given by using
-% \begin{equation}
-  % \frac{\partial \vect{p}_{i/v}^v}{\partial \theta_g} =
-  % \begin{bmatrix}
-    % \e_1^\transpose \frac{\partial R_g^v}{\partial \theta_g} \vect{p}_{i/g}^g \\
-    % \e_2^\transpose \frac{\partial R_g^v}{\partial \theta_g} \vect{p}_{i/g}^g \\
-    % 0
-  % \end{bmatrix}
-% \end{equation}
-% in the jacobian given by
-% \begin{equation}
-  % \frac{\partial p_x}{\partial \theta_g} =
-  % \frac{f_x \e_1 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \theta_g}}
-    % {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    % \vect{p}_{c/b}^b\right)\right)}
-    % - \frac{\left(\e_3 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \theta_g} \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-        % \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  % \vect{p}_{c/b}^b\right)\right)^2}
-% \end{equation}
-% Similarly, the derivative for the landmark offset, $\vect{r}_i$ or
-% $\vect{p}_{i/g}^g$ is given by using
-% \begin{equation}
-  % \frac{\partial \vect{p}_{i/v}^v}{\partial \vect{p}_{i/g}^g} =
-  % \begin{bmatrix}
-    % \e_1^\transpose R_g^v \\
-    % \e_2^\transpose R_g^v \\
-    % \e_3^\transpose
-  % \end{bmatrix}
-% \end{equation}
-% in the jacobian given by
-% \begin{equation}
-  % \frac{\partial p_x}{\partial \vect{p}_{i/g}^g} =
-  % \frac{f_x \e_1 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \vect{p}_{i/g}^g}}
-    % {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-    % \vect{p}_{c/b}^b\right)\right)}
-    % - \frac{\left(\e_3 R_b^c R_v^b \frac{\partial \vect{p}_{i/v}^v}{\partial \vect{p}_{i/g}^g} \right) f_x \left(\e_1 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-        % \vect{p}_{c/b}^b\right)\right)} {\left(\e_3 R_b^c \left(R_v^b \vect{p}_{i/v}^v -
-  % \vect{p}_{c/b}^b\right)\right)^2}
-% \end{equation}
-% The jacobians for the y pixel measurement, $p_y$ are similar to the ones derived
-% above, just changing $f_y$ in place of $f_x$ and $\e_2$ instead of $\e_1$.
+\subsubsection{UAV Velocity Error-State Dynamics}
+Similar to the UAV position error-state derivation, to derive the error-state
+dynamics for the UAV velocity state, we begin with the time derivative of the
+error-state definition
+\begin{equation}
+  \dot{\tilde{\vect{v}}}_{b/I}^I = \dot{\vect{v}}_{b/I}^I -
+  \dot{\hat{\vect{v}}}_{b/I}^I.
+\end{equation}
+We then substitue in the dynamics from~\eqref{eq:uav_dynamics}
+and~\eqref{eq:estimated_dynamics} and expand using the error-state definitions
+and approximations
+\begin{align}
+  \dot{\tilde{\vect{v}}}_{b/I}^I
+  =&
+  R_I^b \vect{g}
+  +
+  \skewmat{\vect{v}_{b/I}^b}
+  \left( \bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega -
+  \vect{\upsilon}_\omega \right)
+  +
+  \left( \bar{\vect{a}} - \vect{\beta}_a - \vect{\upsilon}_a \right) \\
+                                  & \qquad -
+                                  \left( \hat{R}_I^b \vect{g}
+  +
+  \skewmat{\hat{\vect{v}}_{b/I}^b}
+  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+  +
+\left( \bar{\vect{a}} - \hat{\vect{\beta}}_a \right) \right) \nonumber \\
+  \approx&
+  \left( I - \skewmat{\tilde{\vect{\theta}}_I^b }\right) \hat{R}_I^b \vect{g}
+  +
+  \skewmat{ \hat{\vect{v}}_{b/I}^b + \tilde{\vect{v}}_{b/I}^b } 
+  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega -
+    \tilde{\vect{\beta}}_\omega -
+  \vect{\upsilon}_\omega \right) \\
+                                  & \qquad 
+  + \left( \bar{\vect{a}} - \hat{\vect{\beta}}_a - \tilde{\vect{\beta}}_a - \vect{\upsilon}_a \right)
+  - \left( \hat{R}_I^b \vect{g}
+  +
+  \skewmat{\hat{\vect{v}}_{b/I}^b}
+  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+  +
+\left( \bar{\vect{a}} - \hat{\vect{\beta}}_a \right) \right) \nonumber
+\end{align}
+which we can simplify and neglect high-order terms to yield the final
+expression:
+\begin{align}
+  \dot{\tilde{\vect{v}}}_{b/I}^I
+  \approx&
+  \skewmat{ \hat{R}_I^b \vect{g} } \tilde{\vect{\theta}}_I^b 
+  -
+  \skewmat{ \hat{\vect{v}}_{b/I}^b } \tilde{\vect{\beta}}_\omega
+  -
+  \skewmat{ \hat{\vect{v}}_{b/I}^b } \vect{\upsilon}_\omega
+  -
+  \skewmat{ \bar{\omega}_{b/I}^b - \hat{\vect{\beta}}_\omega }
+  \tilde{\vect{v}}_{b/I}^b
+  -
+  \tilde{\vect{\beta}}_a
+  -
+  \vect{\upsilon}_a.
+\end{align}
 
-% \subsection{Landmark Initialization}
-% Each time a new landmark is acquired and added to the estimated vector, we
-% should initialize its location to something intelligent. Theoretically, we could
-% just initialize the landmark's location to zero with a large enough associated
-% covariance. However, by initializing the landmark to the location based on its
-% initial pixel measurement, we can initialize the landmark with a smaller
-% covariance.
+\subsubsection{UAV Bias Error-State Dynamics}
+To derive the error-state dynamics for the UAV bias states, we start with the
+time derivative of their error-state definitions
+\begin{align}
+  \dot{\tilde{\vect{\beta}}}_a &= \dot{\vect{\beta}}_a -
+  \dot{\hat{\vect{\beta}}}_a \\
+  \dot{\tilde{\vect{\beta}}}_\omega &= \dot{\vect{\beta}}_\omega -
+  \dot{\hat{\vect{\beta}}}_\omega
+\end{align}
+We then substitue in the dynamics from~\eqref{eq:uav_dynamics}
+and~\eqref{eq:estimated_dynamics} to yield the final expression
+\begin{align}
+  \dot{\tilde{\vect{\beta}}}_a &= \vect{\eta}_{\beta_a} \\
+  \dot{\tilde{\vect{\beta}}}_\omega &= \vect{\eta}_{\beta_\omega}.
+\end{align}
 
-% When we first acquire a landmark, the only information we have about it is a
-% measurement of its pixel location in the image frame. This measurement, denoted
-% by
-% \begin{equation}
-  % h \left( \x \right) = 
-  % \begin{bmatrix}
-    % p_x & p_y
-  % \end{bmatrix}^\transpose
-% \end{equation}
-% can be used to deduce the landmark's relative position vector that is estimated.
-% The easiest way to see this is by first creating a virtual image plane. This
-% virtual image plane projects the landmark pixel location into the image plane as
-% if the camera were perfectly aligned with the inertial, vehicle frame. We can
-% derive this using the pin hole camera model where
-% \begin{align}
-  % \begin{bmatrix}
-    % p_x \\ p_y \\ 1
-  % \end{bmatrix} &= K
-  % \begin{bmatrix}
-    % X^c / Z^c \\
-    % Y^c / Z^c \\
-    % 1
-  % \end{bmatrix} \\
-  % \begin{bmatrix}
-    % X^c / Z^c \\
-    % Y^c / Z^c \\
-    % 1
-  % \end{bmatrix}
-   % &= K^{-1}
-  % \begin{bmatrix}
-    % p_x \\ p_y \\ 1
-  % \end{bmatrix} \\
-  % \begin{bmatrix}
-    % X^c / Z^c \\
-    % Y^c / Z^c \\
-    % 1
-  % \end{bmatrix}^v
-   % &= R_b^v R_c^b K^{-1}
-  % \begin{bmatrix}
-    % p_x \\ p_y \\ 1
-  % \end{bmatrix} \\
-% \end{align}
-% The resulting vector, $
-  % \begin{bmatrix}
-    % X^c / Z^c \\
-    % Y^c / Z^c \\
-    % 1
-  % \end{bmatrix}^v$
-  % is the vector $\vect{p}_{i/c}^v$ up to a scale factor. The vector can be scaled by assuming that the altitude of the landmark is equal to the
-% altitude of the goal. To get the expected altitude, we solve for
-% \begin{align}
-  % \e_3^\transpose \vect{p}_{g/c}^v &= \e_3^\transpose \vect{p}_{g/b}^v - \e_3^\transpose \vect{p}_{c/b}^v \\
-  % \e_3^\transpose \vect{p}_{g/c}^v &= \e_3^\transpose \vect{p}_{g/b}^v -
-  % \e_3^\transpose R_b^I \vect{p}_{c/b}^b \\
-  % \e_3^\transpose \vect{p}_{g/c}^v &= \frac{1}{\rho_g} -
-  % \e_3^\transpose R_b^I \vect{p}_{c/b}^b \\
-% \end{align}
+\subsubsection{Landing Vehicle Position Error-State Dynamics}
+Similar to the method used for the UAV states, to derive the error-state
+dynamics for the landing vehicle position state, we start with the time
+derivative of the error-state definition
+\begin{equation}
+  \dot{\tilde{\vect{p}}}_{g/b}^{v} = \dot{\vect{p}}_{g/b}^{v} -
+  \dot{\hat{\vect{p}}}_{g/b}^{v}.
+\end{equation}
+We then substitue in the dynamics from~\eqref{eq:goal_dynamics}
+and~\eqref{eq:estimated_dynamics} and expand using the error-state definitions
+and approximations
+\begin{align}
+  \dot{\tilde{\vect{p}}}_{g/b}^{v}
+  &=
+  I_{3 \times 2} \left( R_{I}^{g} \right)^\transpose
+  \vect{v}_{g/I}^{g} - \left( R_{I}^{b} \right)^\transpose
+  \vect{v}_{b/I}^{b}
+  -
+  \left(
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \hat{\vect{v}}_{b/I}^{b}
+  \right) \\
+  &\approx
+  \label{eq:goal_pos_err_state1}
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \left( R \left( \tilde{\psi}_{I}^{g} \right) \right)^\transpose
+  \left( \hat{\vect{v}}_{g/I}^{g} + \tilde{\vect{v}}_{g/I}^{g} \right) - \left(
+  \hat{R}_{I}^{b} \right)^\transpose
+  \left( I + \skewmat{\tilde{\vect{\theta}}_I^b} \right)
+  \left( \hat{\vect{v}}_{b/I}^{b} + \tilde{\vect{v}}_{b/I}^{b} \right) \\
+  & \qquad -
+  \left(
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \hat{\vect{v}}_{b/I}^{b}
+  \right). \nonumber
+\end{align}
+From~\cite{sola2018micro}, by assuming $\tilde{\psi}_I^g$ is small, we can approximate 
+\begin{equation}
+  \left( R \left( \tilde{\psi}_I^g \right) \right)^\transpose \approx I -
+  \skewmat{\tilde{\psi}_I^g}
+  \label{eq:2d_err_rot_approx}
+\end{equation}
+where the two dimensional skew-symmetric matrix is given by
+\begin{equation}
+  \skewmat{\psi} \triangleq
+  \begin{bmatrix}
+    0 & -\psi \\
+    \psi & 0
+  \end{bmatrix}.
+\end{equation}
+We can then substitue~\eqref{eq:2d_err_rot_approx}
+into~\eqref{eq:goal_pos_err_state1} and simplify and neglect higher-order terms
+to get the final expression
+\begin{align}
+  \dot{\tilde{\vect{p}}}_{g/b}^{v}
+  &\approx
+  \label{eq:goal_pos_err_state1}
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \left( I - \skewmat{\tilde{\psi}_I^g} \right)
+  \left( \hat{\vect{v}}_{g/I}^{g} + \tilde{\vect{v}}_{g/I}^{g} \right)
+  - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \left( I + \skewmat{\tilde{\vect{\theta}}_I^b} \right)
+  \left( \hat{\vect{v}}_{b/I}^{b} + \tilde{\vect{v}}_{b/I}^{b} \right) \\
+  & \qquad -
+  \left(
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  \hat{\vect{v}}_{b/I}^{b}
+  \right). \nonumber \\
+  &\approx
+  \label{eq:goal_pos_err_state1}
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \tilde{\vect{v}}_{g/I}^g
+  +
+  I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+  \skewmat{ \tilde{\psi}_I^g } \hat{\vect{v}}_{g/I}^g
+  +
+  \left( \hat{R}_{I}^{b} \right)^\transpose \skewmat{ \hat{\vect{v}}_{b/I}^{b} } 
+  \tilde{\vect{\theta}}_I^b
+  -
+  \left( \hat{R}_{I}^{b} \right)^\transpose \tilde{\vect{v}}_{b/I}^{b} .
+\end{align}
 
-% This gives us the vector, $\vect{p}_{i/c}^v$.
-% With this vector, we can then reach the estimated state vector,
-% $\vect{p}_{i/g}^g$ with the following
-% \begin{align}
-  % \vect{p}_{i/v}^v &= \vect{p}_{i/c}^v + R_b^I \vect{p}_{c/b}^b \\
-  % \vect{p}_{i/g}^g &= R_v^g \left( \vect{p}_{i/v}^v - \vect{p}_{g/v}^v \right).
-% \end{align}
+\subsubsection{Landing Vehicle Velocity Error-State Dynamics}
+\subsubsection{Landing Vehicle Attitude Error-State Dynamics}
+\subsubsection{Landing Vehicle Angular Rate Error-State Dynamics}
+\subsubsection{Visual Feature Vector Error-State Dynamics}
 
