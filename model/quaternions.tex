@@ -79,6 +79,10 @@ with the corresponding logarithmic map defined as
 \log_{\q}\left(\q\right) & \triangleq2\;\mathrm{atan2}\left(\left\Vert \bar{\q}\right\Vert ,q_{0}\right)\frac{\bar{\q}}{\left\Vert \bar{\q}\right\Vert }.\label{eqn:log_map}
 \end{align}
 % To avoid numerical issues when $\norm{\vect{\delta}}\approx0$, we also employ the small-angle approximations of the quaternion exponential and logarithm
+With this formulation, $\vect{\delta}$ also represents the axis-angle
+representation of a rotation where the unit vector
+$\frac{\vect{\delta}}{\norm{\vect{\delta}}}$ represents the axis of rotation,
+and $\norm{\vect{\delta}}$ represents the angular magnitude of rotation.
 When $\norm{\vect{\delta}}\approx0$,
 we employ the small-angle approximations of the quaternion exponential and
 logarithm given by
