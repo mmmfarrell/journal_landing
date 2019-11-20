@@ -41,7 +41,7 @@ measurement and
 \end{align}
 
 As the estimate of the error state of the system, $\hat{\tilde{\x}}$, becomes
-non-zero at this point, we use this estimate to correct the estimated state,
+non-zero after this update, we use this estimate to correct the estimated state,
 $\hat{\x}$. As the estimated state is not a vector, this correction is done
 piecewise. The vector components of the estimated state are
 updated as
@@ -360,7 +360,19 @@ measurement is created with
   \bar{\psi}_I^g = \text{yaw} \left( \bar{R}_c^g R_b^c \hat{R}_I^b \right)
 \end{equation}
 where $\text{yaw}\left(\right)$ is a function that extracts the yaw angle
-from a rotation matrix.
+from a rotation matrix
+given by
+\begin{equation}
+  \text{yaw} \left(
+    \begin{bmatrix}
+      r_{11} & r_{12} & r_{13} \\
+      r_{21} & r_{22} & r_{23} \\
+      r_{31} & r_{32} & r_{33} 
+    \end{bmatrix}
+  \right)
+  =
+  \mathrm{atan2}\left( r_{12}, r_{11} \right).
+\end{equation}
 The measurement model and its estimate are
 written as
 \begin{align}
