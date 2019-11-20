@@ -18,10 +18,20 @@ were also simulated by randomly sampling from the uniform distribution
 % Positions for each feature in the goal frame are
 % randomly sampled from the
 % uniform distribution
+% \begin{equation}
+  % \vect{r}_{i/g}^g = \mathcal{U}
+  % \left( \begin{bmatrix} -2 \\ -2 \\ -1 \end{bmatrix},
+  % \begin{bmatrix} 2 \\ 2 \\ 1 \end{bmatrix} \right).
+  % \label{eq:uniform_dist}
+% \end{equation}
 \begin{equation}
   \vect{r}_{i/g}^g = \mathcal{U}
-  \left( \begin{bmatrix} -2 \\ -2 \\ -1 \end{bmatrix},
-  \begin{bmatrix} 2 \\ 2 \\ 1 \end{bmatrix} \right).
+  \left( \begin{matrix}
+    \left[ -2, 2 \right] \\
+    \left[ -2, 2 \right] \\
+    \left[ -1, 1 \right] 
+  \end{matrix}
+  \right).
   \label{eq:uniform_dist}
 \end{equation}
 To emulate a visual feature tracker losing track of features, simulated features
@@ -158,7 +168,7 @@ landing marker were not used in these experiments after $t = 5$
 seconds.
 Note that we
 do not include plots for the estimated UAV states, $\hat{\x}_{\text{UAV}}$,
-as it is well known that these states are accurately estimated with the given
+as it is well known that these states can be accurately estimated with the given
 measurements.
 
 \figref{fig:no_lms} clearly shows that the covariance

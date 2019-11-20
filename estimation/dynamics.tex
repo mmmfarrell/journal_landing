@@ -28,18 +28,17 @@ To model the motion of the UAV, we use common rigid-body kinematics given by
   \\
   \dot{\vect{\beta}}_a &= \vect{\eta}_{\beta_a} \nonumber
   \\
-  \dot{\vect{\beta}}_\omega &= \vect{\eta}_{\beta_\omega} \nonumber
+  \dot{\vect{\beta}}_\omega &= \vect{\eta}_{\beta_\omega}, \nonumber
 \end{align}
 % $\vect{\eta}_v$, 
 where $\vect{g}^I$ represents the gravity vector expressed in the inertial
 frame, $\vect{\eta}_{\beta_a}$ and $\vect{\eta}_{\beta_\omega}$ are zero-mean
-Guassian noise processes corresponding to the state dynamics, and
+Gaussian noise processes corresponding to the state dynamics, and
 $\vect{\upsilon}_\omega$ and $\vect{\upsilon}_a$ are zero-mean Gaussian noise
 processes corresponding to the noise in the inputs to the system.
 
 We model the motion of the landing target vehicle
-with a constant velocity and constant
-angular velocity motion model such that
+with a constant-velocity and constant-angular-velocity motion model such that
 % Though this is a very simplified model, we show
 % in~\secref{sec:simulation} and~\secref{sec:hardware} that it is sufficient for
 % cases that do not perfectly match this model. The dynamics of $\x_{\text{Goal}}$ are expressed as
@@ -58,10 +57,10 @@ angular velocity motion model such that
   \dot{\vect{v}}_{g/I}^{g} &= \vect{\eta}_{gv} \nonumber \\
   \dot{\psi}_{I}^{g} &= \omega_{g/I}^g \nonumber \\
   % \dot{R}_{I}^{g} &= -\skewmat{ \omega_{g/I}^g } R_I^g \nonumber \\
-  \dot{\omega}_{g/I}^{g} &= \eta_{g\omega} \nonumber
+  \dot{\omega}_{g/I}^{g} &= \eta_{g\omega}, \nonumber
 \end{align}
 where $\vect{\eta}_{gv}$ and $\eta_{g\omega}$ are zero-mean Gaussian noise
-processes. Though this is a very simplified motion model for the target
+processes. Though this is a simplified motion model for the target
 vehicle, we show in~\secref{sec:est_paper_simulation}
 and~\secref{sec:est_paper_hardware} that it is
 satisfactory for our experiments. We intend the motion model of the target

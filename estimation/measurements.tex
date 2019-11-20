@@ -76,7 +76,7 @@ written as
 \begin{align}
   h_{\text{pos}} \left( \x \right) &= \vect{p}_{b/I}^I +
   \vect{\eta}_{\text{pos}} \\
-  h_{\text{pos}} \left( \hat{\x} \right) &= \hat{\vect{p}}_{b/I}^I
+  h_{\text{pos}} \left( \hat{\x} \right) &= \hat{\vect{p}}_{b/I}^I,
 \end{align}
 where $\vect{\eta}_{\text{pos}}$ is a zero-mean Gaussian process
 describing the sensor noise.
@@ -148,7 +148,7 @@ written as
 \begin{align}
   h_{\text{att}} \left( \x \right) &= \vect{q}_{I}^b \otimes \exp_{\q} \left(
   \vect{\eta}_{\text{att}} \right) \\
-    h_{\text{att}} \left( \hat{\x} \right) &= \hat{\vect{q}}_{I}^b
+    h_{\text{att}} \left( \hat{\x} \right) &= \hat{\vect{q}}_{I}^b,
 \end{align}
 where $\vect{\eta}_{\text{att}}$ is a zero-mean Gaussian process
 describing the sensor noise.
@@ -156,7 +156,7 @@ For a given measurement of attitude, $\bar{\vect{z}}_{\text{att}}$, the residual
 given by
 \begin{equation}
   \vect{r}_{\text{att}} = \log_{\q} \left(  h_{\text{att}} \left(
-  \hat{\x} \right)^{-1} \otimes \bar{\vect{z}}_{\text{att}} \right)
+  \hat{\x} \right)^{-1} \otimes \bar{\vect{z}}_{\text{att}} \right),
   % \vect{r}_{\text{att}} = \vect{z}_{\text{att}} - h_{\text{att}} \left( \hat{\x}
 \end{equation}
 which is modeled as
@@ -345,14 +345,14 @@ This results in the residual Jacobian
     % \hat{R}_I^b.
 % \end{align}
 
-\subsubsection{Fidual Rotation Measurement}
+\subsubsection{Fiducial Rotation Measurement}
 We use the relative rotation measurement that results from a detection of the
 fiducial marker
 to create a pseudo measurement of the orientation of the goal frame. In theory,
 a measurement model could be developed to use the entire measurement,
 $\bar{R}_c^g$; however, in practice, this may cause complications if the
 fiducial landing marker is not perfectly aligned with the plane of the target
-vehicle's motion (i.e. the fiducial marker is slighly rolled or pitched with
+vehicle's motion (i.e., the fiducial marker is slighly rolled or pitched with
 respect to the goal frame).
 The pseudo
 measurement is created with
