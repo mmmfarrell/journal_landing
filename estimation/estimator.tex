@@ -18,7 +18,7 @@ account for the uncertainty in its state.
 We, therefore, estimate the position, attitude, and velocity of the UAV given by
 $\hat{\vect{p}}_{b/I}^{I}$, $\hat{\vect{q}}_I^{b}$, and
 $\hat{\vect{v}}_{b/I}^b$.
-We also estimate bias states for the acclerometer and gyroscope sensors that are
+In addition, we estimate bias states for the acclerometer and gyroscope sensors that are
 used as inputs to the filter. These estimated states are given by
 $\hat{\vect{\beta}}_a$ and $\hat{\vect{\beta}}_{\omega}$.
 
@@ -149,10 +149,10 @@ which are directly measured from an inertial measurement unit mounted on the UAV
 
 We also note
 that the estimated state is of dynamic size. As visual features are
-detected they are added to the state vector until a maximum size of the state
-vector is reached. As the visual features leave the field of view of the camera,
+detected they are added to the estimated state until a maximum size of the state
+is reached. As visual features leave the field of view of the camera,
 or are otherwise no longer tracked, they are removed from the estimated state
-vector to make room for new visual features to be added.
+to make room for new visual features to be added.
 
 % In the following
 % subsections, we define the error-state of the estimated system,  thdescribe the dynamic equations used to model the state of the
