@@ -14,14 +14,54 @@
 This work focuses on the estimation of the state of the landing target vehicle.
 However, as several of the measurement models employed depend on the state of the
 UAV, we also estimate the state of the UAV in the same filter to properly
-account for the uncertainty in its state. We, therefore, estimate the position,
-attitude, and velocity of the UAV together with the position, attitude, velocity,
-and angular rate of the target vehicle and the positions of visual features on
-the target vehicle. We also estimate bias states for the
-accelerometer and gyroscope sensors that are used as inputs to the filter.
+account for the uncertainty in its state.
+We, therefore, estimate the position, attitude, and velocity of the UAV given by
+$\hat{\vect{p}}_{b/I}^{I}$, $\hat{\vect{q}}_I^{b}$, and
+$\hat{\vect{v}}_{b/I}^b$.
+We also estimate bias states for the acclerometer and gyroscope sensors that are
+used as inputs to the filter. These estimated states are given by
+$\hat{\vect{\beta}}_a$ and $\hat{\vect{\beta}}_{\omega}$.
+
+The estimated state of the target vehicle is defined as the position, velocity,
+attitude, and angular rate of the target vehicle.
+% denoted by
+% $\hat{\vect{p}}_{g/b}^{v}$, $\hat{\vect{v}}_{g/I}^{g}$, $\hat{\psi}_{I}^{g}$,
+% and $\hat{\omega}_{g/I}^{g}$.
+We note that the
+estimated position of the target vehicle, $\hat{\vect{p}}_{g/b}^v$, is relative to the position of the
+UAV.
+We formulate this state relatively,
+as this relative state is observable even with poor estimates of the UAV's global
+position, $\hat{\vect{p}}_{g/I}^I$, due to the relative information provided
+by the measurements as described in~\secref{sec:measurement_models}.
+For this work, we assume that the target vehicle's
+motion is constrained to a two-dimensional plane. This means that the estimated
+target vehicle velocity, $\hat{\vect{v}}_{g/I}^{g}$, is only of two dimensions and that the
+estimated attitude, $\hat{\psi}_{I}^g$, represents a planar rotation as
+described in~\secref{sec:planar_rotations}, implying that the estimated angular
+rate, $\hat{\omega}_{g/I}^g$ is of one dimension.
+
+As previously mentioned, we also estimate the locations of unknown visual
+features on the target vehicle.
+The vectors $\hat{\vect{r}}_{1/g}^{g}, \dots \hat{\vect{r}}_{n/g}^{g}$ represent the
+estimated locations of visual features $1, \dots n$ with respect to the goal frame and
+expressed in the goal frame. As we assume these features are rigidly attached to the
+target vehicle, these vectors remain constant as the vehicle moves and rotates.
+We show in the experiments described in~\secref{sec:est_paper_simulation}
+and~\secref{sec:est_paper_hardware} that the
+addition of only ten visual features to the estimated state significantly
+improves the estimates of the state of the target vehicle
+% $\hat{\x}_{\text{Goal}}$
+while the fiducial landing marker is not detected. 
+
+% We, therefore, estimate the position,
+% attitude, and velocity of the UAV together with the position, attitude, velocity,
+% and angular rate of the target vehicle and the positions of visual features on
+% the target vehicle. We also estimate bias states for the
+% accelerometer and gyroscope sensors that are used as inputs to the filter.
 % to properly
 % account for the uncertainty, as several of the 
-We express the state of the estimated system as the tuple
+We express the full state of the estimated system as the tuple
 \begin{equation}
   \hat{\x} =
   \begin{pmatrix}
@@ -77,13 +117,13 @@ which are directly measured from an inertial measurement unit mounted on the UAV
 % The estimated states associated with the target vehicle,
 % $\hat{\vect{x}}_{\text{Goal}}$, contain the position, attitude, velocity, and
 % angular velocity of the target vehicle.
-We note that the
-estimated position of the target vehicle, $\hat{\vect{p}}_{g/b}^v$, is relative to the position of the
-UAV.
-We formulate this state relatively,
-as this relative state is observable even with poor estimates of the UAV's global
-position, $\hat{\vect{p}}_{g/I}^I$, due to the relative information provided
-by the measurements as described in~\secref{sec:measurement_models}.
+% We note that the
+% estimated position of the target vehicle, $\hat{\vect{p}}_{g/b}^v$, is relative to the position of the
+% UAV.
+% We formulate this state relatively,
+% as this relative state is observable even with poor estimates of the UAV's global
+% position, $\hat{\vect{p}}_{g/I}^I$, due to the relative information provided
+% by the measurements as described in~\secref{sec:measurement_models}.
 % Note that $\hat{\vect{x}}_{\text{UAV}}$ contains the same states mentioned previously
 % in~\secref{sec:UAV_dynamics} with the addition of $\hat{\vect{\beta}}_a$ and
 % $\hat{\vect{\beta}}_\omega$, the estimated bias vectors for the acclerometer and
@@ -96,16 +136,16 @@ by the measurements as described in~\secref{sec:measurement_models}.
 % of the global state, $\hat{\vect{p}}_{g/I}^I$, as the relative state is observable
 % even with poor estimates of the UAV's global position, $\hat{\vect{p}}_{b/I}^I$.
 
-The estimated vectors $\hat{\vect{r}}_{1/g}^{g}, \dots \hat{\vect{r}}_{n/g}^{g}$ represent the
-locations of visual features $1, \dots n$ with respect to the goal frame and
-expressed in the goal frame. As we assume these features are rigidly attached to the
-target vehicle, these vectors remain constant as the vehicle moves and rotates.
-We show in the experiments described in~\secref{sec:est_paper_simulation}
-and~\secref{sec:est_paper_hardware} that the
-addition of only ten visual features to the estimated state significantly
-improves the estimates of the state of the target vehicle
-% $\hat{\x}_{\text{Goal}}$
-while the fiducial landing marker is not detected. 
+% The estimated vectors $\hat{\vect{r}}_{1/g}^{g}, \dots \hat{\vect{r}}_{n/g}^{g}$ represent the
+% locations of visual features $1, \dots n$ with respect to the goal frame and
+% expressed in the goal frame. As we assume these features are rigidly attached to the
+% target vehicle, these vectors remain constant as the vehicle moves and rotates.
+% We show in the experiments described in~\secref{sec:est_paper_simulation}
+% and~\secref{sec:est_paper_hardware} that the
+% addition of only ten visual features to the estimated state significantly
+% improves the estimates of the state of the target vehicle
+% % $\hat{\x}_{\text{Goal}}$
+% while the fiducial landing marker is not detected. 
 
 We also note
 that the estimated state is of dynamic size. As visual features are
