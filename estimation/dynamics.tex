@@ -371,7 +371,7 @@ and
 However, to ensure numerical stability, we propagate the covariance using a first-order discrete approximation
 defined by
 \begin{equation}
-  P_{k+1} = F_{k} P_{k} F_{k}^\transpose + G_k Q_u Q_k^\transpose + Q_x \Delta
+  P_{k+1} = F_{k} P_{k} F_{k}^\transpose + G_k Q_u G_k^\transpose + Q_x \Delta
   t^2
 \end{equation}
 where
