@@ -26,7 +26,7 @@ when a measurement is received, we compute the Kalman gain
   K = P H^\transpose \left(H P H^\transpose + R \right)^{-1}
 \end{equation}
 where $H$ is the residual Jacobian for the measurement and $R$ is the
-measurement covariance. We then use $K$ to update the filter such that
+measurement covariance. We then follow~\cite{brink2017partial}, using $K$ to update the filter such that
 \begin{align}
   \hat{\tilde{\x}}^{+} &= \vect{\lambda} \odot K \vect{r} \\
   P^{+} &= P + \Lambda \odot \left( \left(I - K H \right) P \left(I - K H
