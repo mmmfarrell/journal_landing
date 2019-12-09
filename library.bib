@@ -131,7 +131,7 @@ archivePrefix = {arXiv},
 @inproceedings{foehn2018onboard,
   title={Onboard state dependent {LQR} for agile quadrotors},
   author={Foehn, Philipp and Scaramuzza, Davide},
-  booktitle={2018 IEEE International Conference on Robotics and Automation (ICRA)},
+  booktitle={2018 IEEE International Conference on Robotics and Automation},
   pages={6566--6572},
   year={2018},
   organization={IEEE}
@@ -192,10 +192,18 @@ archivePrefix = {arXiv},
   year={2018}
 }
 
+@article{koch2017relative,
+    author = {Koch, Daniel P. and Wheeler, David O. and Beard, Randal W. and McLain, Timothy W. and Brink, Kevin M.},
+    title = {Relative Multiplicative Extended {Kalman} Filter for Observable {GPS}-Denied Navigation},
+    year = 2017,
+    journal = {},
+    note = {Available at \url{http://scholarsarchive.byu.edu/facpub/1963}}
+}
+
 @inproceedings{yu2015high,
   title={High performance full attitude control of a quadrotor on {SO} (3)},
   author={Yu, Yun and Yang, Shuo and Wang, Mingxi and Li, Cheng and Li, Zexiang},
-  booktitle={2015 IEEE International Conference on Robotics and Automation (ICRA)},
+  booktitle={2015 IEEE International Conference on Robotics and Automation},
   pages={1698--1703},
   year={2015},
   organization={IEEE}
@@ -231,6 +239,10 @@ archivePrefix = {arXiv},
 @article{diebel2006representing,
   title={Representing attitude: Euler angles, unit quaternions, and rotation vectors},
   author={Diebel, James},
+  journal={Matrix},
+  volume={58},
+  number={15-16},
+  pages={1--35},
   year={2006}
 }
 
@@ -259,85 +271,59 @@ archivePrefix = {arXiv},
   organization={IEEE}
 }
 
-@article{casey2013AttitudeRepresentation,
-abstract = {Complementary filter-based algorithms for attitude estimation seek to minimize the short-comings associated with the low-cost MEMS sensors and low-power embedded processors that are frequently used in unmanned aerial vehicles. This paper explores the performance impact of three different ingredients for attitude estimation within the complementary filter framework: 1) kinematic propagation, 2) attitude representation, and 3) the assumptions on the behavior of the angular rate vector between samples. Forward Euler integration and matrix exponential propagation methods are compared within several attitude representations, namely the direction cosine matrix (DCM), quaternion, Euler angle, and the angle-axis schemes. Assumptions of constant, linear, and quadratic angular velocities between samples are also examined. The resulting algorithms are evaluated from the points of view of accuracy, computational load, and noise response. Tests using analytic inputs as well as real data within the framework of the SLUGS autopilot are performed to evaluate algorithm performance. The results of the experiments indicate that by combining matrix exponential propagation with a quaternion representation of attitude high accuracy can be obtained with a standard processor.},
-author = {Casey, Robert T. and Karpenko, Mark and Curry, Renwick and Elkaim, Gabriel},
-doi = {10.2514/6.2013-4615},
-file = {:home/capn/Downloads/Paper from Ren Curry - Read and comment - Casey2013GNC (1).pdf:pdf},
-isbn = {978-1-62410-224-0},
-journal = {AIAA Guidance, Navigation, and Control (GNC) Conference},
-pages = {1--25},
-title = {Attitude Representation and Kinematic Propagation for Low-Cost {UAVs}},
-url = {http://arc.aiaa.org/doi/abs/10.2514/6.2013-4615},
-year = {2013}
+@inproceedings{casey2013AttitudeRepresentation,
+
+  title={Attitude representation and kinematic propagation for low-cost {UAVs}},
+  author={Casey, Robert T and Karpenko, Mark and Curry, Renwick and Elkaim, Gabriel},
+  booktitle={AIAA Guidance, Navigation, and Control (GNC) Conference},
+  pages={4615},
+  year={2013}
 }
 
-@inproceedings{Markley2004MultiplicativeVA,
-  title={Multiplicative vs. Additive Filtering for Spacecraft Attitude Determination},
-  author={F. Landis Markley},
-  year={2004}
+@article{Markley2004MultiplicativeVA,
+  title={Multiplicative vs. additive filtering for spacecraft attitude determination},
+  author={Markley, F Landis},
+  journal={Dynamics and Control of Systems and Structures in Space},
+  number={467-474},
+  year={2004},
+  publisher={NASA’s Goddard Space Flight Center Greenbelt, MD}
 }
 
-@article{romero2018speeded,
-  title={Speeded up detection of squared fiducial markers},
-  author={Romero-Ramirez, Francisco J and Mu{\~n}oz-Salinas, Rafael and Medina-Carnicer, Rafael},
-  journal={Image and vision Computing},
-  volume={76},
-  pages={38--47},
-  year={2018},
+@inproceedings{farrell2019error,
+  title={Error-State {LQR} Control of a Multirotor {UAV}},
+  author={Farrell, Michael and Jackson, James and Nielsen, Jerel and Bidstrup, Craig and McLain, Tim},
+  booktitle={2019 International Conference on Unmanned Aircraft Systems (ICUAS)},
+  pages={704--711},
+  year={2019},
+  organization={IEEE}
+}
+
+@article{garrido2016generation,
+  title={Generation of fiducial marker dictionaries using mixed integer linear programming},
+  author={Garrido-Jurado, Sergio and Munoz-Salinas, Rafael and Madrid-Cuevas, Francisco Jos{\'e} and Medina-Carnicer, Rafael},
+  journal={Pattern Recognition},
+  volume={51},
+  pages={481--491},
+  year={2016},
   publisher={Elsevier}
 }
 
-@inproceedings{rosten2006machine,
-  title={Machine learning for high-speed corner detection},
-  author={Rosten, Edward and Drummond, Tom},
-  booktitle={European conference on computer vision},
-  pages={430--443},
-  year={2006},
-  organization={Springer}
+@mastersthesis{ling2014precision,
+  title={Precision landing of a quadrotor {UAV} on a moving target using low-cost sensors},
+  author={Ling, Kevin},
+  year={2014},
+  school={University of Waterloo}
 }
 
-@article{bouguet2001pyramidal,
-  title={Pyramidal implementation of the affine {Lucas Kanade} feature tracker description of the algorithm},
-  author={Bouguet, Jean-Yves and others},
-  journal={Intel Corporation},
-  volume={5},
-  number={1-10},
-  pages={4},
-  year={2001}
-}
-
-@article{brink2017partial,
-  title={Partial-update {Schmidt--Kalman} filter},
-  author={Brink, Kevin M},
-  journal={Journal of Guidance, Control, and Dynamics},
-  volume={40},
-  number={9},
-  pages={2214--2228},
-  year={2017},
-  publisher={American Institute of Aeronautics and Astronautics}
-}
-
-@article{wenzel2011automatic,
-  title={Automatic take off, tracking and landing of a miniature {UAV} on a moving carrier vehicle},
-  author={Wenzel, Karl Engelbert and Masselli, Andreas and Zell, Andreas},
-  journal={Journal of intelligent \& robotic systems},
-  volume={61},
-  number={1-4},
-  pages={221--238},
-  year={2011},
-  publisher={Springer}
-}
-
-@article{araar2017vision,
-  title={Vision based autonomous landing of multirotor {UAV} on moving platform},
-  author={Araar, Oualid and Aouf, Nabil and Vitanov, Ivan},
-  journal={Journal of Intelligent \& Robotic Systems},
-  volume={85},
-  number={2},
-  pages={369--384},
-  year={2017},
-  publisher={Springer}
+@article{baca2019autonomous,
+  title={Autonomous landing on a moving vehicle with an unmanned aerial vehicle},
+  author={Baca, Tomas and Stepan, Petr and Spurny, Vojtech and Hert, Daniel and Penicka, Robert and Saska, Martin and Thomas, Justin and Loianno, Giuseppe and Kumar, Vijay},
+  journal={Journal of Field Robotics},
+  volume={36},
+  number={5},
+  pages={874--891},
+  year={2019},
+  publisher={Wiley Online Library}
 }
 
 @article{borowczyk2017autonomous,
@@ -351,15 +337,97 @@ year = {2013}
   publisher={American Institute of Aeronautics and Astronautics}
 }
 
-@article{baca2019autonomous,
-  title={Autonomous landing on a moving vehicle with an unmanned aerial vehicle},
-  author={Baca, Tomas and Stepan, Petr and Spurny, Vojtech and Hert, Daniel and Penicka, Robert and Saska, Martin and Thomas, Justin and Loianno, Giuseppe and Kumar, Vijay},
-  journal={Journal of Field Robotics},
-  volume={36},
-  number={5},
-  pages={874--891},
+@inproceedings{wynn2019visual,
+  title={Visual Servoing for Multirotor Precision Landing in Daylight and After-Dark Conditions},
+  author={Wynn, Jesse S and McLain, Timothy W},
+  booktitle={2019 International Conference on Unmanned Aircraft Systems (ICUAS)},
+  pages={1242--1248},
   year={2019},
-  publisher={Wiley Online Library}
+  organization={IEEE}
+}
+
+@article{kalman,
+    Author = {Kalman, Rudolph Emil},
+    Title = {A New Approach to Linear Filtering and Prediction Problems},
+    Journal = {Transactions of the ASME--Journal of Basic Engineering},
+    Volume = {82},
+    Number = {Series D},
+    Pages = {35--45},
+    Year = {1960}
+}
+
+@inproceedings{roumeliotis1999circumventing,
+  title={Circumventing dynamic modeling: Evaluation of the error-state {Kalman} filter applied to mobile robot localization},
+  author={Roumeliotis, Stergios I and Sukhatme, Gaurav S and Bekey, George A},
+  booktitle={1999 IEEE International Conference on Robotics and Automation},
+  volume={2},
+  pages={1656--1663},
+  year={1999},
+  organization={IEEE}
+}
+
+@article{chen2018encoder,
+  author    = {Liang{-}Chieh Chen and
+               Yukun Zhu and
+               George Papandreou and
+               Florian Schroff and
+               Hartwig Adam},
+  title     = {Encoder-Decoder with Atrous Separable Convolution for Semantic Image
+               Segmentation},
+  journal   = {CoRR},
+  volume    = {abs/1802.02611},
+  year      = {2018},
+  url       = {http://arxiv.org/abs/1802.02611},
+  archivePrefix = {arXiv},
+  eprint    = {1802.02611},
+  timestamp = {Mon, 13 Aug 2018 16:47:38 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1802-02611},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{wenzel2011automatic,
+  title={Automatic take off, tracking and landing of a miniature {UAV} on a moving carrier vehicle},
+  author={Wenzel, Karl Engelbert and Masselli, Andreas and Zell, Andreas},
+  journal={Journal of Intelligent \& Robotic Systems},
+  volume={61},
+  number={1-4},
+  pages={221--238},
+  year={2011},
+  publisher={Springer}
+}
+
+@inproceedings{olson2011tags,
+    TITLE      = {{AprilTag}: A robust and flexible visual fiducial system},
+    AUTHOR     = {Edwin Olson},
+    BOOKTITLE  = {2011 IEEE International Conference on Robotics and
+                 Automation},
+    YEAR       = {2011},
+    MONTH      = {May},
+    PAGES      = {3400-3407},
+    KEYWORDS   = {Robot navigation, SLAM, Visual Fiducial, ARToolkit},
+    PUBLISHER  = {IEEE},
+}
+
+@article{marantos2018vision,
+  title={Vision-based Autonomous Landing Control for Unmanned Helicopters},
+  author={Marantos, Panos and Karras, George C and Vlantis, Panagiotis and Kyriakopoulos, Kostas J},
+  journal={Journal of Intelligent \& Robotic Systems},
+  volume={92},
+  number={1},
+  pages={145--158},
+  year={2018},
+  publisher={Springer}
+}
+
+@article{araar2017vision,
+  title={Vision based autonomous landing of multirotor {UAV} on moving platform},
+  author={Araar, Oualid and Aouf, Nabil and Vitanov, Ivan},
+  journal={Journal of Intelligent \& Robotic Systems},
+  volume={85},
+  number={2},
+  pages={369--384},
+  year={2017},
+  publisher={Springer}
 }
 
 @inproceedings{falanga2017vision,
@@ -389,28 +457,19 @@ year = {2013}
   organization={World Scientific}
 }
 
-@article{marantos2018vision,
-  title={Vision-based Autonomous Landing Control for Unmanned Helicopters},
-  author={Marantos, Panos and Karras, George C and Vlantis, Panagiotis and Kyriakopoulos, Kostas J},
-  journal={Journal of Intelligent \& Robotic Systems},
-  volume={92},
-  number={1},
-  pages={145--158},
-  year={2018},
-  publisher={Springer}
-}
-
-@mastersthesis{ling2014precision,
-  title={Precision landing of a quadrotor {UAV} on a moving target using low-cost sensors},
-  author={Ling, Kevin},
-  year={2014},
-  school={University of Waterloo}
+@inproceedings{lee2012autonomous,
+  title={Autonomous landing of a {VTOL UAV} on a moving platform using image-based visual servoing},
+  author={Lee, Daewon and Ryan, Tyler and Kim, H Jin},
+  booktitle={2012 IEEE International Conference on Robotics and Automation},
+  pages={971--976},
+  year={2012},
+  organization={IEEE}
 }
 
 @inproceedings{mourikis2007multi,
-  title={A multi-state constraint Kalman filter for vision-aided inertial navigation},
+  title={A multi-state constraint {Kalman} filter for vision-aided inertial navigation},
   author={Mourikis, Anastasios I and Roumeliotis, Stergios I},
-  booktitle={Proceedings 2007 IEEE International Conference on Robotics and Automation},
+  booktitle={2007 IEEE International Conference on Robotics and Automation},
   pages={3565--3572},
   year={2007},
   organization={IEEE}
@@ -435,48 +494,75 @@ year = {2013}
   publisher={Robotics: Science and Systems}
 }
 
-@inproceedings{lee2012autonomous,
-  title={Autonomous landing of a {VTOL UAV} on a moving platform using image-based visual servoing},
-  author={Lee, Daewon and Ryan, Tyler and Kim, H Jin},
-  booktitle={2012 IEEE international conference on robotics and automation},
-  pages={971--976},
-  year={2012},
-  organization={IEEE}
+@article{brink2017partial,
+  title={Partial-update {Schmidt--Kalman} filter},
+  author={Brink, Kevin M},
+  journal={Journal of Guidance, Control, and Dynamics},
+  volume={40},
+  number={9},
+  pages={2214--2228},
+  year={2017},
+  publisher={American Institute of Aeronautics and Astronautics}
 }
 
-@inproceedings{wynn2019visual,
-  title={Visual servoing with feed-forward for precision shipboard landing of an autonomous multirotor},
-  author={Wynn, Jesse S and McLain, Timothy W},
-  booktitle={2019 American Control Conference (ACC)},
-  pages={3928--3935},
-  year={2019},
-  organization={IEEE}
+@misc{ground_vehicle_drone,
+author = {{Planck Aerosystems}},
+title = {Ground Vehicle Based Drones},
+howpublished = {\url{https://www.planckaero.com/truckdrone}},
+note = {Accessed: 2019-11-14}
 }
 
-@inproceedings{olson2011tags,
-    TITLE      = {{AprilTag}: A robust and flexible visual fiducial system},
-    AUTHOR     = {Edwin Olson},
-    BOOKTITLE  = {Proceedings of the {IEEE} International Conference on Robotics and
-                 Automation ({ICRA})},
-    YEAR       = {2011},
-    MONTH      = {May},
-    PAGES      = {3400-3407},
-    KEYWORDS   = {Robot navigation, SLAM, Visual Fiducial, ARToolkit},
-    PUBLISHER  = {IEEE},
+@misc{openpilotrevo,
+author = {{Banggood}},
+title = {{OpenPilot CC3D} Revolution Revo {10DOF STM32F4} Flight Controller Staight
+         Pin for {RC} Drone {FPV} Racing Multi Rotor},
+howpublished = {\url{https://www.banggood.com/OpenPilot-CC3D-Revolution-Revo-10DOF-STM32F4-Flight-Controller-Staight-Pin-p-1000068.html?cur_warehouse=CN}},
+note = {Accessed: 2019-11-14}
 }
 
-@article{garrido2016generation,
-  title={Generation of fiducial marker dictionaries using mixed integer linear programming},
-  author={Garrido-Jurado, Sergio and Munoz-Salinas, Rafael and Madrid-Cuevas, Francisco Jos{\'e} and Medina-Carnicer, Rafael},
-  journal={Pattern Recognition},
-  volume={51},
-  pages={481--491},
-  year={2016},
+@misc{orbitty,
+author = {{Connect Tech Inc.}},
+title = {{Orbitty Carrier for NVIDIA Jetson TX2/TX2i/TX1}},
+howpublished = {\url{http://connecttech.com/product/orbitty-carrier-for-nvidia-jetson-tx2-tx1/}},
+note = {Accessed: 2019-11-14}
+}
+
+@misc{webcam,
+author = {{Amazon}},
+title = {{ELP USB} with Camera 2.1mm Lens {1080p HD} Free Driver {USB} Camera
+         Module,2.0 Megapixel(1080p) {USB} Camera,for {Linux Windows Android Mac
+         OS}},
+howpublished = {\url{https://www.amazon.com/ELP-Camera-Megapixel-Windows-Android/dp/B00KA7WSSU}},
+note = {Accessed: 2019-11-14}
+}
+
+@article{romero2018speeded,
+  title={Speeded up detection of squared fiducial markers},
+  author={Romero-Ramirez, Francisco J and Mu{\~n}oz-Salinas, Rafael and Medina-Carnicer, Rafael},
+  journal={Image and Vision Computing},
+  volume={76},
+  pages={38--47},
+  year={2018},
   publisher={Elsevier}
 }
 
-@article{koch2017relative,
-  title={Relative multiplicative extended Kalman filter for observable GPS-denied navigation},
-  author={Koch, Daniel P and Wheeler, David O and Beard, Randal and McLain, Tim and Brink, Kevin M},
-  year={2017}
+@inproceedings{rosten2006machine,
+  title={Machine learning for high-speed corner detection},
+  author={Rosten, Edward and Drummond, Tom},
+  booktitle={European conference on computer vision},
+  pages={430--443},
+  year={2006},
+  organization={Springer}
 }
+
+@article{bouguet2001pyramidal,
+  title={Pyramidal implementation of the affine {Lucas Kanade} feature tracker description of the algorithm},
+  author={Bouguet, Jean-Yves and others},
+  journal={Intel Corporation},
+  volume={5},
+  number={1-10},
+  pages={4},
+  year={2001}
+}
+
+
