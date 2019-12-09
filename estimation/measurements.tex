@@ -71,12 +71,14 @@ a sensor such as a real-time kinematic GPS unit could provide this measurement.
 % GPS.
 % This measurement may come from a sensor such as GPS or a motion capture system.
 % The 
-The measurement model and its estimate are
+% The measurement model and its estimate are
+The measurement and its model are
 written as
 \begin{align}
-  h_{\text{pos}} \left( \x \right) &= \vect{p}_{b/I}^I +
-  \vect{\eta}_{\text{pos}} \\
-  h_{\text{pos}} \left( \hat{\x} \right) &= \hat{\vect{p}}_{b/I}^I,
+  \vect{z}_{\text{pos}} &= h_{\text{pos}} \left( \x \right) + \vect{\eta}_{\text{pos}} \\
+  h_{\text{pos}} \left( \x \right) &= \vect{p}_{b/I}^I,
+  % \vect{\eta}_{\text{pos}},
+  % h_{\text{pos}} \left( \hat{\x} \right) &= \hat{\vect{p}}_{b/I}^I,
 \end{align}
 where $\vect{\eta}_{\text{pos}}$ is a zero-mean Gaussian process
 describing the sensor noise.
@@ -88,7 +90,9 @@ given by
 \end{equation}
 For the error-state Kalman filter, the residual is modeled as
 \begin{align}
-  \vect{r}_{\text{pos}} &=  h_{\text{pos}} \left( \x \right) - h_{\text{pos}} \left( \hat{\x}
+  % \vect{r}_{\text{pos}} &=  h_{\text{pos}} \left( \x \right) - h_{\text{pos}} \left( \hat{\x}
+  % \right) \\
+  \vect{r}_{\text{pos}} &=  \vect{z}_{\text{pos}} - h_{\text{pos}} \left( \hat{\x}
   \right) \\
                         &= \vect{p}_{b/I}^I + \eta_{\text{pos}} -
                         \hat{\vect{p}}_{b/I}^I \\
@@ -143,12 +147,15 @@ reference system could provide this measurement.
 % This measurement may
 % come from an attitude and heading reference system or from a motion
 % capture system. 
-The measurement model and its estimate are
+% The measurement model and its estimate are
+The measurement and its model are 
 written as
 \begin{align}
-  h_{\text{att}} \left( \x \right) &= \vect{q}_{I}^b \otimes \exp_{\q} \left(
+  \vect{z}_{\text{att}} &= h_{\text{att}} \left( \x \right) \otimes \exp_{\q} \left(
   \vect{\eta}_{\text{att}} \right) \\
-    h_{\text{att}} \left( \hat{\x} \right) &= \hat{\vect{q}}_{I}^b,
+  h_{\text{att}} \left( \x \right) &= \vect{q}_{I}^b, 
+  % \vect{\eta}_{\text{att}} \right) \\
+    % h_{\text{att}} \left( \hat{\x} \right) &= \hat{\vect{q}}_{I}^b,
 \end{align}
 where $\vect{\eta}_{\text{att}}$ is a zero-mean Gaussian process
 describing the sensor noise.
@@ -162,7 +169,8 @@ given by
 which is modeled as
 \begin{align}
   \vect{r}_{\text{att}} &= \log_{\q} \left(  h_{\text{att}} \left(
-  \hat{\x} \right)^{-1} \otimes h_{\text{att}} \left( \x \right) \right) \\
+  \hat{\x} \right)^{-1} \otimes \vect{z}_{\text{att}} \right) \\
+  % \hat{\x} \right)^{-1} \otimes h_{\text{att}} \left( \x \right) \right) \\
                         &= \log_{\q} \left(  \left(
   \hat{\vect{q}}_{I}^b \right)^{-1} \otimes \vect{q}_{I}^b \otimes \exp_{\q} \left(
   \vect{\eta}_{\text{att}} \right)\right).
@@ -230,17 +238,20 @@ located at the center of the fiducial marker. In consequence, every detection of
 marker yields a measurement of the relative translation and rotation from the
 camera frame to the goal frame.
 % as noted in~\eqref{eq:fiducial_meas}.
-The measurement model and its estimate for this relative translation measurement
+% The measurement model and its estimate for this relative translation measurement
+The measurement and its model for this relative translation measurement
 are written as
 \begin{align}
+  \vect{z}_{\text{ft}} &=
+  h_{\text{ft}} \left( \x \right) + \vect{\eta}_{\text{ft}} \\
   h_{\text{ft}} \left( \x \right) &=
-  \vect{p}_{g/c}^c + \vect{\eta}_{\text{ft}} \\
+  \vect{p}_{g/c}^c \\
   &= R_b^c \left( R_I^b \vect{p}_{g/b}^v -
-  \vect{p}_{c/b}^b \right) + \vect{\eta}_{\text{ft}} \\
-  h_{\text{ft}} \left( \hat{\x} \right) &=
-    \hat{\vect{p}}_{g/c}^c \\
-  &= R_b^c \left( \hat{R}_I^b \hat{\vect{p}}_{g/b}^v -
-    \vect{p}_{c/b}^b \right),
+  \vect{p}_{c/b}^b \right),
+  % h_{\text{ft}} \left( \hat{\x} \right) &=
+    % \hat{\vect{p}}_{g/c}^c \\
+  % &= R_b^c \left( \hat{R}_I^b \hat{\vect{p}}_{g/b}^v -
+    % \vect{p}_{c/b}^b \right),
   % \hat{\vect{q}}_{c}^a  &= R_g^a \hat{R}_I^g \hat{R}_b^I R_c^b
 \end{align}
 where $R_b^c$ and $\vect{p}_{c/b}^b$ are assumed to be known constants, and
@@ -254,7 +265,7 @@ $\bar{\vect{z}}_{\text{ft}}$, the residual is given by
 \end{equation}
 and modeled as
 \begin{align}
-  \vect{r}_{\text{ft}} &=  h_{\text{ft}} \left( \x \right) - h_{\text{ft}} \left( \hat{\x}
+  \vect{r}_{\text{ft}} &=  \vect{z}_{\text{ft}} - h_{\text{ft}} \left( \hat{\x}
   \right) \\
                        &= R_b^c \left( R_I^b \vect{p}_{g/b}^v -
                          \vect{p}_{c/b}^b \right)  +\eta_{\text{ft}} - R_b^c \left( \hat{R}_I^b \hat{\vect{p}}_{g/b}^v -
@@ -373,11 +384,13 @@ given by
   =
   \mathrm{atan2}\left( r_{12}, r_{11} \right).
 \end{equation}
-The measurement model and its estimate are
+% The measurement model and its estimate are
+The measurement and its model are
 written as
 \begin{align}
-  h_{\text{fr}} \left( \x \right) &= \psi_I^g + \eta_{\text{fr}} \\
-  h_{\text{fr}} \left( \hat{\x} \right) &= \hat{\psi}_I^g
+  \vect{z}_{\text{fr}} &= h_{\text{fr}} \left( \x \right) + \eta_{\text{fr}} \\
+  h_{\text{fr}} \left( \x \right) &= \psi_I^g,
+  % h_{\text{fr}} \left( \hat{\x} \right) &= \hat{\psi}_I^g
 \end{align}
 where $\eta_{\text{fr}}$ is a zero-mean Gaussian process describing the
 measurement noise.
@@ -391,7 +404,8 @@ the residual is given by
 \end{equation}
 which is modeled as
 \begin{align}
-  r_{\text{fr}} &= h_{\text{fr}} \left( \x \right) - h_{\text{fr}} \left( \hat{\x} \right) \\
+  % r_{\text{fr}} &= h_{\text{fr}} \left( \x \right) - h_{\text{fr}} \left( \hat{\x} \right) \\
+  r_{\text{fr}} &= \vect{z}_{\text{fr}} - h_{\text{fr}} \left( \hat{\x} \right) \\
                 &= \psi_I^g + \eta_{\text{fr}} - \hat{\psi}_I^g \\
                 &= \tilde{\psi}_I^g + \eta_{\text{fr}}.
 \end{align}
@@ -496,25 +510,29 @@ where
   \vect{r}_{i/g}^g + R_I^b \vect{p}_{g/b}^v - \vect{p}_{c/b}^b \right).
   \label{eq:p_i_c_c}
 \end{align}
-The measurement model and its estimate are, therefore, written as
+% The measurement model and its estimate are, therefore, written as
+The measurement and its model are, therefore, written as
 \begin{align}
+  \vect{z}_{\text{pix}} 
+  &= h_{\text{pix}} \left( \x \right) + \vect{\eta}_{\text{pix}} \\
   h_{\text{pix}} \left( \x \right)
-  &= \begin{bmatrix} \bar{p}_x & \bar{p}_y \end{bmatrix}^\transpose \\
+  &= \begin{bmatrix} p_x & p_y \end{bmatrix}^\transpose \\
   &= \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} I_{2 \times 3} K
-  \vect{p}_{i/c}^c + \vect{\eta}_{\text{pix}} \\
-  h_{\text{pix}} \left( \hat{\x} \right)
+  \vect{p}_{i/c}^c,
+  % h_{\text{pix}} \left( \hat{\x} \right)
   % &= \begin{bmatrix} \hat{p}_x & \hat{p}_y \end{bmatrix}^\transpose \\
-  &= \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
-  \hat{\vect{p}}_{i/c}^c
+  % &= \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
+  % \hat{\vect{p}}_{i/c}^c
 \end{align}
 where $\vect{\eta}_{\text{pix}}$ is a zero-mean Gaussian process describing the
-measurement noise and
-\begin{align}
-  \hat{\vect{p}}_{i/c}^c = R_b^c \left( \hat{R}_I^b \left( \hat{R}_I^g \right)^\transpose
-  \hat{\vect{r}}_{i/g}^g + \hat{R}_I^b \hat{\vect{p}}_{g/b}^v - \vect{p}_{c/b}^b
-  \label{eq:p_i_c_c_hat}
-\right).
-\end{align}
+measurement noise.
+% and
+% \begin{align}
+  % \hat{\vect{p}}_{i/c}^c = R_b^c \left( \hat{R}_I^b \left( \hat{R}_I^g \right)^\transpose
+  % \hat{\vect{r}}_{i/g}^g + \hat{R}_I^b \hat{\vect{p}}_{g/b}^v - \vect{p}_{c/b}^b
+  % \label{eq:p_i_c_c_hat}
+% \right).
+% \end{align}
 For a given measurement of the pixel location of a feature,
 $\bar{\vect{z}}_{\text{pix}}$, the residual is given by
 \begin{equation}
@@ -523,7 +541,7 @@ $\bar{\vect{z}}_{\text{pix}}$, the residual is given by
 \end{equation}
 which is modeled as
 \begin{align}
-  \vect{r}_{\text{pix}} &= h_{\text{pix}} \left( \x \right) - h_{\text{pix}} \left( \hat{\x}
+  \vect{r}_{\text{pix}} &= \vect{z}_{\text{pix}} - h_{\text{pix}} \left( \hat{\x}
     \right) \\
   &= \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} I_{2 \times 3} K
   \vect{p}_{i/c}^c + \vect{\eta}_{\text{pix}} - \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
