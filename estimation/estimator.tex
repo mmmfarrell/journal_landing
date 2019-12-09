@@ -32,7 +32,7 @@ estimated position of the target vehicle, $\hat{\vect{p}}_{g/b}^v$, is relative 
 UAV.
 We formulate this state relatively,
 as this relative state is observable even with poor estimates of the UAV's global
-position, $\hat{\vect{p}}_{g/I}^I$, due to the relative information provided
+position, $\hat{\vect{p}}_{b/I}^I$, due to the relative information provided
 by the measurements as described in~\secref{sec:measurement_models}.
 For this work, we assume that the target vehicle's
 motion is constrained to a two-dimensional plane. This means that the estimated
@@ -202,8 +202,7 @@ such that
   \label{eq:2d_att_err_state}
 \end{equation}
 
-We follow~\cite{koch2017relative}, defining the error-state of the quaternion
-state,
+We follow~\cite{koch2017relative}, defining the error-state of the quaternion,
 $\q_I^b$,
 as the minimal representation
 \begin{equation}
