@@ -21,8 +21,8 @@ To model the motion of the UAV, we use common rigid-body kinematics given by
   +
   \skewmat{\vect{v}_{b/I}^b}
   \left( \bar{\vect{\omega}}_{b/I}^b - \vect{\beta}_\omega -
-  \vect{\upsilon}_\omega \right)
-  +
+  \vect{\upsilon}_\omega \right) \nonumber \\
+  & \qquad +
   \left( \bar{\vect{a}}_{b/I}^b - \vect{\beta}_a - \vect{\upsilon}_a \right) \nonumber
   % \vect{\eta}_v 
   \\
@@ -98,7 +98,8 @@ of~\eqref{eq:uav_dynamics}, \eqref{eq:goal_dynamics}, and
   +
   \skewmat{\hat{\vect{v}}_{b/I}^b}
   \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
-  +
+  \nonumber \\
+  & \qquad +
   \left( \bar{\vect{a}}_{b/I}^b - \hat{\vect{\beta}}_a \right) \nonumber
   \\
   \dot{\hat{\vect{\beta}}}_a &= \vect{0} \nonumber
@@ -142,7 +143,8 @@ first-order approximation of the error-state dynamics is given by
   \skewmat{ \hat{\vect{v}}_{b/I}^b } \tilde{\vect{\beta}}_\omega
   -
   \skewmat{ \hat{\vect{v}}_{b/I}^b } \vect{\upsilon}_\omega
-  -
+  \nonumber \\
+  & \qquad -
   \skewmat{ \bar{\omega}_{b/I}^b - \hat{\vect{\beta}}_\omega }
   \tilde{\vect{v}}_{b/I}^b
   -
@@ -161,7 +163,8 @@ first-order approximation of the error-state dynamics is given by
   +
   I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
   \skewmat{ \tilde{\psi}_I^g } \hat{\vect{v}}_{g/I}^g
-  +
+  \nonumber \\
+  & \qquad +
   \left( \hat{R}_{I}^{b} \right)^\transpose \skewmat{ \hat{\vect{v}}_{b/I}^{b} } 
   \tilde{\vect{\theta}}_I^b
   -
@@ -187,7 +190,11 @@ The continous-time derivative of the error covariance is given by
   % P^{+} = FP + PF^\transpose + G Q_{\vect{u}} G^\transpose + Q_{\vect{x}}
 \end{equation}
 where $Q_{\vect{u}}$ is the input noise covariance, $Q_{\vect{x}}$ is the
-process noise covariance,
+process noise covariance, and
+\begin{align}
+  F &= \frac{ \partial \dot{\tilde{\x}} }{ \partial \tilde{\x} } \\
+  G &= \frac{ \partial \dot{\tilde{\x}} }{ \partial \vect{\upsilon} } .
+\end{align}
 % \MF{TODO define this matrix by vertical slices}
 % \begin{align}
   % F &= \frac{ \partial \dot{\tilde{\x}} }{ \partial \tilde{\x} } \\
@@ -228,146 +235,146 @@ process noise covariance,
     % \end{bmatrix},
     % % \end{smallbmatrix},
 % \end{align}
-\begin{align}
-  F &= \frac{ \partial \dot{\tilde{\x}} }{ \partial \tilde{\x} } \\
-    &=
-    \begin{bmatrix}
-      \vect{0} &
-    \cfrac{ \partial \dot{\tilde{\vect{p}}}_{b/I}^{I}}{ \partial \tilde{\vect{\theta}}_I^{b}}
+% \begin{align}
+  % F &= \frac{ \partial \dot{\tilde{\x}} }{ \partial \tilde{\x} } \\
+    % &=
+    % \begin{bmatrix}
+      % \vect{0} &
+    % \cfrac{ \partial \dot{\tilde{\vect{p}}}_{b/I}^{I}}{ \partial \tilde{\vect{\theta}}_I^{b}}
+      % % - \left( \hat{R}_I^b \right)^\transpose
+      % % \skewmat{\hat{\vect{v}}_{b/I}^b}
+               % &
+      % % \left( \hat{R}_I^b \right)^\transpose
+               % \cfrac{ \partial \dot{\tilde{\vect{p}}}_{b/I}^{I} }{ \partial \tilde{\vect{v}}_{b/I}^b }
+               % &
+      % \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               % & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
+      % \vect{0} &
+      % % -\skewmat{ \bar{\vect{\omega}}_{b/I}^b
+      % % - \hat{\vect{\beta}}_\omega}
+      % \cfrac{ \partial \dot{\tilde{\vect{\theta}}}_I^{b} }{ \partial \tilde{\vect{\theta}}_I^{b} }
+               % & \vect{0} & \vect{0} &
+      % \cfrac{ \partial \dot{\tilde{\vect{\theta}}}_I^{b} }{ \partial \tilde{\vect{\beta}}_{\omega} }
+      % % -I
+               % & \vect{0} & \vect{0}
+               % & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
+      % \vect{0} &
+      % % \skewmat{ \hat{R}_I^b \vect{g} }
+      % \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{\theta}}_I^{b} }
+               % &
+      % % -\skewmat{ \bar{\omega}_{b/I}^b - \hat{\vect{\beta}}_\omega }
+      % \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{v}}_{b/I}^b }
+               % &
+      % \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{\beta}}_a }
+      % % -I
+               % &
+      % \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{\beta}}_{\omega} }
+      % % -\skewmat{ \hat{\vect{v}}_{b/I}^b }
+               % & \vect{0} & \vect{0}
+               % & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
+      % \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               % & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
+      % \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               % & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
+      % \vect{0} &
+      % % \left( \hat{R}_{I}^{b} \right)^\transpose
+      % % \skewmat{ \hat{\vect{v}}_{b/I}^{b} }
+      % \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\vect{\theta}}_I^{b} }
+               % & 
+      % % -\left( \hat{R}_{I}^{b} \right)^\transpose
+      % \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\vect{v}}_{b/I}^b }
+               % & \vect{0} & \vect{0} & \vect{0} & 
+      % % I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+      % \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\vect{v}}_{g/I}^{g} }
+               % &
+               % % I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+               % % \skewmat{ 1 } \hat{\vect{v}}_{g/I}^g
+      % \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\psi}_{I}^{g} }
+               % & \vect{0} & \vect{0} & \dots & \vect{0} \\
+      % \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               % & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
+      % \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               % & 0 & 
+      % % 1 
+               % \cfrac{ \partial \dot{\tilde{\psi}}_{I}^{g} }{ \partial \tilde{\omega}_{g/I}^{g} }
+               % & \vect{0} & \dots & \vect{0} \\
+      % \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               % & 0 & 0 & \vect{0} & \dots & \vect{0} \\
+      % \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               % & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
+      % \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots
+             % & \vdots & \vdots & \vdots & \ddots & \vdots \\
+      % \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
+               % & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0}
+    % \end{bmatrix},
+% \end{align}
+% with
+% \begin{align}
+    % \cfrac{ \partial \dot{\tilde{\vect{p}}}_{b/I}^{I}}{ \partial \tilde{\vect{\theta}}_I^{b}}
+    % &=
       % - \left( \hat{R}_I^b \right)^\transpose
-      % \skewmat{\hat{\vect{v}}_{b/I}^b}
-               &
-      % \left( \hat{R}_I^b \right)^\transpose
-               \cfrac{ \partial \dot{\tilde{\vect{p}}}_{b/I}^{I} }{ \partial \tilde{\vect{v}}_{b/I}^b }
-               &
-      \vect{0} & \vect{0} & \vect{0} & \vect{0}
-               & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
-      \vect{0} &
+      % \skewmat{\hat{\vect{v}}_{b/I}^b} \\
+               % \cfrac{ \partial \dot{\tilde{\vect{p}}}_{b/I}^{I} }{ \partial \tilde{\vect{v}}_{b/I}^b }
+    % &=
+      % \left( \hat{R}_I^b \right)^\transpose \\
+      % \cfrac{ \partial \dot{\tilde{\vect{\theta}}}_I^{b} }{ \partial \tilde{\vect{\theta}}_I^{b} }
+    % &=
       % -\skewmat{ \bar{\vect{\omega}}_{b/I}^b
       % - \hat{\vect{\beta}}_\omega}
-      \cfrac{ \partial \dot{\tilde{\vect{\theta}}}_I^{b} }{ \partial \tilde{\vect{\theta}}_I^{b} }
-               & \vect{0} & \vect{0} &
-      \cfrac{ \partial \dot{\tilde{\vect{\theta}}}_I^{b} }{ \partial \tilde{\vect{\beta}}_{\omega} }
-      % -I
-               & \vect{0} & \vect{0}
-               & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
-      \vect{0} &
-      % \skewmat{ \hat{R}_I^b \vect{g} }
-      \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{\theta}}_I^{b} }
-               &
-      % -\skewmat{ \bar{\omega}_{b/I}^b - \hat{\vect{\beta}}_\omega }
-      \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{v}}_{b/I}^b }
-               &
-      \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{\beta}}_a }
-      % -I
-               &
-      \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{\beta}}_{\omega} }
-      % -\skewmat{ \hat{\vect{v}}_{b/I}^b }
-               & \vect{0} & \vect{0}
-               & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
-      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
-               & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
-      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
-               & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
-      \vect{0} &
+% \end{align}
+% \begin{align}
+      % \cfrac{ \partial \dot{\tilde{\vect{\theta}}}_I^{b} }{ \partial \tilde{\vect{\beta}}_{\omega} }
+    % &=
+      % -I \\
+      % \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{\theta}}_I^{b} }
+    % &=
+      % \skewmat{ \hat{R}_I^b \vect{g} } \\
+      % \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{v}}_{b/I}^b }
+    % &=
+      % -\skewmat{ \bar{\omega}_{b/I}^b - \hat{\vect{\beta}}_\omega } \\
+      % \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{\beta}}_a }
+    % &=
+      % -I \\
+      % \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{\beta}}_{\omega} }
+    % &=
+      % -\skewmat{ \hat{\vect{v}}_{b/I}^b } \\
+      % \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\vect{\theta}}_I^{b} }
+    % &=
       % \left( \hat{R}_{I}^{b} \right)^\transpose
-      % \skewmat{ \hat{\vect{v}}_{b/I}^{b} }
-      \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\vect{\theta}}_I^{b} }
-               & 
-      % -\left( \hat{R}_{I}^{b} \right)^\transpose
-      \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\vect{v}}_{b/I}^b }
-               & \vect{0} & \vect{0} & \vect{0} & 
-      % I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
-      \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\vect{v}}_{g/I}^{g} }
-               &
+      % \skewmat{ \hat{\vect{v}}_{b/I}^{b} } \\
+      % \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\vect{v}}_{b/I}^b }
+    % &=
+      % -\left( \hat{R}_{I}^{b} \right)^\transpose \\
+      % \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\vect{v}}_{g/I}^{g} }
+    % &=
+      % I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose \\
+      % \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\psi}_{I}^{g} }
+    % &=
                % I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
-               % \skewmat{ 1 } \hat{\vect{v}}_{g/I}^g
-      \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\psi}_{I}^{g} }
-               & \vect{0} & \vect{0} & \dots & \vect{0} \\
-      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
-               & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
-      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
-               & 0 & 
-      % 1 
-               \cfrac{ \partial \dot{\tilde{\psi}}_{I}^{g} }{ \partial \tilde{\omega}_{g/I}^{g} }
-               & \vect{0} & \dots & \vect{0} \\
-      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
-               & 0 & 0 & \vect{0} & \dots & \vect{0} \\
-      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
-               & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0} \\
-      \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots
-             & \vdots & \vdots & \vdots & \ddots & \vdots \\
-      \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0}
-               & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0}
-    \end{bmatrix},
-\end{align}
-with
-\begin{align}
-    \cfrac{ \partial \dot{\tilde{\vect{p}}}_{b/I}^{I}}{ \partial \tilde{\vect{\theta}}_I^{b}}
-    &=
-      - \left( \hat{R}_I^b \right)^\transpose
-      \skewmat{\hat{\vect{v}}_{b/I}^b} \\
-               \cfrac{ \partial \dot{\tilde{\vect{p}}}_{b/I}^{I} }{ \partial \tilde{\vect{v}}_{b/I}^b }
-    &=
-      \left( \hat{R}_I^b \right)^\transpose \\
-      \cfrac{ \partial \dot{\tilde{\vect{\theta}}}_I^{b} }{ \partial \tilde{\vect{\theta}}_I^{b} }
-    &=
-      -\skewmat{ \bar{\vect{\omega}}_{b/I}^b
-      - \hat{\vect{\beta}}_\omega}
-\end{align}
-\begin{align}
-      \cfrac{ \partial \dot{\tilde{\vect{\theta}}}_I^{b} }{ \partial \tilde{\vect{\beta}}_{\omega} }
-    &=
-      -I \\
-      \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{\theta}}_I^{b} }
-    &=
-      \skewmat{ \hat{R}_I^b \vect{g} } \\
-      \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{v}}_{b/I}^b }
-    &=
-      -\skewmat{ \bar{\omega}_{b/I}^b - \hat{\vect{\beta}}_\omega } \\
-      \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{\beta}}_a }
-    &=
-      -I \\
-      \cfrac{ \partial \dot{\tilde{\vect{v}}}_{b/I}^b }{ \partial \tilde{\vect{\beta}}_{\omega} }
-    &=
-      -\skewmat{ \hat{\vect{v}}_{b/I}^b } \\
-      \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\vect{\theta}}_I^{b} }
-    &=
-      \left( \hat{R}_{I}^{b} \right)^\transpose
-      \skewmat{ \hat{\vect{v}}_{b/I}^{b} } \\
-      \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\vect{v}}_{b/I}^b }
-    &=
-      -\left( \hat{R}_{I}^{b} \right)^\transpose \\
-      \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\vect{v}}_{g/I}^{g} }
-    &=
-      I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose \\
-      \cfrac{ \partial \dot{\tilde{\vect{p}}}_{g/b}^{v} }{ \partial \tilde{\psi}_{I}^{g} }
-    &=
-               I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
-               \skewmat{ 1 } \hat{\vect{v}}_{g/I}^g \\
-               \cfrac{ \partial \dot{\tilde{\psi}}_{I}^{g} }{ \partial \tilde{\omega}_{g/I}^{g} }
-    &=
-      1 ,
-\end{align}
-and
-\begin{align}
-  G &= \frac{ \partial \dot{\tilde{\x}} }{ \partial \vect{\upsilon} } \\
-    &=
-    \begin{bmatrix}
-      \vect{0} & \vect{0} \\
-      \vect{0} & -I \\
-      -I & -\skewmat{\hat{\vect{v}}_{b/I}^b} \\
-      \vect{0} & \vect{0} \\
-      \vect{0} & \vect{0} \\
-      \vect{0} & \vect{0} \\
-      \vect{0} & \vect{0} \\
-      \vect{0} & \vect{0} \\
-      \vect{0} & \vect{0} \\
-      \vect{0} & \vect{0} \\
-      \vdots & \vdots \\
-      \vect{0} & \vect{0} 
-    \end{bmatrix}.
-\end{align}
+               % \skewmat{ 1 } \hat{\vect{v}}_{g/I}^g \\
+               % \cfrac{ \partial \dot{\tilde{\psi}}_{I}^{g} }{ \partial \tilde{\omega}_{g/I}^{g} }
+    % &=
+      % 1 ,
+% \end{align}
+% and
+% \begin{align}
+  % G &= \frac{ \partial \dot{\tilde{\x}} }{ \partial \vect{\upsilon} } \\
+    % &=
+    % \begin{bmatrix}
+      % \vect{0} & \vect{0} \\
+      % \vect{0} & -I \\
+      % -I & -\skewmat{\hat{\vect{v}}_{b/I}^b} \\
+      % \vect{0} & \vect{0} \\
+      % \vect{0} & \vect{0} \\
+      % \vect{0} & \vect{0} \\
+      % \vect{0} & \vect{0} \\
+      % \vect{0} & \vect{0} \\
+      % \vect{0} & \vect{0} \\
+      % \vect{0} & \vect{0} \\
+      % \vdots & \vdots \\
+      % \vect{0} & \vect{0} 
+    % \end{bmatrix}.
+% \end{align}
 However, to ensure numerical stability, we propagate the covariance using a first-order discrete approximation
 defined by
 \begin{equation}

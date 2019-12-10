@@ -30,7 +30,8 @@ measurement covariance. We then follow~\cite{brink2017partial}, using $K$ to upd
 \begin{align}
   \hat{\tilde{\x}}^{+} &= \vect{\lambda} \odot K \vect{r} \\
   P^{+} &= P + \Lambda \odot \left( \left(I - K H \right) P \left(I - K H
-  \right)^\transpose + K R K^\transpose - P \right)
+  \right)^\transpose \right. \\
+  & \qquad \left. + K R K^\transpose - P \right) \nonumber
 \end{align}
 where $\odot$ is the Hadamard product, $\vect{r}$ is the residual of the
 measurement and
@@ -268,8 +269,9 @@ and modeled as
   \vect{r}_{\text{ft}} &=  \vect{z}_{\text{ft}} - h_{\text{ft}} \left( \hat{\x}
   \right) \\
                        &= R_b^c \left( R_I^b \vect{p}_{g/b}^v -
-                         \vect{p}_{c/b}^b \right)  +\eta_{\text{ft}} - R_b^c \left( \hat{R}_I^b \hat{\vect{p}}_{g/b}^v -
-    \vect{p}_{c/b}^b \right)  \\
+                         \vect{p}_{c/b}^b \right)  +\eta_{\text{ft}} \\
+                       & \qquad - R_b^c \left( \hat{R}_I^b \hat{\vect{p}}_{g/b}^v -
+    \vect{p}_{c/b}^b \right)  \nonumber \\
                        &= R_b^c R_I^b \vect{p}_{g/b}^v 
                           - R_b^c \hat{R}_I^b \hat{\vect{p}}_{g/b}^v +
                           \eta_{\text{ft}}.
@@ -294,9 +296,11 @@ and modeled as
 Using~\eqref{eq:est_paper_Rapprox}, we expand~\eqref{eq:rft_1} and ignore
 second-order terms to yield
 \begin{align}
-   \vect{r}_{\text{ft}} &\approx R_b^c \left( I - \skewmat{\tilde{\vect{\theta}}_I^b }\right) \hat{R}_I^b \left( \hat{\vect{p}}_{g/b}^v + \tilde{\vect{p}}_{g/b}^v \right) 
-                          - R_b^c \hat{R}_I^b \hat{\vect{p}}_{g/b}^v +
-                          \eta_{\text{ft}} \\
+   \vect{r}_{\text{ft}} &\approx R_b^c \left( I -
+   \skewmat{\tilde{\vect{\theta}}_I^b }\right) \hat{R}_I^b \left(
+ \hat{\vect{p}}_{g/b}^v + \tilde{\vect{p}}_{g/b}^v \right) \\
+                        & \qquad - R_b^c \hat{R}_I^b \hat{\vect{p}}_{g/b}^v +
+                          \eta_{\text{ft}} \nonumber \\
   &\approx R_b^c \hat{R}_I^b \tilde{\vect{p}}_{g/b}^v -
   R_b^c \skewmat{\tilde{\vect{\theta}}_I^b } \hat{R}_I^b \hat{\vect{p}}_{g/b}^v 
       + \eta_{\text{ft}} \\
@@ -544,8 +548,9 @@ which is modeled as
   \vect{r}_{\text{pix}} &= \vect{z}_{\text{pix}} - h_{\text{pix}} \left( \hat{\x}
     \right) \\
   &= \frac{1}{\e_3^\transpose \vect{p}_{i/c}^c} I_{2 \times 3} K
-  \vect{p}_{i/c}^c + \vect{\eta}_{\text{pix}} - \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
-  \hat{\vect{p}}_{i/c}^c.
+  \vect{p}_{i/c}^c + \vect{\eta}_{\text{pix}} \\
+  & \qquad - \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
+  \hat{\vect{p}}_{i/c}^c. \nonumber
   \label{eq:rpix}
 \end{align}
 This results in the residual Jacobian
@@ -555,11 +560,11 @@ This results in the residual Jacobian
                    % &= \frac{ \partial} \\
   &\approx
   \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
- \frac{\partial}{\partial \tilde{\x}} \vect{p}_{i/c}^c 
- - \frac{\e_3^\transpose \frac{\partial}{\partial \tilde{\x}} 
+ \frac{\partial}{\partial \tilde{\x}} \vect{p}_{i/c}^c  \\
+  & \qquad - \frac{\e_3^\transpose \frac{\partial}{\partial \tilde{\x}} 
  \vect{p}_{i/c}^c}{\left( \e_3^\transpose
  \hat{\vect{p}}_{i/c}^c \right)^2 } I_{2 \times 3} K
- \hat{\vect{p}}_{i/c}^c
+ \hat{\vect{p}}_{i/c}^c \nonumber
 \end{align}
 where the non-zero components of $\frac{\partial}{\partial \tilde{\x}}
 \vect{p}_{i/c}^c$ are given by

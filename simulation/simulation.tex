@@ -199,9 +199,9 @@ required to properly depict these results.
 % of the estimated states remained small and the estimates remained
 % accurate for the duration of the simulation.
 
-\begin{figure}
+\begin{figure}[!t]
   \centering
-  \includegraphics[width=6.5in]{plots/single_run_no_lms}
+  \includegraphics[width=3.5in]{plots/single_run_no_lms}
   \caption[ESKF Simulation Results Using No Visual Features]{Simulation results when the ESKF estimated the positions of \emph{no} visual
   features. The blue line represents the true state while the orange line
   represents the estimated state. The two grey lines show $\pm 2 \sigma$ bounds for
@@ -213,7 +213,7 @@ required to properly depict these results.
 
 \begin{figure}
   \centering
-  \includegraphics[width=6.5in]{plots/single_run_with_lms}
+  \includegraphics[width=3.5in]{plots/single_run_with_lms}
   \caption[ESKF Simulation Results Using Ten Visual Features]{Simulation results
     when the ESKF estimated the positions of \emph{ten} visual
   features. The blue line represents the true state while the orange line
@@ -285,7 +285,7 @@ grew quickly, reaching an error of over ten meters in many cases.
 
 \begin{figure}
   \centering
-  \includegraphics[width=5.5in]{plots/mc_both_xy_err}
+  \includegraphics[width=3.5in]{plots/mc_both_xy_err}
   \caption[Estimation Error for 100 Simulations]{Error of the estimated position of the target vehicle in the $xy$
     plane. The top plot shows the error with respect to time for 100 simulations in which the ESKF
     estimates the positions of zero visual features. The bottom plot shows the
