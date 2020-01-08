@@ -1,4 +1,4 @@
-% !TEX root=../root.tex
+% !TEX root=../bare_jrnl.tex
 
 To demonstrate the effectiveness of the proposed estimation algorithm, we first
 present results from simulation.
@@ -199,7 +199,7 @@ required to properly depict these results.
 % of the estimated states remained small and the estimates remained
 % accurate for the duration of the simulation.
 
-\begin{figure}[!t]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=3.5in]{plots/single_run_no_lms}
   \caption[ESKF Simulation Results Using No Visual Features]{Simulation results when the ESKF estimated the positions of \emph{no} visual
@@ -211,7 +211,7 @@ required to properly depict these results.
   \label{fig:no_lms}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htb]
   \centering
   \includegraphics[width=3.5in]{plots/single_run_with_lms}
   \caption[ESKF Simulation Results Using Ten Visual Features]{Simulation results
@@ -283,7 +283,7 @@ grew quickly, reaching an error of over ten meters in many cases.
 % no features quickly grows very large, reaching an error of over 10 $m$ in many
 % of the runs.
 
-\begin{figure}
+\begin{figure}[htb]
   \centering
   \includegraphics[width=3.5in]{plots/mc_both_xy_err}
   \caption[Estimation Error for 100 Simulations]{Error of the estimated position of the target vehicle in the $xy$

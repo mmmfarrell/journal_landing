@@ -77,50 +77,52 @@ attached to the landing vehicle such that
 \end{equation}
 
 In the ESKF, the estimated state is propagated independently of the filter using
-the expected value of the modeled dynamics. We use the expected values
-of~\eqref{eq:uav_dynamics}, \eqref{eq:goal_dynamics}, and
-\eqref{eq:feature_dynamics} given by
-% The estimated state is propagated
-\begin{align}
-  \dot{\hat{\vect{p}}}_{b/I}^I
-  &=
-  \left( \hat{R}_I^b \right)^\transpose \hat{\vect{v}}_{b/I}^b
-  \label{eq:estimated_dynamics}
-  \\
-  \dot{\hat{\vect{q}}}_{I}^{b} 
-  &= 	
-  \hat{\q}_I^b \otimes \begin{pmatrix} 0 \\ \frac{1}{2}
-  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
-\end{pmatrix} \nonumber \\
-  \dot{\hat{\vect{v}}}_{b/I}^b 
-  &=
-  \hat{R}_I^b \vect{g}^I
-  +
-  \skewmat{\hat{\vect{v}}_{b/I}^b}
-  \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
-  \nonumber \\
-  & \qquad +
-  \left( \bar{\vect{a}}_{b/I}^b - \hat{\vect{\beta}}_a \right) \nonumber
-  \\
-  \dot{\hat{\vect{\beta}}}_a &= \vect{0} \nonumber
-  \\
-  \dot{\hat{\vect{\beta}}}_\omega &= \vect{0} \nonumber
-  \\
-  \dot{\hat{\vect{p}}}_{g/b}^{v} &= I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
-   \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
-  \hat{\vect{v}}_{b/I}^{b} \nonumber \\
-  \dot{\hat{\vect{v}}}_{g/I}^{g} &= \vect{0} \nonumber \\
-  \dot{\hat{\psi}}_{I}^{g} &= \hat{\omega}_{g/I}^g \nonumber \\
-  % \dot{\hat{R}}_{I}^{g} &= -\skewmat{ \hat{\omega}_{g/I}^g } \hat{R}_I^g \nonumber \\
-  \dot{\hat{\omega}}_{g/I}^{g} &= 0 \nonumber \\
-  \dot{\hat{\vect{r}}}_{i/g}^g &= \vect{0}. \nonumber
-\end{align}
+the expected value of the modeled dynamics.
+% We use the expected values
+% of~\eqref{eq:uav_dynamics}, \eqref{eq:goal_dynamics}, and
+% \eqref{eq:feature_dynamics} given by
+% % The estimated state is propagated
+% \begin{align}
+  % \dot{\hat{\vect{p}}}_{b/I}^I
+  % &=
+  % \left( \hat{R}_I^b \right)^\transpose \hat{\vect{v}}_{b/I}^b
+  % \label{eq:estimated_dynamics}
+  % \\
+  % \dot{\hat{\vect{q}}}_{I}^{b} 
+  % &= 	
+  % \hat{\q}_I^b \otimes \begin{pmatrix} 0 \\ \frac{1}{2}
+  % \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+% \end{pmatrix} \nonumber \\
+  % \dot{\hat{\vect{v}}}_{b/I}^b 
+  % &=
+  % \hat{R}_I^b \vect{g}^I
+  % +
+  % \skewmat{\hat{\vect{v}}_{b/I}^b}
+  % \left( \bar{\vect{\omega}}_{b/I}^b - \hat{\vect{\beta}}_\omega \right)
+  % \nonumber \\
+  % & \qquad +
+  % \left( \bar{\vect{a}}_{b/I}^b - \hat{\vect{\beta}}_a \right) \nonumber
+  % \\
+  % \dot{\hat{\vect{\beta}}}_a &= \vect{0} \nonumber
+  % \\
+  % \dot{\hat{\vect{\beta}}}_\omega &= \vect{0} \nonumber
+  % \\
+  % \dot{\hat{\vect{p}}}_{g/b}^{v} &= I_{3 \times 2} \left( \hat{R}_{I}^{g} \right)^\transpose
+   % \hat{\vect{v}}_{g/I}^{g} - \left( \hat{R}_{I}^{b} \right)^\transpose
+  % \hat{\vect{v}}_{b/I}^{b} \nonumber \\
+  % \dot{\hat{\vect{v}}}_{g/I}^{g} &= \vect{0} \nonumber \\
+  % \dot{\hat{\psi}}_{I}^{g} &= \hat{\omega}_{g/I}^g \nonumber \\
+  % % \dot{\hat{R}}_{I}^{g} &= -\skewmat{ \hat{\omega}_{g/I}^g } \hat{R}_I^g \nonumber \\
+  % \dot{\hat{\omega}}_{g/I}^{g} &= 0 \nonumber \\
+  % \dot{\hat{\vect{r}}}_{i/g}^g &= \vect{0}. \nonumber
+% \end{align}
 
 The error-state dynamics used to propagate the filter are found by relating
 the modeled true-state dynamics from~\eqref{eq:uav_dynamics},
 \eqref{eq:goal_dynamics}, and \eqref{eq:feature_dynamics}
-with~\eqref{eq:estimated_dynamics} using the error-state definitions
-from~\eqref{eq:est_paper_vector_error_state} and~\eqref{eq:quat_error_state}. The
+with their expected values. Using the error-state definitions
+% with~\eqref{eq:estimated_dynamics} using the error-state definitions
+from~\eqref{eq:est_paper_vector_error_state} and~\eqref{eq:quat_error_state}, the
 first-order approximation of the error-state dynamics is given by 
 \begin{align}
   \dot{\tilde{\vect{p}}}_{b/I}^I
@@ -178,8 +180,9 @@ or succinctly,
 \begin{equation}
   \dot{\tilde{\x}} = f\left(\x, \tilde{\x}, \vect{u}, \tilde{\vect{u}}\right).
 \end{equation}
-The derivation of these error-state dynamics can be found in
-Appendix~\ref{apdx:estimation_err_state_derivation}. In practice, the expected
+% The derivation of these error-state dynamics can be found in
+% Appendix~\ref{apdx:estimation_err_state_derivation}.
+In practice, the expected
 value of the error state remains zero over the propagation window, and only the
 error covariance, $P$, is propagated.
 The continous-time derivative of the error covariance is given by

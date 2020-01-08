@@ -18,9 +18,11 @@ account for the uncertainty in its state.
 We, therefore, estimate the position, attitude, and velocity of the UAV given by
 $\hat{\vect{p}}_{b/I}^{I}$, $\hat{\vect{q}}_I^{b}$, and
 $\hat{\vect{v}}_{b/I}^b$.
-In addition, we estimate bias states for the acclerometer and gyroscope sensors that are
-used as inputs to the filter. These estimated states are given by
+In addition, we also estimate bias states for the acclerometer and gyroscope sensors that are
+used as inputs to the filter, similar to~\cite{li2018common}. These estimated states are given by
 $\hat{\vect{\beta}}_a$ and $\hat{\vect{\beta}}_{\omega}$.
+
+% Estimate bias states~\cite{li2018common}.
 
 The estimated state of the target vehicle is defined as the position, velocity,
 attitude, and angular rate of the target vehicle.
@@ -238,30 +240,39 @@ To derive the error-state dynamics and the measurement residual Jacobians in the
 following sections, we
 use an approximation for~\eqref{eq:rot_true_state} developed by first expanding
 the
-quaternion exponential using~\eqref{eq:est_paper_quaternion_exp_approx} as
-$\tilde{\vect{\theta}}_I^b$ is assumed to be small
-\begin{equation}
-  R_I^b  \approx R \left( \begin{bmatrix}
-      1 \\
-    \frac{1}{2} \tilde{\vect{\theta}}_I^b
-  \end{bmatrix}\right)
-  \hat{R}_I^b.
-\end{equation}
-We then employ~\eqref{eq:est_paper_R_from_q}, neglecting higher-order terms, to
-yield the approximation
+quaternion exponential using~\eqref{eq:est_paper_quaternion_exp_approx} and then
+employing~\eqref{eq:est_paper_R_from_q}, neglecting higher-order terms, to yield
 \begin{equation}
   R_I^b  \approx 
   \left( I - \skewmat{\tilde{\vect{\theta}}_I^b} \right)
   \hat{R}_I^b.
   \label{eq:est_paper_Rapprox}
 \end{equation}
-It can similarly be shown that
-\begin{equation}
-  \left( R_I^b \right)^\transpose  \approx 
-  \left( \hat{R}_I^b \right)^\transpose
-  \left( I + \skewmat{\tilde{\vect{\theta}}_I^b} \right).
-  \label{eq:est_paper_RTapprox}
-\end{equation}
+
+% as
+% $\tilde{\vect{\theta}}_I^b$ is assumed to be small
+% \begin{equation}
+  % R_I^b  \approx R \left( \begin{bmatrix}
+      % 1 \\
+    % \frac{1}{2} \tilde{\vect{\theta}}_I^b
+  % \end{bmatrix}\right)
+  % \hat{R}_I^b.
+% \end{equation}
+% We then employ~\eqref{eq:est_paper_R_from_q}, neglecting higher-order terms, to
+% yield the approximation
+% \begin{equation}
+  % R_I^b  \approx 
+  % \left( I - \skewmat{\tilde{\vect{\theta}}_I^b} \right)
+  % \hat{R}_I^b.
+  % \label{eq:est_paper_Rapprox}
+% \end{equation}
+% It can similarly be shown that
+% \begin{equation}
+  % \left( R_I^b \right)^\transpose  \approx 
+  % \left( \hat{R}_I^b \right)^\transpose
+  % \left( I + \skewmat{\tilde{\vect{\theta}}_I^b} \right).
+  % \label{eq:est_paper_RTapprox}
+% \end{equation}
 
 
 

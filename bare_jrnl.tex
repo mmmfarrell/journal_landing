@@ -4,7 +4,8 @@
 % The testflow support page is at:
 % http://www.michaelshell.org/tex/testflow/
 
-\documentclass[journal,twoside]{IEEEtran}
+\documentclass[journal]{IEEEtran}
+% \documentclass[draft]{IEEEtran}
 %
 % If IEEEtran.cls has not been installed into the LaTeX system files,
 % manually specify the path to it like:
@@ -53,14 +54,14 @@ Visual Feature Tracking
 %
 \author{Michael~D.~Farrell
   and~Timothy~W.~McLain,~\IEEEmembership{Senior~Member,~IEEE}%
-\thanks{Manuscript received December 19, 2019; revised December 26, 2019.
+\thanks{Manuscript received January 19, 2020; revised January 26, 2020.
 This work was supported by the National Science Foundation STTR Phase
 II: Autonomous Landing of Small Unmanned Aircraft Systems onto Moving Platforms,
 Award No. IIP-1758678 in partnership with Planck Aerosystems. (\textit{Corresponding
 author: Michael D. Farrell}.)}%
 \thanks{The authors are with the Department of Mechanical Engineering, Brigham
 Young University, Provo, UT, 84602 USA (e-mail: michaeldavidfarrell@gmail.com;
-mclain@byu.edu)}%
+mclain@byu.edu).}%
 \thanks{Color versions of one or more of the figures in this paper are available
 online at \url{http://ieeexplore.ieee.org}.}%
 \thanks{Digital Object Identifier XX.XXXX/TMECH.20XX.XXXXXXX}
@@ -102,7 +103,7 @@ online at \url{http://ieeexplore.ieee.org}.}%
 % The paper headers
 % \markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2015}%
 % {Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for IEEE Journals}
-\markboth{IEEE/ASME TRANSACTIONS ON MECHATRONICS,~VOL.~XX, NO.~X, DECEMBER~20XX}%
+\markboth{IEEE/ASME TRANSACTIONS ON MECHATRONICS,~VOL.~XX, NO.~X, JANUARY~20XX}%
 {FARRELL AND MCLAIN: 
 IMPROVING STATE ESTIMATION OF A LANDING TARGET VEHICLE
 FROM A MULTIROTOR UAV USING
@@ -133,14 +134,14 @@ VISUAL FEATURE TRACKING}
 % in the abstract or keywords.
 \begin{abstract}
   We propose an error-state Kalman filter to improve the state estimation of a
-  landing vehicle as observed by an approaching multirotor unmanned aerial
+  landing target vehicle as observed by an approaching multirotor unmanned aerial
   vehicle (UAV). As is common, we
-  assume that the landing vehicle is outfitted with a fiducial landing marker.
+  assume that the target vehicle is outfitted with a fiducial landing marker.
   In addition to measurements from the fiducial landing marker, the proposed
   estimator uses measurements of visual features which are tracked in the UAV's
   camera frame. We assume that these tracked visual features are rigidly
-  attached to the landing vehicle such that they provide information to the
-  filter about the relative pose from the UAV to the landing vehicle. We show
+  attached to the target vehicle such that they provide information to the
+  filter about the relative pose between the UAV to the target vehicle. We show
   in both simulation and hardware experiments that the addition of these visual
   features to the filter allows for accurate and consistent estimates of the
   state of the landing vehicle even when the fiducial landing marker is not
@@ -424,13 +425,27 @@ minute without detection of a fiducial landing marker.
 % Biography text here.
 % \end{IEEEbiography}
 \begin{IEEEbiographynophoto}{Michael D. Farrell}
-Biography text here.
+  received the B.S. degree in mechanical engineering from Brigham Young
+  University, Provo, UT, in 2017, where he is currently working toward the M.S.
+  degree. His research focuses on autonomous landing of small UAVs using
+  visual-inertial sensor fusion.
 \end{IEEEbiographynophoto}
 
 % if you will not have a photo at all:
-\begin{IEEEbiographynophoto}{Timothy W. McLain}
-Biography text here.
-\end{IEEEbiographynophoto}
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{imgs/TWM.jpg}}]{Timothy W. McLain}
+  (S'91--M'93--SM'03)
+is a professor of mechanical engineering at Brigham Young University. He
+received BS and MS degrees from BYU and a PhD from Stanford University, all in
+mechanical engineering. He joined BYU as a professor in 1995. During 1999 and 2000,
+he was a visiting scientist at the Air Force Research Laboratory where he initiated
+research in the guidance and control of unmanned aircraft systems. Since then, his UAS
+research has attracted the support of the Air Force, the Army, DARPA, NASA, NSF, ONR,
+NIST, and numerous companies. He is a co-author of the textbook Small Unmanned
+Aircraft and the author of over 140 peer-reviewed articles. From 2012 to 2019, he was
+the director of the Center for Unmanned Aircraft Systems sponsored by the National
+Science Foundation. He currently serves as the associate dean of the Fulton College of
+Engineering at BYU.
+\end{IEEEbiography}
 
 % insert where needed to balance the two columns on the last page with
 % biographies

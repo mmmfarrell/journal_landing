@@ -25,7 +25,9 @@ when a measurement is received, we compute the Kalman gain
 \begin{equation}
   K = P H^\transpose \left(H P H^\transpose + R \right)^{-1}
 \end{equation}
-where $H$ is the residual Jacobian for the measurement and $R$ is the
+where $H$ is the residual Jacobian for the measurement,
+$H=\frac{\partial \vect{r}}{\partial \tilde{\x}}$,
+and $R$ is the
 measurement covariance. We then follow~\cite{brink2017partial}, using $K$ to update the filter such that
 \begin{align}
   \hat{\tilde{\x}}^{+} &= \vect{\lambda} \odot K \vect{r} \\
@@ -59,8 +61,10 @@ zero.
 % reset to zero.
 % The estimate of the error state of the system is then reset to zero before any
 
-The measurement model, residual model and residual
-Jacobian are defined below for each type of measurement used in the filter.
+% The measurement model, residual model and residual
+% Jacobian
+The measurement model and residual model
+are defined below for each type of measurement used in the filter.
 
 \subsubsection{Global UAV Position Measurement}
 We assume to receive a measurement of the position of the UAV with respect to
@@ -99,39 +103,39 @@ For the error-state Kalman filter, the residual is modeled as
                         \hat{\vect{p}}_{b/I}^I \\
                         &= \tilde{\vect{p}}_{b/I}^I + \eta_{\text{pos}}.
 \end{align}
-This results in the residual Jacobian
-\begin{align}
-  H_{\text{pos}} &= \frac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\x}}\\
-                 &=
-   \begin{bmatrix}
-     \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{p}}_{b/I}^{I} } &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \dots &
-     \vect{0}
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\theta}}_I^{b} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{b/I}^b } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_a } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_{\omega} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{p}}_{g/b}^{v} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{g/I}^{g} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\psi}_{I}^{g} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\omega}_{g/I}^{g} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{r}}_{i/g}^{g} }
-   \end{bmatrix} \\
-                 &=
-  \begin{bmatrix}
-    I_{3 \times 3} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} &
-    \vect{0} & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0}
-  \end{bmatrix}.
-\end{align}
+% This results in the residual Jacobian
+% \begin{align}
+  % H_{\text{pos}} &= \frac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\x}}\\
+                 % &=
+   % \begin{bmatrix}
+     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{p}}_{b/I}^{I} } &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \dots &
+     % \vect{0}
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\theta}}_I^{b} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{b/I}^b } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_a } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_{\omega} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{p}}_{g/b}^{v} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{g/I}^{g} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\psi}_{I}^{g} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\omega}_{g/I}^{g} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{r}}_{i/g}^{g} }
+   % \end{bmatrix} \\
+                 % &=
+  % \begin{bmatrix}
+    % I_{3 \times 3} & \vect{0} & \vect{0} & \vect{0} & \vect{0} & \vect{0} &
+    % \vect{0} & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0}
+  % \end{bmatrix}.
+% \end{align}
 
 % and the non-zero component of the Jacobian of the measurement model as
 % \begin{equation}
@@ -192,39 +196,39 @@ This is expanded using~\eqref{eq:quat_true_state} and simplified to yield
                         &= \tilde{\vect{\theta}}_I^b
                           + \vect{\eta}_{\text{att}}. 
 \end{align}
-This results in the residual Jacobian
-\begin{align}
-  H_{\text{att}} &= \frac{\partial \vect{r}_{\text{att}}}{\partial \tilde{\x}}\\
-                 &=
-   \begin{bmatrix}
-     \vect{0} &
-     \cfrac{\partial \vect{r}_{\text{att}}}{\partial \tilde{\vect{\theta}}_I^{b} } &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \dots &
-     \vect{0}
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\theta}}_I^{b} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{b/I}^b } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_a } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_{\omega} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{p}}_{g/b}^{v} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{g/I}^{g} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\psi}_{I}^{g} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\omega}_{g/I}^{g} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{r}}_{i/g}^{g} }
-   \end{bmatrix} \\
-                 &=
-  \begin{bmatrix}
-    \vect{0} & I_{3 \times 3} &  \vect{0} & \vect{0} & \vect{0} & \vect{0} &
-    \vect{0} & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0}
-  \end{bmatrix}.
-\end{align}
+% This results in the residual Jacobian
+% \begin{align}
+  % H_{\text{att}} &= \frac{\partial \vect{r}_{\text{att}}}{\partial \tilde{\x}}\\
+                 % &=
+   % \begin{bmatrix}
+     % \vect{0} &
+     % \cfrac{\partial \vect{r}_{\text{att}}}{\partial \tilde{\vect{\theta}}_I^{b} } &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \dots &
+     % \vect{0}
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\theta}}_I^{b} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{b/I}^b } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_a } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_{\omega} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{p}}_{g/b}^{v} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{g/I}^{g} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\psi}_{I}^{g} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\omega}_{g/I}^{g} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{r}}_{i/g}^{g} }
+   % \end{bmatrix} \\
+                 % &=
+  % \begin{bmatrix}
+    % \vect{0} & I_{3 \times 3} &  \vect{0} & \vect{0} & \vect{0} & \vect{0} &
+    % \vect{0} & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0}
+  % \end{bmatrix}.
+% \end{align}
 % \begin{equation}
   % H_{\text{att}} =
   % \begin{bmatrix}
@@ -307,40 +311,40 @@ second-order terms to yield
 &\approx R_b^c \hat{R}_I^b \tilde{\vect{p}}_{g/b}^v + R_b^c \skewmat{\hat{R}_I^b \hat{\vect{p}}_{g/b}^v} \tilde{\vect{\theta}}_I^b 
       + \eta_{\text{ft}}.
 \end{align}
-This results in the residual Jacobian
-\begin{align}
-  H_{\text{ft}} &= \frac{\partial \vect{r}_{\text{ft}}}{\partial \tilde{\x}}\\
-                 &=
-   \begin{bmatrix}
-     \vect{0} &
-     \cfrac{\partial \vect{r}_{\text{ft}}}{\partial \tilde{\vect{\theta}}_I^{b} } &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \cfrac{\partial \vect{r}_{\text{ft}}}{\partial \tilde{\vect{p}}_{g/b}^{v} } &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \dots &
-     \vect{0}
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\theta}}_I^{b} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{b/I}^b } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_a } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_{\omega} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{p}}_{g/b}^{v} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{g/I}^{g} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\psi}_{I}^{g} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\omega}_{g/I}^{g} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{r}}_{i/g}^{g} }
-   \end{bmatrix} \\
-                 &=
-  \begin{bmatrix}
-    \vect{0} & R_b^c \skewmat{ \hat{R}_I^b \hat{\vect{p}}_{g/b}^v } &  \vect{0}
-             & \vect{0} & \vect{0} & R_b^c \hat{R}_I^b &
-    \vect{0} & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0}
-  \end{bmatrix}.
-\end{align}
+% This results in the residual Jacobian
+% \begin{align}
+  % H_{\text{ft}} &= \frac{\partial \vect{r}_{\text{ft}}}{\partial \tilde{\x}}\\
+                 % &=
+   % \begin{bmatrix}
+     % \vect{0} &
+     % \cfrac{\partial \vect{r}_{\text{ft}}}{\partial \tilde{\vect{\theta}}_I^{b} } &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \cfrac{\partial \vect{r}_{\text{ft}}}{\partial \tilde{\vect{p}}_{g/b}^{v} } &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \dots &
+     % \vect{0}
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\theta}}_I^{b} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{b/I}^b } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_a } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_{\omega} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{p}}_{g/b}^{v} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{g/I}^{g} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\psi}_{I}^{g} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\omega}_{g/I}^{g} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{r}}_{i/g}^{g} }
+   % \end{bmatrix} \\
+                 % &=
+  % \begin{bmatrix}
+    % \vect{0} & R_b^c \skewmat{ \hat{R}_I^b \hat{\vect{p}}_{g/b}^v } &  \vect{0}
+             % & \vect{0} & \vect{0} & R_b^c \hat{R}_I^b &
+    % \vect{0} & \vect{0} & \vect{0} & \vect{0} & \dots & \vect{0}
+  % \end{bmatrix}.
+% \end{align}
 % \begin{equation}
   % H_{\text{ft}} =
   % \begin{bmatrix}
@@ -413,40 +417,40 @@ which is modeled as
                 &= \psi_I^g + \eta_{\text{fr}} - \hat{\psi}_I^g \\
                 &= \tilde{\psi}_I^g + \eta_{\text{fr}}.
 \end{align}
-This results in the residual Jacobian
-\begin{align}
-  H_{\text{fr}} &= \frac{\partial \vect{r}_{\text{fr}}}{\partial \tilde{\x}}\\
-                 &=
-   \begin{bmatrix}
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \vect{0} &
-     \cfrac{\partial \vect{r}_{\text{fr}}}{\partial \tilde{\psi}_I^g } &
-     0 &
-     \vect{0} &
-     \dots &
-     \vect{0}
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\theta}}_I^{b} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{b/I}^b } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_a } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_{\omega} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{p}}_{g/b}^{v} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{g/I}^{g} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\psi}_{I}^{g} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\omega}_{g/I}^{g} } &
-     % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{r}}_{i/g}^{g} }
-   \end{bmatrix} \\
-                 &=
-  \begin{bmatrix}
-    \vect{0} & \vect{0} &  \vect{0}
-             & \vect{0} & \vect{0} & \vect{0} &
-    \vect{0} &  1 & 0 & \vect{0} & \dots & \vect{0}
-  \end{bmatrix}.
-\end{align}
+% This results in the residual Jacobian
+% \begin{align}
+  % H_{\text{fr}} &= \frac{\partial \vect{r}_{\text{fr}}}{\partial \tilde{\x}}\\
+                 % &=
+   % \begin{bmatrix}
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \vect{0} &
+     % \cfrac{\partial \vect{r}_{\text{fr}}}{\partial \tilde{\psi}_I^g } &
+     % 0 &
+     % \vect{0} &
+     % \dots &
+     % \vect{0}
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\theta}}_I^{b} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{b/I}^b } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_a } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{\beta}}_{\omega} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{p}}_{g/b}^{v} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{v}}_{g/I}^{g} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\psi}_{I}^{g} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\omega}_{g/I}^{g} } &
+     % % \cfrac{\partial \vect{r}_{\text{pos}}}{\partial \tilde{\vect{r}}_{i/g}^{g} }
+   % \end{bmatrix} \\
+                 % &=
+  % \begin{bmatrix}
+    % \vect{0} & \vect{0} &  \vect{0}
+             % & \vect{0} & \vect{0} & \vect{0} &
+    % \vect{0} &  1 & 0 & \vect{0} & \dots & \vect{0}
+  % \end{bmatrix}.
+% \end{align}
 % resulting in the residual Jacobian
 % \begin{equation}
   % H_{\text{fr}} =
@@ -553,39 +557,39 @@ which is modeled as
   \hat{\vect{p}}_{i/c}^c. \nonumber
   \label{eq:rpix}
 \end{align}
-This results in the residual Jacobian
-\begin{align}
-  H_{\text{pix}} &= \frac{ \partial \vect{r}_{\text{pix}} }{ \partial \tilde{\x}} \\
-  % H_{\text{pix}} 
-                   % &= \frac{ \partial} \\
-  &\approx
-  \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
- \frac{\partial}{\partial \tilde{\x}} \vect{p}_{i/c}^c  \\
-  & \qquad - \frac{\e_3^\transpose \frac{\partial}{\partial \tilde{\x}} 
- \vect{p}_{i/c}^c}{\left( \e_3^\transpose
- \hat{\vect{p}}_{i/c}^c \right)^2 } I_{2 \times 3} K
- \hat{\vect{p}}_{i/c}^c \nonumber
-\end{align}
-where the non-zero components of $\frac{\partial}{\partial \tilde{\x}}
-\vect{p}_{i/c}^c$ are given by
-\begin{align}
-  \frac{\partial}{\partial \tilde{\vect{\theta}}_I^b } \vect{p}_{i/c}^c
-  &=
-  R_b^c \skewmat{ \hat{R}_I^b \left( \left( \hat{R}_I^g \right)^\transpose
-  \hat{\vect{r}}_{i/g}^g + \hat{\vect{p}}_{g/b}^v \right) } \\
-  \frac{\partial}{\partial \tilde{\vect{p}}_{g/b}^v} \vect{p}_{i/c}^c
-  &=
-  R_b^c \hat{R}_I^b \\
-  \frac{\partial}{\partial \tilde{\psi}_I^g} \vect{p}_{i/c}^c
-  &=
-  R_b^c \hat{R}_I^b \left( \hat{R}_I^g \right)^\transpose
-  \skewmat{\begin{matrix} 0 \\ 0 \\ 1 \end{matrix}} \hat{\vect{r}}_{i/g}^g \\
-  \frac{\partial}{\partial \tilde{\vect{r}}_{i/g}^g} \vect{p}_{i/c}^c
-  &=
-  R_b^c \hat{R}_I^b \left( \hat{R}_I^g \right)^\transpose .
-\end{align}
-The derivation of this residual Jacobian is found in
-Appendix~\ref{apdx:estimation_pixel_meas_model}.
+% This results in the residual Jacobian
+% \begin{align}
+  % H_{\text{pix}} &= \frac{ \partial \vect{r}_{\text{pix}} }{ \partial \tilde{\x}} \\
+  % % H_{\text{pix}} 
+                   % % &= \frac{ \partial} \\
+  % &\approx
+  % \frac{1}{\e_3^\transpose \hat{\vect{p}}_{i/c}^c} I_{2 \times 3} K
+ % \frac{\partial}{\partial \tilde{\x}} \vect{p}_{i/c}^c  \\
+  % & \qquad - \frac{\e_3^\transpose \frac{\partial}{\partial \tilde{\x}} 
+ % \vect{p}_{i/c}^c}{\left( \e_3^\transpose
+ % \hat{\vect{p}}_{i/c}^c \right)^2 } I_{2 \times 3} K
+ % \hat{\vect{p}}_{i/c}^c \nonumber
+% \end{align}
+% where the non-zero components of $\frac{\partial}{\partial \tilde{\x}}
+% \vect{p}_{i/c}^c$ are given by
+% \begin{align}
+  % \frac{\partial}{\partial \tilde{\vect{\theta}}_I^b } \vect{p}_{i/c}^c
+  % &=
+  % R_b^c \skewmat{ \hat{R}_I^b \left( \left( \hat{R}_I^g \right)^\transpose
+  % \hat{\vect{r}}_{i/g}^g + \hat{\vect{p}}_{g/b}^v \right) } \\
+  % \frac{\partial}{\partial \tilde{\vect{p}}_{g/b}^v} \vect{p}_{i/c}^c
+  % &=
+  % R_b^c \hat{R}_I^b \\
+  % \frac{\partial}{\partial \tilde{\psi}_I^g} \vect{p}_{i/c}^c
+  % &=
+  % R_b^c \hat{R}_I^b \left( \hat{R}_I^g \right)^\transpose
+  % \skewmat{\begin{matrix} 0 \\ 0 \\ 1 \end{matrix}} \hat{\vect{r}}_{i/g}^g \\
+  % \frac{\partial}{\partial \tilde{\vect{r}}_{i/g}^g} \vect{p}_{i/c}^c
+  % &=
+  % R_b^c \hat{R}_I^b \left( \hat{R}_I^g \right)^\transpose .
+% \end{align}
+% The derivation of this residual Jacobian is found in
+% Appendix~\ref{apdx:estimation_pixel_meas_model}.
 
 
 

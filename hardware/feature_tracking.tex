@@ -1,4 +1,4 @@
-% !TEX root=../root.tex
+% !TEX root=../bare_jrnl.tex
 
 \subsection{Feature Tracking}
 As mentioned in~\secref{sec:estimation},
@@ -8,6 +8,9 @@ determining which visual features in a camera image are attached to
 the target vehicle is not a trivial problem. We leave this problem as future work and
 circumvent this problem by flying low enough to the target vehicle such that it
 occupies the entire field of view of the camera.
+
+Recent work in image segmentation such as~\cite{jia2019sequential} could be used
+to solve this problem.
 
 Visual features were first detected using a FAST feature
 detector~\cite{rosten2006machine}. The detected features were then tracked from one frame to
@@ -47,7 +50,7 @@ numbers is seen in~\figref{fig:features_with_aruco}.
 
 \begin{figure}
   \centering
-  \includegraphics[width=3.5in]{imgs/features_with_aruco.png}
+  \includegraphics[width=3.0in]{imgs/features_with_aruco.png}
   \caption[Visual Feature Tracking During Flight Experiment]{A processed camera
     image from the multirotor UAV's camera where the landing target vehicle
     occupies the entire image. The ArUco

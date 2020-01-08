@@ -66,10 +66,20 @@ araar2017vision}.
 % While some landing methods employ image-based visual
 % servoing~\cite{lee2012autonomous,wynn2019visual}, most methods
 % require an estimate of the state of the target landing vehicle.
-While some landing methods control the UAV entirely based on the detections of the
-fiducial marker~\cite{lee2012autonomous,wynn2019visual}, more robust methods
-compute control based on an estimate of the state of the target landing
+% While some landing methods control the UAV entirely based on the detections of the
+% fiducial marker~\cite{lee2012autonomous,wynn2019visual}, more robust methods
+% compute control based on an estimate of the state of the target landing
+% vehicle~\cite{ling2014precision}.
+Some landing methods employ image-based visual servoing techniques, depending
+almost entirely on the detections of the fiducial
+marker~\cite{lee2012autonomous,wynn2019visual}. These methods quickly fail when
+the fiducial marker leaves the field of view of the camera or is otherwise not
+detected. While recent research has worked toward ensuring the fiducial marker
+remains detected during visual servoing~\cite{zheng2019towards}, more robust
+methods compute control based on an estimate of the state of the target landing
 vehicle~\cite{ling2014precision}.
+
+% Make visual servoing more robust~\cite{zheng2019towards}.
 
 % The Kalman filter~\cite{kalman} is a widely used algorithm 
 % As we should not expect uninterrupted detection of the fiducial marker during
@@ -124,8 +134,11 @@ measurements resulting from detections of a fiducial marker.
 % % similar to that commonly used
 % in the field of visual odometry.
 Many visual odometry methods such
-as~\cite{qin2018vins,leutenegger2013keyframe,mourikis2007multi,mur2015orb} use
+as~\cite{qin2018vins,leutenegger2013keyframe,mourikis2007multi,mur2015orb,wang2018ego} use
 detected and tracked visual features to aid in camera motion estimation.
+
+% Track static features~\cite{wang2018ego}.
+
 % as VINS-MONO, OKVIS, MSCKF, and ORB SLAM use an indirect approach
 % \cite{qin2018vins} VINS-MONO, feature extraction, optical flow frame to frame
 % \cite{leutenegger2013keyframe} OKVIS, BRISK features
