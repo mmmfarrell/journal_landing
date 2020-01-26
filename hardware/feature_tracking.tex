@@ -1,26 +1,27 @@
 % !TEX root=../bare_jrnl.tex
 
-\subsection{Feature Tracking}
+% \subsection{Feature Tracking}
 As mentioned in~\secref{sec:estimation},
 the estimation algorithm uses measurements of visual features that are
 rigidly attached to the landing target vehicle. It is important to note that
 determining which visual features in a camera image are attached to
-the target vehicle is not a trivial problem. We leave this problem as future work and
-circumvent this problem by flying low enough to the target vehicle such that it
+the target vehicle is not a trivial problem.
+Recent work in image segmentation such as~\cite{jia2019sequential} could
+potentially be used to solve this problem.
+We leave this problem as future work and
+circumvent the problem by flying low enough to the target vehicle such that it
 occupies the entire field of view of the camera.
 
-Recent work in image segmentation such as~\cite{jia2019sequential} could be used
-to solve this problem.
 
 Visual features were first detected using a FAST feature
 detector~\cite{rosten2006machine}. The detected features were then tracked from one frame to
 the next using optical flow~\cite{bouguet2001pyramidal}.
-To remove features that had been poorly tracked, we periodically
-estimated the essential matrix between the current camera image
-and a stored keyframe.
-Outliers to this estimated essential matrix were discarded, and new FAST
-features were detected to replace them.
-% to have been poorly tracked
+% To remove features that had been poorly tracked, we periodically
+% estimated the essential matrix between the current camera image
+% and a stored keyframe.
+% Outliers to this estimated essential matrix were discarded, and new FAST
+% features were detected to replace them.
+% % to have been poorly tracked
 % Periodically, we
 % removed
 % features that had been poorly tracked by estimating the essential matrix between
