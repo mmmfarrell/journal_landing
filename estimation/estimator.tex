@@ -41,12 +41,13 @@ motion is constrained to a two-dimensional plane. This means that the estimated
 target vehicle velocity, $\hat{\vect{v}}_{g/I}^{g}$, is only of two dimensions and that the
 estimated attitude, $\hat{\psi}_{I}^g$, represents a planar rotation as
 described in~\secref{sec:planar_rotations}, implying that the estimated angular
-rate, $\hat{\omega}_{g/I}^g$ is of one dimension.
+rate, $\hat{\omega}_{g/I}^g$ is of dimension one.
 
 As previously mentioned, we also estimate the locations of unknown visual
 features on the target vehicle.
 The vectors $\hat{\vect{r}}_{1/g}^{g}, \dots \hat{\vect{r}}_{n/g}^{g}$ represent the
-estimated locations of visual features $1, \dots n$ with respect to the goal frame and
+estimated locations of visual features $1, \dots n$ with respect to the goal
+frame as
 expressed in the goal frame. As we assume these features are rigidly attached to the
 target vehicle, these vectors remain constant as the vehicle moves and rotates.
 We show in the experiments described in~\secref{sec:est_paper_simulation}
